@@ -43,6 +43,13 @@ from src.db.enums import (
     SessionStatus,
     SourceType,
     TaskStatus,
+    TaskType,
+    StrategyStatus,
+    MetricType,
+    SkillStatus,
+    ResearchTrackStatus,
+    PortfolioStatus,
+    GoalStatus,
 )
 
 
@@ -524,3 +531,607 @@ class ReflectionRecord(Base):
             f"<ReflectionRecord id={self.id!s} type={self.reflection_type.value!r} "
             f"applied={self.applied}>"
         )
+
+
+# ---------------------------------------------------------------------------
+# Strategy
+# ---------------------------------------------------------------------------
+
+
+class Strategy(Base):
+    """A learned strategy for executing a specific type of task."""
+
+    __tablename__ = "strategies"
+    __table_args__ = (
+        Index("ix_strategies_task_type", "task_type"),
+        Index("ix_strategies_status", "status"),
+        Index("ix_strategies_is_global", "is_global"),
+        Index("ix_strategies_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    task_type: Mapped[TaskType] = mapped_column(
+        Enum(TaskType, name="task_type", create_constraint=True),
+        nullable=False,
+    )
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    steps: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, nullable=False)
+    source_session_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("sessions.id", ondelete="SET NULL"), nullable=True
+    )
+    success_rate: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    usage_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    avg_duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    avg_tokens: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    status: Mapped[StrategyStatus] = mapped_column(
+        Enum(StrategyStatus, name="strategy_status", create_constraint=True),
+        nullable=False,
+        default=StrategyStatus.TESTING,
+    )
+    is_global: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    embedding_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    tags: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    # Relationships
+    source_session: Mapped[Session | None] = relationship()
+    executions: Mapped[list[StrategyExecution]] = relationship(
+        back_populates="strategy", cascade="all, delete-orphan", lazy="selectin"
+    )
+
+    def __repr__(self) -> str:
+        return f"<Strategy id={self.id!s} name={self.name!r} type={self.task_type.value!r}>"
+
+
+class StrategyExecution(Base):
+    """Record of a strategy being applied to a task."""
+
+    __tablename__ = "strategy_executions"
+    __table_args__ = (
+        Index("ix_strategy_executions_strategy", "strategy_id"),
+        Index("ix_strategy_executions_session", "session_id"),
+        Index("ix_strategy_executions_task", "task_id"),
+        Index("ix_strategy_executions_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    strategy_id: Mapped[UUID] = mapped_column(
+        ForeignKey("strategies.id", ondelete="CASCADE"), nullable=False
+    )
+    session_id: Mapped[UUID] = mapped_column(
+        ForeignKey("sessions.id", ondelete="CASCADE"), nullable=False
+    )
+    task_id: Mapped[UUID] = mapped_column(
+        ForeignKey("tasks.id", ondelete="CASCADE"), nullable=False
+    )
+    success: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    tokens_used: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    metadata_: Mapped[dict[str, Any] | None] = mapped_column(
+        "metadata", JSONB, nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    # Relationships
+    strategy: Mapped[Strategy] = relationship(back_populates="executions")
+    session: Mapped[Session] = relationship()
+    task: Mapped[Task] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<StrategyExecution id={self.id!s} strategy={self.strategy_id!s} success={self.success}>"
+
+
+# ---------------------------------------------------------------------------
+# Policy & Learning
+# ---------------------------------------------------------------------------
+
+
+class Policy(Base):
+    """A rule or heuristic derived from learnings."""
+
+    __tablename__ = "policies"
+    __table_args__ = (
+        Index("ix_policies_is_active", "is_active"),
+        Index("ix_policies_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    condition: Mapped[str] = mapped_column(Text, nullable=False)
+    action: Mapped[str] = mapped_column(Text, nullable=False)
+    source_pattern_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("learning_patterns.id", ondelete="SET NULL"), nullable=True
+    )
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    applied_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    success_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    # Relationships
+    source_pattern: Mapped[LearningPattern | None] = relationship(back_populates="policies")
+
+    def __repr__(self) -> str:
+        return f"<Policy id={self.id!s} name={self.name!r} active={self.is_active}>"
+
+
+class LearningPattern(Base):
+    """Detected pattern from multiple reflection records."""
+
+    __tablename__ = "learning_patterns"
+    __table_args__ = (
+        Index("ix_learning_patterns_type", "pattern_type"),
+        Index("ix_learning_patterns_resolved", "is_resolved"),
+        Index("ix_learning_patterns_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    pattern_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    frequency: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    source_sessions: Mapped[list[UUID] | None] = mapped_column(ARRAY(String), nullable=True)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    action_taken: Mapped[str | None] = mapped_column(Text, nullable=True)
+    is_resolved: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    # Relationships
+    policies: Mapped[list[Policy]] = relationship(
+        back_populates="source_pattern", cascade="all, delete-orphan", lazy="selectin"
+    )
+
+    def __repr__(self) -> str:
+        return f"<LearningPattern id={self.id!s} type={self.pattern_type!r}>"
+
+
+# ---------------------------------------------------------------------------
+# Skills
+# ---------------------------------------------------------------------------
+
+
+class Skill(Base):
+    """A reusable capability composed of multiple steps."""
+
+    __tablename__ = "skills"
+    __table_args__ = (
+        Index("ix_skills_status", "status"),
+        Index("ix_skills_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    steps: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, nullable=False)
+    task_types: Mapped[list[str]] = mapped_column(ARRAY(Text), nullable=False)
+    tags: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    usage_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    success_rate: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    avg_duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    status: Mapped[SkillStatus] = mapped_column(
+        Enum(SkillStatus, name="skill_status", create_constraint=True),
+        nullable=False,
+        default=SkillStatus.DRAFT,
+    )
+    embedding_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    # Relationships
+    executions: Mapped[list[SkillExecution]] = relationship(
+        back_populates="skill", cascade="all, delete-orphan", lazy="selectin"
+    )
+
+    def __repr__(self) -> str:
+        return f"<Skill id={self.id!s} name={self.name!r}>"
+
+
+class SkillExecution(Base):
+    """Record of a skill being applied."""
+
+    __tablename__ = "skill_executions"
+    __table_args__ = (
+        Index("ix_skill_executions_skill", "skill_id"),
+        Index("ix_skill_executions_session", "session_id"),
+        Index("ix_skill_executions_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    skill_id: Mapped[UUID] = mapped_column(
+        ForeignKey("skills.id", ondelete="CASCADE"), nullable=False
+    )
+    session_id: Mapped[UUID] = mapped_column(
+        ForeignKey("sessions.id", ondelete="CASCADE"), nullable=False
+    )
+    success: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    tokens_used: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    metadata_: Mapped[dict[str, Any] | None] = mapped_column(
+        "metadata", JSONB, nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    # Relationships
+    skill: Mapped[Skill] = relationship(back_populates="executions")
+    session: Mapped[Session] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<SkillExecution id={self.id!s} skill={self.skill_id!s} success={self.success}>"
+
+
+# ---------------------------------------------------------------------------
+# Experience Replay & Memory Clusters
+# ---------------------------------------------------------------------------
+
+
+class ExperienceRecord(Base):
+    """An execution experience for RL-style replay."""
+
+    __tablename__ = "experience_records"
+    __table_args__ = (
+        Index("ix_experience_records_task_type", "task_type"),
+        Index("ix_experience_records_session", "session_id"),
+        Index("ix_experience_records_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    session_id: Mapped[UUID] = mapped_column(
+        ForeignKey("sessions.id", ondelete="CASCADE"), nullable=False
+    )
+    task_id: Mapped[UUID] = mapped_column(
+        ForeignKey("tasks.id", ondelete="CASCADE"), nullable=False
+    )
+    task_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    strategy_used: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    outcome: Mapped[str] = mapped_column(Text, nullable=False)
+    score: Mapped[float] = mapped_column(Float, nullable=False)
+    context_summary: Mapped[str] = mapped_column(Text, nullable=False)
+    lessons: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    embedding_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    # Relationships
+    session: Mapped[Session] = relationship()
+    task: Mapped[Task] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<ExperienceRecord id={self.id!s} type={self.task_type!r} score={self.score:.2f}>"
+
+
+class MemoryCluster(Base):
+    """Group of similar consolidated memories."""
+
+    __tablename__ = "memory_clusters"
+    __table_args__ = (
+        Index("ix_memory_clusters_user", "user_id"),
+        Index("ix_memory_clusters_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    user_id: Mapped[UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    cluster_label: Mapped[str] = mapped_column(String(255), nullable=False)
+    member_ids: Mapped[list[UUID]] = mapped_column(ARRAY(String), nullable=False)
+    centroid_embedding_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    summary: Mapped[str] = mapped_column(Text, nullable=False)
+    member_count: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    avg_importance: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    # Relationships
+    user: Mapped[User] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<MemoryCluster id={self.id!s} label={self.cluster_label!r} size={self.member_count}>"
+
+
+# ---------------------------------------------------------------------------
+# Analytics
+# ---------------------------------------------------------------------------
+
+
+class PerformanceMetric(Base):
+    """Recorded performance metric."""
+
+    __tablename__ = "performance_metrics"
+    __table_args__ = (
+        Index("ix_performance_metrics_user_type", "user_id", "metric_type"),
+        Index("ix_performance_metrics_recorded_at", "recorded_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    user_id: Mapped[UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    session_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("sessions.id", ondelete="SET NULL"), nullable=True
+    )
+    metric_type: Mapped[MetricType] = mapped_column(
+        Enum(MetricType, name="metric_type", create_constraint=True),
+        nullable=False,
+    )
+    value: Mapped[float] = mapped_column(Float, nullable=False)
+    metadata_: Mapped[dict[str, Any] | None] = mapped_column(
+        "metadata", JSONB, nullable=True
+    )
+    recorded_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    # Relationships
+    user: Mapped[User] = relationship()
+    session: Mapped[Session | None] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<PerformanceMetric id={self.id!s} type={self.metric_type.value!r} val={self.value}>"
+
+
+# ---------------------------------------------------------------------------
+# Phase 6: Autonomous Research Models
+# ---------------------------------------------------------------------------
+
+
+class KnowledgeGap(Base):
+    """Identified missing knowledge or weak domain in the system."""
+
+    __tablename__ = "knowledge_gaps"
+    __table_args__ = (
+        Index("ix_knowledge_gaps_domain", "domain"),
+        Index("ix_knowledge_gaps_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    domain: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    importance: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.5")
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.5")
+    source_context: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    is_resolved: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="false")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+
+class GeneratedGoal(Base):
+    """An autonomously generated goal from curiosity or a knowledge gap."""
+
+    __tablename__ = "generated_goals"
+    __table_args__ = (
+        Index("ix_generated_goals_status", "status"),
+        Index("ix_generated_goals_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    gap_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("knowledge_gaps.id", ondelete="SET NULL"), nullable=True
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[GoalStatus] = mapped_column(
+        Enum(GoalStatus, name="goal_status", create_constraint=True),
+        nullable=False,
+        server_default="generated",
+    )
+    curiosity_score: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    gap: Mapped[KnowledgeGap | None] = relationship()
+
+
+class GoalTree(Base):
+    """Hierarchical goal structure for long-horizon planning."""
+
+    __tablename__ = "goal_trees"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    goal_id: Mapped[UUID] = mapped_column(
+        ForeignKey("generated_goals.id", ondelete="CASCADE"), nullable=False
+    )
+    structure: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    goal: Mapped[GeneratedGoal] = relationship()
+
+
+class SubGoal(Base):
+    """A specific sub-goal derived from a GoalTree."""
+
+    __tablename__ = "sub_goals"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    tree_id: Mapped[UUID] = mapped_column(
+        ForeignKey("goal_trees.id", ondelete="CASCADE"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    dependencies: Mapped[list[str] | None] = mapped_column(ARRAY(String), nullable=True)
+    status: Mapped[GoalStatus] = mapped_column(
+        Enum(GoalStatus, name="goal_status", create_constraint=False),
+        nullable=False,
+        server_default="generated",
+    )
+
+
+class ResearchTrack(Base):
+    """A dedicated research track tracking an ongoing autonomous investigation."""
+
+    __tablename__ = "research_tracks"
+    __table_args__ = (
+        Index("ix_research_tracks_status", "status"),
+        Index("ix_research_tracks_created_at", "created_at"),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    goal_id: Mapped[UUID] = mapped_column(
+        ForeignKey("generated_goals.id", ondelete="CASCADE"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    status: Mapped[ResearchTrackStatus] = mapped_column(
+        Enum(ResearchTrackStatus, name="research_track_status", create_constraint=True),
+        nullable=False,
+        server_default="proposed",
+    )
+    progress_percentage: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    goal: Mapped[GeneratedGoal] = relationship()
+
+
+class ResearchMilestone(Base):
+    """A measurable milestone within a ResearchTrack."""
+
+    __tablename__ = "research_milestones"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    track_id: Mapped[UUID] = mapped_column(
+        ForeignKey("research_tracks.id", ondelete="CASCADE"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    is_completed: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="false")
+    evidence: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class CuriosityScore(Base):
+    """Curiosity evaluation metrics for a specific domain or goal."""
+
+    __tablename__ = "curiosity_scores"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    target_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    target_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    novelty: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    uncertainty: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    impact: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    importance: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    total_score: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class ResearchPortfolio(Base):
+    """High-level management grouping for multiple research tracks."""
+
+    __tablename__ = "research_portfolios"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[PortfolioStatus] = mapped_column(
+        Enum(PortfolioStatus, name="portfolio_status", create_constraint=True),
+        nullable=False,
+        server_default="active",
+    )
+    overall_progress: Mapped[float] = mapped_column(Float, nullable=False, server_default="0.0")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+
+class KnowledgeGraphNode(Base):
+    """SQLAlchemy backup model for Knowledge Graph Nodes (Neo4j is primary)."""
+
+    __tablename__ = "kg_nodes"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    label: Mapped[str] = mapped_column(String(255), nullable=False)
+    properties: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class KnowledgeGraphEdge(Base):
+    """SQLAlchemy backup model for Knowledge Graph Edges (Neo4j is primary)."""
+
+    __tablename__ = "kg_edges"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    source_node_id: Mapped[UUID] = mapped_column(
+        ForeignKey("kg_nodes.id", ondelete="CASCADE"), nullable=False
+    )
+    target_node_id: Mapped[UUID] = mapped_column(
+        ForeignKey("kg_nodes.id", ondelete="CASCADE"), nullable=False
+    )
+    relationship_type: Mapped[str] = mapped_column(String(255), nullable=False)
+    properties: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+

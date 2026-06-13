@@ -114,6 +114,22 @@ class Settings(BaseSettings):
     )
 
     # -------------------------------------------------------------------------
+    # Neo4j Knowledge Graph
+    # -------------------------------------------------------------------------
+    neo4j_uri: str = Field(
+        default="bolt://localhost:7687",
+        description="Neo4j connection URI",
+    )
+    neo4j_user: str = Field(
+        default="neo4j",
+        description="Neo4j username",
+    )
+    neo4j_password: SecretStr = Field(
+        default=SecretStr("neo4j_password"),
+        description="Neo4j password",
+    )
+
+    # -------------------------------------------------------------------------
     # Redis Cache
     # -------------------------------------------------------------------------
     redis_url: str = Field(

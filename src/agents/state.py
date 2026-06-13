@@ -163,6 +163,20 @@ class AgentStateDict(TypedDict, total=False):
     status: str  # "planning" | "executing" | "reflecting" | "complete" | "failed"
     next_agent: str | None
 
+    # Meta-Learning (Phase 5)
+    task_classification: dict[str, Any] | None
+    selected_strategy: dict[str, Any] | None
+    strategy_executions: dict[str, dict[str, Any]]
+    experience_context: str | None
+    learnings: list[dict[str, Any]]
+    replan_count: int
+
+    # Autonomous Research (Phase 6)
+    knowledge_gaps: list[dict[str, Any]]
+    generated_goals: list[dict[str, Any]]
+    research_tracks: list[dict[str, Any]]
+    portfolio_summary: dict[str, Any] | None
+
     # Output
     final_report: str | None
 
@@ -202,5 +216,15 @@ def create_initial_state(
         max_iterations=max_iterations,
         status="planning",
         next_agent=None,
+        task_classification=None,
+        selected_strategy=None,
+        strategy_executions={},
+        experience_context=None,
+        learnings=[],
+        replan_count=0,
+        knowledge_gaps=[],
+        generated_goals=[],
+        research_tracks=[],
+        portfolio_summary=None,
         final_report=None,
     )

@@ -132,6 +132,10 @@ class OrchestratorAgent:
         research_agent: Any = None,
         execution_agent: Any = None,
         reflection_agent: Any = None,
+        strategy_engine: Any = None,
+        task_classifier: Any = None,
+        learning_engine: Any = None,
+        experience_replay: Any = None,
     ) -> None:
         """
         Initialize the orchestrator with specialist agents.
@@ -153,6 +157,10 @@ class OrchestratorAgent:
         self.research_agent = research_agent
         self.execution_agent = execution_agent
         self.reflection_agent = reflection_agent
+        self.strategy_engine = strategy_engine
+        self.task_classifier = task_classifier
+        self.learning_engine = learning_engine
+        self.experience_replay = experience_replay
         self._graph = self._build_graph()
 
     # -----------------------------------------------------------------------
@@ -166,20 +174,38 @@ class OrchestratorAgent:
         # Register nodes
         graph.add_node("analyze_goal", self._analyze_goal)
         graph.add_node("recall_memories", self._recall_memories)
+        graph.add_node("replay_experiences", self._replay_experiences)
         graph.add_node("decompose_tasks", self._decompose_tasks)
+        graph.add_node("classify_task", self._classify_task)
+        graph.add_node("select_strategy", self._select_strategy)
         graph.add_node("route_task", self._route_task)
         graph.add_node("execute_research", self._execute_research)
         graph.add_node("execute_task", self._execute_task)
         graph.add_node("execute_memory_op", self._execute_memory_op)
         graph.add_node("integrate_results", self._integrate_results)
+        graph.add_node("dynamic_replan", self._dynamic_replan)
         graph.add_node("reflect", self._reflect)
+        graph.add_node("extract_learnings", self._extract_learnings)
+        graph.add_node("update_strategies", self._update_strategies)
+        
+        # Phase 6 Autonomous Research Nodes
+        graph.add_node("knowledge_gap_detection", self._knowledge_gap_detection)
+        graph.add_node("goal_generation", self._goal_generation)
+        graph.add_node("curiosity_evaluation", self._curiosity_evaluation)
+        graph.add_node("research_director", self._research_director)
+        graph.add_node("research_portfolio", self._research_portfolio)
+        graph.add_node("knowledge_graph_update", self._knowledge_graph_update)
+        
         graph.add_node("generate_report", self._generate_report)
 
         # Define edges
         graph.add_edge(START, "analyze_goal")
         graph.add_edge("analyze_goal", "recall_memories")
-        graph.add_edge("recall_memories", "decompose_tasks")
-        graph.add_edge("decompose_tasks", "route_task")
+        graph.add_edge("recall_memories", "replay_experiences")
+        graph.add_edge("replay_experiences", "decompose_tasks")
+        graph.add_edge("decompose_tasks", "classify_task")
+        graph.add_edge("classify_task", "select_strategy")
+        graph.add_edge("select_strategy", "route_task")
 
         # Conditional routing based on task type
         graph.add_conditional_edges(
@@ -204,14 +230,16 @@ class OrchestratorAgent:
             "integrate_results",
             self._completion_check,
             {
-                "continue": "route_task",
+                "continue": "dynamic_replan",
                 "reflect": "reflect",
                 "failed": "reflect",
             },
         )
 
-        # Reflection leads to report
-        graph.add_edge("reflect", "generate_report")
+        graph.add_edge("dynamic_replan", "classify_task")
+        graph.add_edge("reflect", "extract_learnings")
+        graph.add_edge("extract_learnings", "update_strategies")
+        graph.add_edge("update_strategies", "generate_report")
         graph.add_edge("generate_report", END)
 
         return graph
@@ -312,6 +340,26 @@ class OrchestratorAgent:
 
         return {"retrieved_memories": memories}
 
+    async def _replay_experiences(self, state: AgentStateDict) -> dict[str, Any]:
+        """Replay past experiences for context."""
+        logger.info("Replaying past experiences")
+        
+        experiences = []
+        if self.experience_replay:
+            try:
+                # We fetch some generic past successes/failures related to the goal
+                experiences = await self.experience_replay.get_similar_experiences(
+                    task=state["goal"], limit=3
+                )
+            except Exception as e:
+                logger.warning("Experience replay failed", error=str(e))
+                
+        context = ""
+        if experiences:
+            context = "Past relevant experiences:\n" + "\n".join([e.context_summary for e in experiences])
+            
+        return {"experience_context": context}
+
     async def _decompose_tasks(self, state: AgentStateDict) -> dict[str, Any]:
         """Decompose the goal into executable tasks."""
         logger.info("Decomposing goal into tasks")
@@ -375,6 +423,64 @@ class OrchestratorAgent:
             "current_task_index": 0,
             "status": "executing",
         }
+
+    async def _classify_task(self, state: AgentStateDict) -> dict[str, Any]:
+        """Classify the current task type."""
+        task_plan = state.get("task_plan", [])
+        current_idx = state.get("current_task_index", 0)
+        
+        if current_idx >= len(task_plan):
+            return {"task_classification": None}
+            
+        current_task = task_plan[current_idx]
+        logger.info("Classifying task", task_id=current_task.get("id"))
+        
+        classification = None
+        if self.task_classifier:
+            try:
+                classification = await self.task_classifier.classify(
+                    task_description=current_task.get("description", ""),
+                    context=state.get("goal", ""),
+                )
+            except Exception as e:
+                logger.error("Task classification failed", error=str(e))
+                
+        return {"task_classification": classification}
+
+    async def _select_strategy(self, state: AgentStateDict) -> dict[str, Any]:
+        """Select the best execution strategy for the task."""
+        classification = state.get("task_classification")
+        if not classification or not self.strategy_engine:
+            return {"selected_strategy": None}
+            
+        logger.info("Selecting strategy for task type", task_type=classification.get("task_type"))
+        
+        strategy = None
+        try:
+            # We would normally convert Enum to string or pass directly
+            task_type = classification.get("task_type")
+            task_plan = state.get("task_plan", [])
+            current_idx = state.get("current_task_index", 0)
+            current_task = task_plan[current_idx] if current_idx < len(task_plan) else {}
+            
+            # get_best_strategy uses semantic search
+            strategy = await self.strategy_engine.get_best_strategy(
+                task_type=task_type,
+                context=current_task.get("description", ""),
+            )
+        except Exception as e:
+            logger.error("Strategy selection failed", error=str(e))
+            
+        strategy_dict = None
+        if strategy:
+            strategy_dict = {
+                "id": str(strategy.id),
+                "name": strategy.name,
+                "steps": strategy.steps,
+            }
+            logger.info("Strategy selected", strategy_name=strategy.name)
+            
+        return {"selected_strategy": strategy_dict}
 
     async def _route_task(self, state: AgentStateDict) -> dict[str, Any]:
         """Route the current task to the appropriate agent."""
@@ -609,6 +715,15 @@ class OrchestratorAgent:
             "errors": errors,
         }
 
+    async def _dynamic_replan(self, state: AgentStateDict) -> dict[str, Any]:
+        """Dynamically adjust the plan if tasks fail or new discoveries are made."""
+        logger.info("Evaluating dynamic replan")
+        # In Phase 5, this would use LLM to check if remaining tasks need adjusting
+        # For now, it simply tracks the replan count and proceeds.
+        return {
+            "replan_count": state.get("replan_count", 0) + 1
+        }
+
     def _completion_check(self, state: AgentStateDict) -> str:
         """Check if all tasks are complete or if we should continue."""
         task_plan = state.get("task_plan", [])
@@ -673,6 +788,66 @@ class OrchestratorAgent:
             "reflection": reflection,
             "status": "reflecting",
         }
+
+    async def _extract_learnings(self, state: AgentStateDict) -> dict[str, Any]:
+        """Extract learnings from reflection."""
+        logger.info("Extracting learnings from reflection")
+        
+        learnings = []
+        if self.learning_engine and state.get("reflection"):
+            try:
+                # We need a session ID, fallback to uuid4 if None
+                session_id = uuid.UUID(state.get("session_id")) if state.get("session_id") else uuid.uuid4()
+                learnings = await self.learning_engine.extract_learnings(
+                    session_id=session_id,
+                    reflections=[state.get("reflection")],
+                    task_results=state.get("task_results", {}),
+                )
+                logger.info("Extracted learnings", count=len(learnings))
+            except Exception as e:
+                logger.error("Learning extraction failed", error=str(e))
+                
+        return {"learnings": learnings}
+
+    async def _update_strategies(self, state: AgentStateDict) -> dict[str, Any]:
+        """Update strategies based on the new learnings."""
+        logger.info("Updating strategies")
+        # Logic to update strategy confidence happens here or via the LearningEngine
+        return {}
+
+    # -----------------------------------------------------------------------
+    # Phase 6 Autonomous Research Nodes
+    # ---------------------------------------------------------------------------
+
+    async def _knowledge_gap_detection(self, state: AgentStateDict) -> dict[str, Any]:
+        """Detect knowledge gaps across the system."""
+        logger.info("Detecting knowledge gaps")
+        return {"knowledge_gaps": []}
+
+    async def _goal_generation(self, state: AgentStateDict) -> dict[str, Any]:
+        """Generate goals based on gaps."""
+        logger.info("Generating autonomous goals")
+        return {"generated_goals": []}
+
+    async def _curiosity_evaluation(self, state: AgentStateDict) -> dict[str, Any]:
+        """Evaluate curiosity scores for goals."""
+        logger.info("Evaluating curiosity for goals")
+        return {}
+
+    async def _research_director(self, state: AgentStateDict) -> dict[str, Any]:
+        """Manage research tracks and allocate tasks."""
+        logger.info("Director reviewing goals and tracks")
+        return {"research_tracks": []}
+
+    async def _research_portfolio(self, state: AgentStateDict) -> dict[str, Any]:
+        """Update research portfolios."""
+        logger.info("Updating research portfolios")
+        return {"portfolio_summary": {}}
+
+    async def _knowledge_graph_update(self, state: AgentStateDict) -> dict[str, Any]:
+        """Update the Neo4j knowledge graph with new concepts."""
+        logger.info("Updating Knowledge Graph")
+        return {}
 
     async def _generate_report(self, state: AgentStateDict) -> dict[str, Any]:
         """Generate a summary report of the goal execution."""
@@ -741,6 +916,12 @@ class OrchestratorAgent:
             "max_iterations": max_iterations,
             "status": "planning",
             "next_agent": None,
+            "task_classification": None,
+            "selected_strategy": None,
+            "strategy_executions": {},
+            "experience_context": None,
+            "learnings": [],
+            "replan_count": 0,
             "final_report": None,
         }
 

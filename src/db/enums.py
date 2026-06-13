@@ -74,3 +74,72 @@ class Priority(str, enum.Enum):
     NORMAL = "normal"
     HIGH = "high"
     CRITICAL = "critical"
+
+
+class TaskType(str, enum.Enum):
+    """Categorization of agent tasks for strategy selection."""
+
+    RESEARCH = "research"
+    CODING = "coding"
+    PLANNING = "planning"
+    WRITING = "writing"
+    ANALYSIS = "analysis"
+    AUTOMATION = "automation"
+    DATA_PROCESSING = "data_processing"
+    MULTI_STEP_REASONING = "multi_step_reasoning"
+
+
+class StrategyStatus(str, enum.Enum):
+    """Lifecycle status of a learned strategy."""
+
+    ACTIVE = "active"
+    DEPRECATED = "deprecated"
+    TESTING = "testing"
+
+
+class MetricType(str, enum.Enum):
+    """Types of performance metrics tracked for analytics."""
+
+    SUCCESS_RATE = "success_rate"
+    TOKEN_USAGE = "token_usage"
+    EXECUTION_LATENCY = "execution_latency"
+    MEMORY_HIT_RATE = "memory_hit_rate"
+    STRATEGY_EFFECTIVENESS = "strategy_effectiveness"
+    REFLECTION_QUALITY = "reflection_quality"
+    TOOL_UTILIZATION = "tool_utilization"
+
+
+class SkillStatus(str, enum.Enum):
+    """Lifecycle status of a reusable skill."""
+
+    ACTIVE = "active"
+    DRAFT = "draft"
+    DEPRECATED = "deprecated"
+
+
+class ResearchTrackStatus(str, enum.Enum):
+    """Lifecycle status of a research track."""
+
+    PROPOSED = "proposed"
+    ACTIVE = "active"
+    PAUSED = "paused"
+    COMPLETED = "completed"
+    TERMINATED = "terminated"
+
+
+class PortfolioStatus(str, enum.Enum):
+    """Lifecycle status of a research portfolio."""
+
+    ACTIVE = "active"
+    ARCHIVED = "archived"
+
+
+class GoalStatus(str, enum.Enum):
+    """Lifecycle status of an autonomously generated goal."""
+
+    GENERATED = "generated"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    IN_PROGRESS = "in_progress"
+    ACHIEVED = "achieved"
+    FAILED = "failed"

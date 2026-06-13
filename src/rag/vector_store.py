@@ -17,8 +17,16 @@ from src.config.settings import get_settings
 
 logger = get_logger(__name__)
 
-# The three canonical collections this manager creates / uses.
-MANAGED_COLLECTIONS: tuple[str, ...] = ("knowledge", "memories", "reflections")
+# The canonical collections this manager creates / uses.
+MANAGED_COLLECTIONS: tuple[str, ...] = (
+    "knowledge", 
+    "memories", 
+    "reflections",
+    "strategies",
+    "skills",
+    "experiences",
+    "memory_clusters",
+)
 
 
 @dataclass

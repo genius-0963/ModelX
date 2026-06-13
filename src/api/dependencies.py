@@ -15,6 +15,10 @@ from src.db.repositories.session_repo import SessionRepository
 from src.db.repositories.task_repo import TaskRepository
 from src.db.repositories.memory_repo import MemoryRepository
 from src.db.repositories.reflection_repo import ReflectionRepository
+from src.db.repositories.strategy_repo import StrategyRepository
+from src.db.repositories.skill_repo import SkillRepository
+from src.db.repositories.analytics_repo import AnalyticsRepository
+from src.db.repositories.learning_repo import LearningRepository
 from src.rag.vector_store import VectorStoreManager
 from src.rag.embeddings import EmbeddingService
 from src.rag.retriever import Retriever
@@ -62,10 +66,30 @@ async def get_reflection_repo(db_session=Depends(get_session)) -> ReflectionRepo
     """Get the ReflectionRepository bound to the current DB session."""
     return ReflectionRepository(db_session)
 
+async def get_strategy_repo(db_session=Depends(get_session)) -> StrategyRepository:
+    """Get the StrategyRepository bound to the current DB session."""
+    return StrategyRepository(db_session)
+
+async def get_skill_repo(db_session=Depends(get_session)) -> SkillRepository:
+    """Get the SkillRepository bound to the current DB session."""
+    return SkillRepository(db_session)
+
+async def get_analytics_repo(db_session=Depends(get_session)) -> AnalyticsRepository:
+    """Get the AnalyticsRepository bound to the current DB session."""
+    return AnalyticsRepository(db_session)
+
+async def get_learning_repo(db_session=Depends(get_session)) -> LearningRepository:
+    """Get the LearningRepository bound to the current DB session."""
+    return LearningRepository(db_session)
+
 # Export standard dependency types for routes
 CurrentUser = Annotated[User, Depends(get_current_user)]
 DB_SessionRepo = Annotated[SessionRepository, Depends(get_session_repo)]
 DB_TaskRepo = Annotated[TaskRepository, Depends(get_task_repo)]
 DB_MemoryRepo = Annotated[MemoryRepository, Depends(get_memory_repo)]
 DB_ReflectionRepo = Annotated[ReflectionRepository, Depends(get_reflection_repo)]
+DB_StrategyRepo = Annotated[StrategyRepository, Depends(get_strategy_repo)]
+DB_SkillRepo = Annotated[SkillRepository, Depends(get_skill_repo)]
+DB_AnalyticsRepo = Annotated[AnalyticsRepository, Depends(get_analytics_repo)]
+DB_LearningRepo = Annotated[LearningRepository, Depends(get_learning_repo)]
 RAG_Retriever = Annotated[Retriever, Depends(get_retriever)]
