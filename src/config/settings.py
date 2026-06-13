@@ -179,11 +179,28 @@ class Settings(BaseSettings):
     )
 
     # -------------------------------------------------------------------------
+    # Application
+    # -------------------------------------------------------------------------
+    project_name: str = Field(
+        default="Autonomous Agent Platform",
+        description="Application display name",
+    )
+    version: str = Field(default="0.1.0")
+    environment: Literal["development", "staging", "production"] = Field(
+        default="development",
+        description="Deployment environment",
+    )
+
+    # -------------------------------------------------------------------------
     # Server
     # -------------------------------------------------------------------------
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000)
     debug: bool = Field(default=False)
+    cors_origins: list[str] = Field(
+        default=["http://localhost:3000", "http://localhost:8000"],
+        description="Allowed CORS origins",
+    )
 
 
 @lru_cache(maxsize=1)
