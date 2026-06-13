@@ -1,16 +1,6 @@
-"""
-Memory system for the Autonomous Agent Platform.
+"""Memory system package."""
 
-Provides short-term (Redis-backed) and long-term (PostgreSQL + Qdrant) memory
-capabilities for agent sessions and persistent knowledge retention.
-"""
-
-from src.memory.long_term import LongTermMemory, MemoryRecord, MemoryStats
 from src.memory.short_term import ShortTermMemory
+from src.memory.long_term import LongTermMemory
 
-__all__ = [
-    "LongTermMemory",
-    "MemoryRecord",
-    "MemoryStats",
-    "ShortTermMemory",
-]
+__all__ = ["ShortTermMemory", "LongTermMemory"]
