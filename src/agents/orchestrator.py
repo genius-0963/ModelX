@@ -25,6 +25,82 @@ from src.agents.state import AgentStateDict, TaskSpec
 from src.config.logging import get_logger
 from src.config.settings import get_settings
 
+from src.agents.cognition_nodes import (
+    cognition_reflection_node,
+    failure_analysis_node,
+    meta_learning_node,
+    strategy_optimization_node,
+    skill_discovery_node,
+    metrics_node,
+    self_improvement_node,
+)
+
+from src.agents.capability_nodes import (
+    capability_gap_detection_node,
+    tool_specification_node,
+    tool_generation_node,
+    tool_validation_node,
+    tool_registration_node,
+    tool_evolution_node,
+)
+
+from src.agents.world_model_nodes import (
+    pattern_discovery_node,
+    causal_reasoning_node,
+    hypothesis_generation_node,
+    experiment_design_node,
+    experiment_execution_node,
+    belief_update_node,
+    prediction_generation_node,
+    world_model_update_node,
+)
+
+from src.agents.architecture_nodes import (
+    architecture_analysis_node,
+    dependency_analysis_node,
+    component_analysis_node,
+    bottleneck_detection_node,
+    hypothesis_generation_node,
+    candidate_generation_node,
+    sandbox_benchmarking_node,
+    benchmark_reporting_node,
+)
+
+from src.agents.evolution_nodes import (
+    genome_generation_node,
+    mutation_generation_node,
+    candidate_selection_node,
+    evolution_cycle_node,
+    promotion_decision_node,
+    rollback_check_node,
+    fitness_tracking_node,
+    generation_tracking_node,
+)
+
+from src.agents.capability_nodes import (
+    capability_evaluation_node,
+    benchmark_execution_node,
+    transfer_analysis_node,
+    discovery_analysis_node,
+    peer_review_node,
+    regression_detection_node,
+    program_evaluation_node,
+    capability_reporting_node,
+)
+
+from src.agents.project_nodes import (
+    environment_analysis_node,
+    opportunity_detection_node,
+    project_creation_node,
+    task_decomposition_node,
+    resource_allocation_node,
+    execution_node,
+    checkpointing_node,
+    failure_recovery_node,
+    impact_analysis_node,
+    project_completion_node,
+)
+
 logger = get_logger(__name__)
 
 
@@ -197,13 +273,73 @@ class OrchestratorAgent:
         graph.add_node("knowledge_graph_update", self._knowledge_graph_update)
         
         # Phase 7 Self-Improving Intelligence Nodes
-        graph.add_node("cognition_reflection", self._cognition_reflection)
-        graph.add_node("failure_analysis", self._failure_analysis)
-        graph.add_node("meta_learning", self._meta_learning)
-        graph.add_node("strategy_optimization", self._strategy_optimization)
-        graph.add_node("skill_discovery", self._skill_discovery)
-        graph.add_node("record_metrics", self._record_metrics)
-        graph.add_node("self_improvement", self._self_improvement)
+        graph.add_node("cognition_reflection", cognition_reflection_node)
+        graph.add_node("failure_analysis", failure_analysis_node)
+        graph.add_node("meta_learning", meta_learning_node)
+        graph.add_node("strategy_optimization", strategy_optimization_node)
+        graph.add_node("skill_discovery", skill_discovery_node)
+        graph.add_node("record_metrics", metrics_node)
+        graph.add_node("self_improvement", self_improvement_node)
+        
+        # Phase 8 Autonomous Tool Creation Nodes
+        graph.add_node("capability_gap_detection", capability_gap_detection_node)
+        graph.add_node("tool_specification", tool_specification_node)
+        graph.add_node("tool_generation", tool_generation_node)
+        graph.add_node("tool_validation", tool_validation_node)
+        graph.add_node("tool_registration", tool_registration_node)
+        graph.add_node("tool_evolution", tool_evolution_node)
+        
+        # Phase 9 World Model Nodes
+        graph.add_node("pattern_discovery", pattern_discovery_node)
+        graph.add_node("causal_reasoning", causal_reasoning_node)
+        graph.add_node("hypothesis_generation", hypothesis_generation_node)
+        graph.add_node("experiment_design", experiment_design_node)
+        graph.add_node("experiment_execution", experiment_execution_node)
+        graph.add_node("belief_update", belief_update_node)
+        graph.add_node("prediction_generation", prediction_generation_node)
+        graph.add_node("world_model_update", world_model_update_node)
+        
+        # Phase 10 Architecture Intelligence Nodes
+        graph.add_node("architecture_analysis", architecture_analysis_node)
+        graph.add_node("dependency_analysis", dependency_analysis_node)
+        graph.add_node("component_analysis", component_analysis_node)
+        graph.add_node("bottleneck_detection", bottleneck_detection_node)
+        graph.add_node("hypothesis_generation", hypothesis_generation_node)
+        graph.add_node("candidate_generation", candidate_generation_node)
+        graph.add_node("sandbox_benchmarking", sandbox_benchmarking_node)
+        graph.add_node("benchmark_reporting", benchmark_reporting_node)
+        
+        # Phase 10G Evolution Nodes
+        graph.add_node("genome_generation", genome_generation_node)
+        graph.add_node("mutation_generation", mutation_generation_node)
+        graph.add_node("candidate_selection", candidate_selection_node)
+        graph.add_node("evolution_cycle", evolution_cycle_node)
+        graph.add_node("promotion_decision", promotion_decision_node)
+        graph.add_node("rollback_check", rollback_check_node)
+        graph.add_node("fitness_tracking", fitness_tracking_node)
+        graph.add_node("generation_tracking", generation_tracking_node)
+        
+        # Phase 11 Capability Nodes
+        graph.add_node("capability_evaluation", capability_evaluation_node)
+        graph.add_node("benchmark_execution", benchmark_execution_node)
+        graph.add_node("transfer_analysis", transfer_analysis_node)
+        graph.add_node("discovery_analysis", discovery_analysis_node)
+        graph.add_node("peer_review", peer_review_node)
+        graph.add_node("regression_detection", regression_detection_node)
+        graph.add_node("program_evaluation", program_evaluation_node)
+        graph.add_node("capability_reporting", capability_reporting_node)
+        
+        # Phase 12 Project Nodes
+        graph.add_node("environment_analysis", environment_analysis_node)
+        graph.add_node("opportunity_detection", opportunity_detection_node)
+        graph.add_node("project_creation", project_creation_node)
+        graph.add_node("task_decomposition", task_decomposition_node)
+        graph.add_node("resource_allocation", resource_allocation_node)
+        graph.add_node("execution", execution_node)
+        graph.add_node("checkpointing", checkpointing_node)
+        graph.add_node("failure_recovery", failure_recovery_node)
+        graph.add_node("impact_analysis", impact_analysis_node)
+        graph.add_node("project_completion", project_completion_node)
         
         graph.add_node("generate_report", self._generate_report)
 
@@ -257,7 +393,67 @@ class OrchestratorAgent:
         graph.add_edge("strategy_optimization", "skill_discovery")
         graph.add_edge("skill_discovery", "record_metrics")
         graph.add_edge("record_metrics", "self_improvement")
-        graph.add_edge("self_improvement", "generate_report")
+        
+        # Phase 8: Capability Evolution Pipeline
+        graph.add_edge("self_improvement", "capability_gap_detection")
+        graph.add_edge("capability_gap_detection", "tool_specification")
+        graph.add_edge("tool_specification", "tool_generation")
+        graph.add_edge("tool_generation", "tool_validation")
+        graph.add_edge("tool_validation", "tool_registration")
+        graph.add_edge("tool_registration", "tool_evolution")
+        
+        # Phase 9: World Model Pipeline
+        graph.add_edge("tool_evolution", "pattern_discovery")
+        graph.add_edge("pattern_discovery", "causal_reasoning")
+        graph.add_edge("causal_reasoning", "hypothesis_generation")
+        graph.add_edge("hypothesis_generation", "experiment_design")
+        graph.add_edge("experiment_design", "experiment_execution")
+        graph.add_edge("experiment_execution", "belief_update")
+        graph.add_edge("belief_update", "prediction_generation")
+        graph.add_edge("prediction_generation", "world_model_update")
+        
+        # Phase 10: Architecture Intelligence Pipeline
+        graph.add_edge("world_model_update", "architecture_analysis")
+        graph.add_edge("architecture_analysis", "dependency_analysis")
+        graph.add_edge("dependency_analysis", "component_analysis")
+        graph.add_edge("component_analysis", "bottleneck_detection")
+        graph.add_edge("bottleneck_detection", "hypothesis_generation")
+        graph.add_edge("hypothesis_generation", "candidate_generation")
+        graph.add_edge("candidate_generation", "sandbox_benchmarking")
+        graph.add_edge("sandbox_benchmarking", "benchmark_reporting")
+        
+        # Phase 10G: Evolution Pipeline
+        graph.add_edge("benchmark_reporting", "genome_generation")
+        graph.add_edge("genome_generation", "mutation_generation")
+        graph.add_edge("mutation_generation", "candidate_selection")
+        graph.add_edge("candidate_selection", "evolution_cycle")
+        graph.add_edge("evolution_cycle", "promotion_decision")
+        graph.add_edge("promotion_decision", "rollback_check")
+        graph.add_edge("rollback_check", "fitness_tracking")
+        graph.add_edge("fitness_tracking", "generation_tracking")
+        
+        # Phase 11: Capability Loop
+        graph.add_edge("generation_tracking", "capability_evaluation")
+        graph.add_edge("capability_evaluation", "benchmark_execution")
+        graph.add_edge("benchmark_execution", "transfer_analysis")
+        graph.add_edge("transfer_analysis", "discovery_analysis")
+        graph.add_edge("discovery_analysis", "peer_review")
+        graph.add_edge("peer_review", "regression_detection")
+        graph.add_edge("regression_detection", "program_evaluation")
+        graph.add_edge("program_evaluation", "capability_reporting")
+        graph.add_edge("capability_reporting", "environment_analysis")
+        
+        # Phase 12: Project Execution Loop
+        graph.add_edge("environment_analysis", "opportunity_detection")
+        graph.add_edge("opportunity_detection", "project_creation")
+        graph.add_edge("project_creation", "task_decomposition")
+        graph.add_edge("task_decomposition", "resource_allocation")
+        graph.add_edge("resource_allocation", "execution")
+        graph.add_edge("execution", "checkpointing")
+        graph.add_edge("checkpointing", "failure_recovery")
+        graph.add_edge("failure_recovery", "impact_analysis")
+        graph.add_edge("impact_analysis", "project_completion")
+        graph.add_edge("project_completion", "generate_report")
         
         graph.add_edge("generate_report", END)
 
@@ -862,182 +1058,6 @@ class OrchestratorAgent:
         """Update research portfolios."""
         logger.info("Updating research portfolios")
         return {"portfolio_summary": {}}
-
-    async def _knowledge_graph_update(self, state: AgentStateDict) -> dict[str, Any]:
-        """Update the Neo4j knowledge graph with new concepts."""
-        logger.info("Updating Knowledge Graph")
-        return {}
-
-    # -----------------------------------------------------------------------
-    # Phase 7: Self-Improving Intelligence Nodes
-    # -----------------------------------------------------------------------
-
-    async def _cognition_reflection(self, state: AgentStateDict) -> dict[str, Any]:
-        """Reflect on the completed research execution to extract structured insights."""
-        logger.info("Running cognition reflection")
-        
-        reflection_data = state.get("reflection", {})
-        task_results = state.get("task_results", {})
-        
-        # Compute scores from task results
-        total = len(task_results)
-        successes = sum(1 for r in task_results.values() if r.get("status") == "completed")
-        success_score = successes / max(total, 1)
-        
-        cognition_reflection = {
-            "success_score": success_score,
-            "quality_score": success_score * 0.9,  # Weighted quality
-            "confidence_score": min(success_score + 0.1, 1.0),
-            "completion_percentage": (successes / max(total, 1)) * 100,
-            "lessons_learned": reflection_data.get("improvements", []),
-            "mistakes_found": reflection_data.get("failures", []),
-            "improvement_suggestions": reflection_data.get("root_causes", []),
-            "reflection_summary": f"Completed {successes}/{total} tasks with {success_score:.0%} success rate.",
-        }
-        
-        reflections = list(state.get("cognition_reflections", []))
-        reflections.append(cognition_reflection)
-        
-        return {"cognition_reflections": reflections}
-
-    async def _failure_analysis(self, state: AgentStateDict) -> dict[str, Any]:
-        """Detect and cluster recurring failure patterns."""
-        logger.info("Analyzing failures")
-        
-        errors = state.get("errors", [])
-        patterns: list[dict[str, Any]] = []
-        
-        if errors:
-            # Group errors by type
-            error_groups: dict[str, list[dict[str, Any]]] = {}
-            for err in errors:
-                err_type = err.get("error_type", "unknown")
-                error_groups.setdefault(err_type, []).append(err)
-            
-            for err_type, group in error_groups.items():
-                patterns.append({
-                    "pattern_name": err_type,
-                    "description": group[0].get("message", ""),
-                    "frequency": len(group),
-                    "severity": "high" if len(group) > 2 else "medium",
-                    "recommended_fix": f"Address recurring {err_type} failures",
-                })
-        
-        return {"failure_patterns": patterns}
-
-    async def _meta_learning(self, state: AgentStateDict) -> dict[str, Any]:
-        """Learn from historical reflections, strategies, and failures."""
-        logger.info("Running meta-learning")
-        
-        reflections = state.get("cognition_reflections", [])
-        failures = state.get("failure_patterns", [])
-        
-        # Extract key learnings
-        all_lessons = []
-        for ref in reflections:
-            lessons = ref.get("lessons_learned", [])
-            if isinstance(lessons, list):
-                all_lessons.extend(lessons)
-        
-        # Generate recommendations based on failure frequency
-        recommendations = []
-        for pattern in failures:
-            if pattern.get("frequency", 0) > 1:
-                recommendations.append(
-                    f"Recurring failure '{pattern.get('pattern_name')}' detected "
-                    f"{pattern.get('frequency')} times. Fix: {pattern.get('recommended_fix')}"
-                )
-        
-        return {"optimization_recommendations": recommendations}
-
-    async def _strategy_optimization(self, state: AgentStateDict) -> dict[str, Any]:
-        """Optimize research strategies based on meta-learning."""
-        logger.info("Optimizing strategies")
-        
-        selected = state.get("selected_strategy")
-        reflections = state.get("cognition_reflections", [])
-        
-        best_strategy = selected
-        if reflections:
-            avg_success = sum(r.get("success_score", 0) for r in reflections) / len(reflections)
-            if selected:
-                selected["computed_success_rate"] = avg_success
-                best_strategy = selected
-        
-        return {"best_strategy": best_strategy}
-
-    async def _skill_discovery(self, state: AgentStateDict) -> dict[str, Any]:
-        """Discover reusable skills from repeated successful task workflows."""
-        logger.info("Discovering skills")
-        
-        task_results = state.get("task_results", {})
-        skills: list[dict[str, Any]] = []
-        
-        # Identify successful task patterns that could be reusable
-        successful_tasks = [
-            (tid, r) for tid, r in task_results.items()
-            if r.get("status") == "completed"
-        ]
-        
-        if len(successful_tasks) >= 2:
-            skills.append({
-                "name": f"workflow_{state.get('goal', 'unknown')[:30]}",
-                "description": f"Reusable workflow extracted from {len(successful_tasks)} successful tasks",
-                "skill_type": "workflow",
-                "usage_count": 1,
-                "success_rate": 1.0,
-            })
-        
-        return {"cognitive_skills": skills}
-
-    async def _record_metrics(self, state: AgentStateDict) -> dict[str, Any]:
-        """Record cognitive intelligence metrics."""
-        logger.info("Recording cognitive metrics")
-        
-        reflections = state.get("cognition_reflections", [])
-        task_results = state.get("task_results", {})
-        skills = state.get("cognitive_skills", [])
-        
-        total_tasks = len(task_results)
-        successful = sum(1 for r in task_results.values() if r.get("status") == "completed")
-        
-        autonomy_score = min(successful / max(total_tasks, 1), 1.0)
-        velocity = len(reflections) * 0.1  # Learning velocity proxy
-        
-        metrics = [
-            {"metric_name": "autonomy_score", "metric_value": autonomy_score},
-            {"metric_name": "learning_velocity", "metric_value": velocity},
-            {"metric_name": "goal_completion_rate", "metric_value": successful / max(total_tasks, 1)},
-            {"metric_name": "skill_utilization", "metric_value": len(skills) * 0.1},
-        ]
-        
-        return {
-            "cognitive_metrics": metrics,
-            "autonomy_score": autonomy_score,
-            "learning_velocity": velocity,
-        }
-
-    async def _self_improvement(self, state: AgentStateDict) -> dict[str, Any]:
-        """Evaluate system performance and generate improvement recommendations."""
-        logger.info("Running self-improvement evaluation")
-        
-        recommendations = list(state.get("optimization_recommendations", []))
-        autonomy = state.get("autonomy_score", 0.0)
-        
-        if autonomy < 0.5:
-            recommendations.append(
-                "Low autonomy score detected. Consider improving task decomposition "
-                "and strategy selection for higher success rates."
-            )
-        
-        failures = state.get("failure_patterns", [])
-        if len(failures) > 3:
-            recommendations.append(
-                f"High failure pattern count ({len(failures)}). "
-                "Recommend reviewing agent error handling and retry logic."
-            )
-        
-        return {"optimization_recommendations": recommendations}
 
     async def _generate_report(self, state: AgentStateDict) -> dict[str, Any]:
         """Generate a summary report of the goal execution."""

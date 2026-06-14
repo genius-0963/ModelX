@@ -1339,3 +1339,661 @@ class CognitiveMetric(Base):
     recorded_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+
+# ---------------------------------------------------------------------------
+# Phase 7.6: Benchmarks and Validation
+# ---------------------------------------------------------------------------
+
+class BenchmarkRun(Base):
+    """A specific execution run of a benchmark suite."""
+    __tablename__ = "benchmark_runs"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    benchmark_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="running")
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    metadata_: Mapped[dict[str, Any] | None] = mapped_column("metadata", JSONB, nullable=True)
+
+    metrics: Mapped[list[BenchmarkMetric]] = relationship(
+        back_populates="run", cascade="all, delete-orphan", lazy="selectin"
+    )
+
+class BenchmarkMetric(Base):
+    """An individual metric recorded during a benchmark run."""
+    __tablename__ = "benchmark_metrics"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    run_id: Mapped[UUID] = mapped_column(ForeignKey("benchmark_runs.id", ondelete="CASCADE"), nullable=False, index=True)
+    metric_name: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    metric_value: Mapped[float] = mapped_column(Float, nullable=False)
+    recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    run: Mapped[BenchmarkRun] = relationship(back_populates="metrics")
+
+class ValidationResult(Base):
+    """Closed loop validation tracking over time."""
+    __tablename__ = "validation_results"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    validation_type: Mapped[str] = mapped_column(String(255), nullable=False)
+    baseline_score: Mapped[float] = mapped_column(Float, nullable=False)
+    new_score: Mapped[float] = mapped_column(Float, nullable=False)
+    improvement_percentage: Mapped[float] = mapped_column(Float, nullable=False)
+    is_successful: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class StrategyComparison(Base):
+    """Comparison of Strategy V1 vs V2 performance."""
+    __tablename__ = "strategy_comparisons"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    baseline_strategy_id: Mapped[UUID] = mapped_column(ForeignKey("strategies.id", ondelete="CASCADE"), nullable=False)
+    new_strategy_id: Mapped[UUID] = mapped_column(ForeignKey("strategies.id", ondelete="CASCADE"), nullable=False)
+    success_rate_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    quality_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    cost_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    time_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class SkillValidation(Base):
+    """Records the reuse and ROI of a discovered skill."""
+    __tablename__ = "skill_validations"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    skill_id: Mapped[UUID] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False)
+    reuse_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    performance_gain: Mapped[float] = mapped_column(Float, nullable=False)
+    roi_score: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class GraphEvolutionSnapshot(Base):
+    """Snapshot of the knowledge graph state."""
+    __tablename__ = "graph_evolution_snapshots"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    concept_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    relationship_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    domain_density: Mapped[float] = mapped_column(Float, nullable=False)
+    contradictions_found: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    contradictions_resolved: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class SystemHealthSnapshot(Base):
+    """Tracks continuous operation stability metrics."""
+    __tablename__ = "system_health_snapshots"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    memory_usage_mb: Mapped[float] = mapped_column(Float, nullable=False)
+    cpu_usage_percent: Mapped[float] = mapped_column(Float, nullable=False)
+    active_workers: Mapped[int] = mapped_column(Integer, nullable=False)
+    uptime_seconds: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 8: Autonomous Tool Creation & Capabilities
+# ---------------------------------------------------------------------------
+
+class CapabilityGap(Base):
+    """A detected gap in the agent's capabilities."""
+    __tablename__ = "capability_gaps"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    context: Mapped[str | None] = mapped_column(Text, nullable=True)
+    priority: Mapped[Priority] = mapped_column(Enum(Priority, name="gap_priority", create_constraint=True), nullable=False, default=Priority.NORMAL)
+    impact: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    difficulty: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    estimated_value: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="detected")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+class Tool(Base):
+    """A registered capability tool built by the agent."""
+    __tablename__ = "tools"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True, index=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    author: Mapped[str] = mapped_column(String(100), nullable=False, default="system")
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    versions: Mapped[list[ToolVersion]] = relationship(back_populates="tool", cascade="all, delete-orphan", lazy="selectin")
+
+class ToolVersion(Base):
+    """A specific version of a tool's codebase."""
+    __tablename__ = "tool_versions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    tool_id: Mapped[UUID] = mapped_column(ForeignKey("tools.id", ondelete="CASCADE"), nullable=False, index=True)
+    version_string: Mapped[str] = mapped_column(String(50), nullable=False)
+    source_code: Mapped[str] = mapped_column(Text, nullable=False)
+    dependencies: Mapped[list[str] | None] = mapped_column(ARRAY(String), nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="testing")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    tool: Mapped[Tool] = relationship(back_populates="versions")
+
+class ToolExecution(Base):
+    """Records an invocation of a tool version."""
+    __tablename__ = "tool_executions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    tool_version_id: Mapped[UUID] = mapped_column(ForeignKey("tool_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    session_id: Mapped[UUID | None] = mapped_column(ForeignKey("sessions.id", ondelete="SET NULL"), nullable=True)
+    success: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ToolBenchmark(Base):
+    """Benchmarks evaluating a specific tool version."""
+    __tablename__ = "tool_benchmarks"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    tool_version_id: Mapped[UUID] = mapped_column(ForeignKey("tool_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    latency_ms: Mapped[float] = mapped_column(Float, nullable=False)
+    memory_mb: Mapped[float] = mapped_column(Float, nullable=False)
+    cpu_percent: Mapped[float] = mapped_column(Float, nullable=False)
+    success_rate: Mapped[float] = mapped_column(Float, nullable=False)
+    error_rate: Mapped[float] = mapped_column(Float, nullable=False)
+    output_quality: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 9: World Model, Causal Reasoning & Scientific Discovery
+# ---------------------------------------------------------------------------
+
+class WorldModel(Base):
+    """The overarching root node for a world model snapshot."""
+    __tablename__ = "world_models"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class CausalRelationship(Base):
+    """A discovered causal link between two concepts or entities."""
+    __tablename__ = "causal_relationships"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    world_model_id: Mapped[UUID] = mapped_column(ForeignKey("world_models.id", ondelete="CASCADE"), nullable=False, index=True)
+    source_concept: Mapped[str] = mapped_column(String(255), nullable=False)
+    target_concept: Mapped[str] = mapped_column(String(255), nullable=False)
+    relationship_type: Mapped[str] = mapped_column(String(50), nullable=False) # e.g. CAUSES, INHIBITS, ENABLES
+    causal_strength: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.1)
+    evidence_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+class Hypothesis(Base):
+    """A generated testable hypothesis based on patterns or causal links."""
+    __tablename__ = "hypotheses"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    world_model_id: Mapped[UUID] = mapped_column(ForeignKey("world_models.id", ondelete="CASCADE"), nullable=False, index=True)
+    statement: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="proposed") # proposed, testing, validated, rejected
+    confidence_score: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class Experiment(Base):
+    """The design of an experiment to test a hypothesis."""
+    __tablename__ = "experiments"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    hypothesis_id: Mapped[UUID] = mapped_column(ForeignKey("hypotheses.id", ondelete="CASCADE"), nullable=False, index=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    control_group_def: Mapped[str] = mapped_column(Text, nullable=False)
+    treatment_group_def: Mapped[str] = mapped_column(Text, nullable=False)
+    success_criteria: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ExperimentRun(Base):
+    """An actual execution of an experiment."""
+    __tablename__ = "experiment_runs"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    experiment_id: Mapped[UUID] = mapped_column(ForeignKey("experiments.id", ondelete="CASCADE"), nullable=False, index=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="running")
+    control_results: Mapped[str | None] = mapped_column(Text, nullable=True)
+    treatment_results: Mapped[str | None] = mapped_column(Text, nullable=True)
+    conclusion: Mapped[str | None] = mapped_column(Text, nullable=True)
+    p_value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+class Evidence(Base):
+    """Data points that support or contradict a hypothesis or causal relationship."""
+    __tablename__ = "evidence"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    hypothesis_id: Mapped[UUID | None] = mapped_column(ForeignKey("hypotheses.id", ondelete="CASCADE"), nullable=True)
+    causal_relationship_id: Mapped[UUID | None] = mapped_column(ForeignKey("causal_relationships.id", ondelete="CASCADE"), nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    supports: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    weight: Mapped[float] = mapped_column(Float, nullable=False, default=1.0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class BeliefState(Base):
+    """Bayesian belief state maintaining probabilities of concepts/strategies over time."""
+    __tablename__ = "belief_states"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    world_model_id: Mapped[UUID] = mapped_column(ForeignKey("world_models.id", ondelete="CASCADE"), nullable=False, index=True)
+    concept_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    prior_probability: Mapped[float] = mapped_column(Float, nullable=False)
+    posterior_probability: Mapped[float] = mapped_column(Float, nullable=False)
+    evidence_processed: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+class Prediction(Base):
+    """A prediction made by the world model."""
+    __tablename__ = "predictions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    world_model_id: Mapped[UUID] = mapped_column(ForeignKey("world_models.id", ondelete="CASCADE"), nullable=False, index=True)
+    target: Mapped[str] = mapped_column(String(255), nullable=False)
+    predicted_outcome: Mapped[str] = mapped_column(Text, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending") # pending, verified, refuted
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class PredictionResult(Base):
+    """The actual outcome compared against a prediction."""
+    __tablename__ = "prediction_results"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    prediction_id: Mapped[UUID] = mapped_column(ForeignKey("predictions.id", ondelete="CASCADE"), nullable=False, index=True)
+    actual_outcome: Mapped[str] = mapped_column(Text, nullable=False)
+    is_accurate: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    error_margin: Mapped[float | None] = mapped_column(Float, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 10A-10F: Architecture Analysis & Benchmarking Framework
+# ---------------------------------------------------------------------------
+
+class ArchitectureVersion(Base):
+    """Tracks a specific version of the system architecture."""
+    __tablename__ = "architecture_versions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    version: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    parent_version_id: Mapped[UUID | None] = mapped_column(ForeignKey("architecture_versions.id", ondelete="SET NULL"), nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="candidate") # candidate, active, superseded, rejected
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+class ArchitectureSnapshot(Base):
+    """A point-in-time snapshot of the architecture's component counts and topology."""
+    __tablename__ = "architecture_snapshots"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    version_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    snapshot_json: Mapped[str] = mapped_column(Text, nullable=False) # Full serialized topology
+    agents_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    workers_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    tools_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    skills_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    nodes_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    api_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ArchitectureComponent(Base):
+    """An individual discovered component (agent, tool, node) within a snapshot."""
+    __tablename__ = "architecture_components"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    snapshot_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_snapshots.id", ondelete="CASCADE"), nullable=False, index=True)
+    component_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    component_type: Mapped[str] = mapped_column(String(50), nullable=False) # agent, tool, worker, api, db, node
+    dependencies: Mapped[list[str] | None] = mapped_column(ARRAY(String), nullable=True)
+    metadata_: Mapped[str | None] = mapped_column(Text, nullable=True) # JSON config
+    performance_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ArchitectureBenchmark(Base):
+    """A benchmark execution assessing an entire architecture version."""
+    __tablename__ = "architecture_benchmarks"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    version_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    latency_score: Mapped[float] = mapped_column(Float, nullable=False)
+    quality_score: Mapped[float] = mapped_column(Float, nullable=False)
+    resource_score: Mapped[float] = mapped_column(Float, nullable=False)
+    throughput_score: Mapped[float] = mapped_column(Float, nullable=False)
+    fitness_score: Mapped[float] = mapped_column(Float, nullable=False) # The master metric
+    benchmark_metadata: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ArchitectureCandidate(Base):
+    """An LLM-proposed architecture change or variant."""
+    __tablename__ = "architecture_candidates"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    version_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    candidate_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    candidate_type: Mapped[str] = mapped_column(String(50), nullable=False) # agent_variant, workflow_variant, logic_variant
+    expected_improvement: Mapped[str] = mapped_column(Text, nullable=False)
+    benchmark_status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending") # pending, benchmarking, validated, rejected
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 10G-10M: Autonomous Promotion, Evolution Engine & Recursive Self-Improvement
+# ---------------------------------------------------------------------------
+
+class CognitiveGenome(Base):
+    """Represents a specific architectural configuration as a genetic string."""
+    __tablename__ = "cognitive_genomes"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    generation: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    parent_genome_id: Mapped[UUID | None] = mapped_column(ForeignKey("cognitive_genomes.id", ondelete="SET NULL"), nullable=True)
+    genome_json: Mapped[str] = mapped_column(Text, nullable=False)
+    fitness_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="active") # active, superseded, rejected, canary
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class GenomeMutation(Base):
+    """Records a specific mutation applied to a genome."""
+    __tablename__ = "genome_mutations"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    genome_id: Mapped[UUID] = mapped_column(ForeignKey("cognitive_genomes.id", ondelete="CASCADE"), nullable=False, index=True)
+    mutation_type: Mapped[str] = mapped_column(String(50), nullable=False) # crossover, point_mutation, structural_addition
+    mutation_description: Mapped[str] = mapped_column(Text, nullable=False)
+    before_state: Mapped[str] = mapped_column(Text, nullable=False)
+    after_state: Mapped[str] = mapped_column(Text, nullable=False)
+    fitness_delta: Mapped[float | None] = mapped_column(Float, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class EvolutionGeneration(Base):
+    """Tracks a complete generational cycle of the evolutionary engine."""
+    __tablename__ = "evolution_generations"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    generation_number: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
+    population_size: Mapped[int] = mapped_column(Integer, nullable=False)
+    best_fitness: Mapped[float | None] = mapped_column(Float, nullable=True)
+    average_fitness: Mapped[float | None] = mapped_column(Float, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ArchitecturePromotion(Base):
+    """A record of when a candidate architecture officially replaces the baseline."""
+    __tablename__ = "architecture_promotions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    candidate_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_candidates.id", ondelete="CASCADE"), nullable=False, index=True)
+    baseline_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_versions.id", ondelete="CASCADE"), nullable=False, index=True)
+    promotion_reason: Mapped[str] = mapped_column(Text, nullable=False)
+    fitness_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ArchitectureRollback(Base):
+    """A record of when an architecture is rolled back due to regression."""
+    __tablename__ = "architecture_rollbacks"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    deployment_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_promotions.id", ondelete="CASCADE"), nullable=False, index=True)
+    rollback_reason: Mapped[str] = mapped_column(Text, nullable=False)
+    failure_metrics: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class CandidateEvaluation(Base):
+    """The deep metric evaluation of a candidate before promotion decision."""
+    __tablename__ = "candidate_evaluations"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    candidate_id: Mapped[UUID] = mapped_column(ForeignKey("architecture_candidates.id", ondelete="CASCADE"), nullable=False, index=True)
+    quality_score: Mapped[float] = mapped_column(Float, nullable=False)
+    latency_score: Mapped[float] = mapped_column(Float, nullable=False)
+    resource_score: Mapped[float] = mapped_column(Float, nullable=False)
+    failure_rate: Mapped[float] = mapped_column(Float, nullable=False)
+    fitness_score: Mapped[float] = mapped_column(Float, nullable=False)
+    evaluation_metadata: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class FitnessHistory(Base):
+    """Historical tracking of fitness metrics over long horizons (24h, 7d, 30d)."""
+    __tablename__ = "fitness_histories"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    genome_id: Mapped[UUID] = mapped_column(ForeignKey("cognitive_genomes.id", ondelete="CASCADE"), nullable=False, index=True)
+    fitness_score: Mapped[float] = mapped_column(Float, nullable=False)
+    quality_score: Mapped[float] = mapped_column(Float, nullable=False)
+    prediction_accuracy: Mapped[float] = mapped_column(Float, nullable=False)
+    goal_completion: Mapped[float] = mapped_column(Float, nullable=False)
+    resource_efficiency: Mapped[float] = mapped_column(Float, nullable=False)
+    recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 11: Capability Verification, Generalization & Intelligence Growth
+# ---------------------------------------------------------------------------
+
+class CapabilityScore(Base):
+    """Tracks absolute capability metrics for a given domain/generation."""
+    __tablename__ = "capability_scores"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    generation: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
+    domain: Mapped[str] = mapped_column(String(100), nullable=False) # e.g., Reasoning, Coding, Research
+    score: Mapped[float] = mapped_column(Float, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class CapabilityGrowth(Base):
+    """Measures the delta in capability between generations."""
+    __tablename__ = "capability_growth_records"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    domain: Mapped[str] = mapped_column(String(100), nullable=False)
+    previous_generation: Mapped[int] = mapped_column(Integer, nullable=False)
+    current_generation: Mapped[int] = mapped_column(Integer, nullable=False)
+    growth_delta: Mapped[float] = mapped_column(Float, nullable=False)
+    growth_rate: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class TransferLearningRecord(Base):
+    """Documents occurrences where skill in Domain A improved Domain B."""
+    __tablename__ = "transfer_learning_records"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    source_domain: Mapped[str] = mapped_column(String(100), nullable=False)
+    target_domain: Mapped[str] = mapped_column(String(100), nullable=False)
+    transfer_gain: Mapped[float] = mapped_column(Float, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False)
+    evidence: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class DiscoveryRecord(Base):
+    """Tracks entirely novel strategies, tools, or knowledge discovered."""
+    __tablename__ = "discovery_records"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    discovery_type: Mapped[str] = mapped_column(String(100), nullable=False) # Tool, Strategy, Fact, Workflow
+    novelty_score: Mapped[float] = mapped_column(Float, nullable=False)
+    impact_score: Mapped[float] = mapped_column(Float, nullable=False)
+    reuse_score: Mapped[float] = mapped_column(Float, nullable=False)
+    discovery_score: Mapped[float] = mapped_column(Float, nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class PeerReview(Base):
+    """Peer review evaluation records verifying discoveries and hypotheses."""
+    __tablename__ = "peer_reviews"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    discovery_id: Mapped[UUID | None] = mapped_column(ForeignKey("discovery_records.id", ondelete="CASCADE"), nullable=True)
+    hypothesis_id: Mapped[UUID | None] = mapped_column(ForeignKey("hypotheses.id", ondelete="CASCADE"), nullable=True)
+    evidence_strength: Mapped[float] = mapped_column(Float, nullable=False)
+    replicability: Mapped[float] = mapped_column(Float, nullable=False)
+    novelty: Mapped[float] = mapped_column(Float, nullable=False)
+    consistency: Mapped[float] = mapped_column(Float, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False) # accepted, rejected, disputed
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ResearchProgram(Base):
+    """Long-horizon, open-ended macro research objectives."""
+    __tablename__ = "research_programs"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="active")
+    objective: Mapped[str] = mapped_column(Text, nullable=False)
+    progress: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    start_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    end_date: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+class CapabilityRegression(Base):
+    """Triggers and logs when evolutionary steps reduce capability."""
+    __tablename__ = "capability_regressions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    domain: Mapped[str] = mapped_column(String(100), nullable=False)
+    generation: Mapped[int] = mapped_column(Integer, nullable=False)
+    regression_amount: Mapped[float] = mapped_column(Float, nullable=False)
+    severity: Mapped[str] = mapped_column(String(50), nullable=False)
+    rollback_triggered: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# ---------------------------------------------------------------------------
+# Phase 12: Real-World Autonomy, Long-Horizon Project Execution
+# ---------------------------------------------------------------------------
+
+class Project(Base):
+    """A master container for a complex, multi-step real-world objective."""
+    __tablename__ = "projects"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    objective: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="planned") # planned, active, paused, failed, completed
+    priority: Mapped[int] = mapped_column(Integer, nullable=False, default=3)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+class ProjectMilestone(Base):
+    """Major checkpoints within a Project."""
+    __tablename__ = "project_milestones"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending")
+    due_date: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    completion_percentage: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ProjectTask(Base):
+    """Discrete executable steps tied to a Milestone."""
+    __tablename__ = "project_tasks"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    milestone_id: Mapped[UUID] = mapped_column(ForeignKey("project_milestones.id", ondelete="CASCADE"), nullable=False, index=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending")
+    estimated_effort: Mapped[float] = mapped_column(Float, nullable=False, default=1.0)
+    actual_effort: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    priority: Mapped[int] = mapped_column(Integer, nullable=False, default=3)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class TaskExecution(Base):
+    """Records an attempt to execute a specific task."""
+    __tablename__ = "task_executions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    task_id: Mapped[UUID] = mapped_column(ForeignKey("project_tasks.id", ondelete="CASCADE"), nullable=False, index=True)
+    agent_id: Mapped[UUID | None] = mapped_column(ForeignKey("agents.id", ondelete="SET NULL"), nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False) # running, success, failure
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    end_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    result_log: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+class TaskDependency(Base):
+    """Directed edges representing dependencies between Tasks."""
+    __tablename__ = "task_dependencies"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    task_id: Mapped[UUID] = mapped_column(ForeignKey("project_tasks.id", ondelete="CASCADE"), nullable=False, index=True)
+    depends_on_task_id: Mapped[UUID] = mapped_column(ForeignKey("project_tasks.id", ondelete="CASCADE"), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ExecutionCheckpoint(Base):
+    """State snapshots for resuming interrupted long-horizon workflows."""
+    __tablename__ = "execution_checkpoints"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    state_json: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ResourceBudget(Base):
+    """A project's allocated limits for execution."""
+    __tablename__ = "resource_budgets"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, unique=True)
+    max_tokens: Mapped[int] = mapped_column(Integer, nullable=False)
+    max_api_calls: Mapped[int] = mapped_column(Integer, nullable=False)
+    max_duration_seconds: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ResourceConsumption(Base):
+    """Tracking actual burn rates against the ResourceBudget."""
+    __tablename__ = "resource_consumptions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, unique=True)
+    tokens_used: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    api_calls_used: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    duration_used_seconds: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+class FailureIncident(Base):
+    """An execution error detected by the FailureDetector."""
+    __tablename__ = "failure_incidents"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    task_id: Mapped[UUID | None] = mapped_column(ForeignKey("project_tasks.id", ondelete="CASCADE"), nullable=True, index=True)
+    error_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    error_message: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="open") # open, recovering, resolved, escalated
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class RecoveryAction(Base):
+    """An action taken by the RecoveryEngine to fix a FailureIncident."""
+    __tablename__ = "recovery_actions"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    incident_id: Mapped[UUID] = mapped_column(ForeignKey("failure_incidents.id", ondelete="CASCADE"), nullable=False, index=True)
+    action_type: Mapped[str] = mapped_column(String(100), nullable=False) # retry, alternative_tool, alternative_strategy, rollback
+    success: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    execution_log: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ExternalOutcome(Base):
+    """The measurable external impact generated by a Project."""
+    __tablename__ = "external_outcomes"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=_generate_uuid7)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    outcome_type: Mapped[str] = mapped_column(String(100), nullable=False) # Software Delivered, Research Published, Bug Fixed
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    impact_score: Mapped[float] = mapped_column(Float, nullable=False)
+    verification_status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending") # pending, verified, rejected
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)

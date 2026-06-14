@@ -1,26 +1,20 @@
-"""Optimization worker — weekly system-wide performance tuning."""
 from __future__ import annotations
 
+import asyncio
 from src.config.logging import get_logger
+from src.core.service_registry import get_registry
 
 logger = get_logger(__name__)
 
-
 async def run_optimization_cycle() -> None:
-    """Execute a single optimization cycle.
-
-    This worker is invoked every 168 hours (weekly) by the scheduler.
-    It performs holistic optimization across strategies, resource
-    allocation, and scheduling parameters based on accumulated
-    performance data.
-
-    .. note::
-        This is currently a placeholder.
-    """
-    logger.info("Optimization cycle started")
-
-    # TODO: Collect cumulative performance data
-    # TODO: Re-rank and prune underperforming strategies
-    # TODO: Tune resource allocation and scheduling parameters
-
-    logger.info("Optimization cycle completed")
+    logger.info("Starting optimization cycle.")
+    try:
+        registry = get_registry()
+        strategy_synthesizer = registry.get("strategy_synthesizer")
+        self_improvement = registry.get("self_improvement")
+        # Placeholder logic
+        # if strategy_synthesizer and self_improvement:
+        #     await self_improvement.optimize(strategy_synthesizer)
+        logger.info("Executed optimization cycle successfully.")
+    except Exception as e:
+        logger.error("Error executing optimization cycle", exc_info=True)

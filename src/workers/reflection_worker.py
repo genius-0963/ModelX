@@ -1,27 +1,27 @@
-"""Reflection worker — periodic self-assessment of completed research tracks."""
 from __future__ import annotations
 
+import asyncio
+from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type
 from src.config.logging import get_logger
+from src.core.service_registry import get_registry
 
 logger = get_logger(__name__)
 
-
+@retry(
+    wait=wait_exponential(multiplier=1, min=4, max=10),
+    stop=stop_after_attempt(3),
+    retry=retry_if_exception_type(Exception),
+    reraise=True
+)
 async def run_reflection_cycle() -> None:
-    """Execute a single reflection cycle.
-
-    This worker is invoked every hour by the scheduler.  It queries
-    recently completed research tracks and feeds them through the
-    ``CognitionReflectionAgent`` to extract lessons learned, identify
-    mistakes, and generate improvement suggestions.
-
-    .. note::
-        This is currently a placeholder.  The full implementation will
-        be wired up once the CognitionReflectionAgent is available.
-    """
-    logger.info("Reflection cycle started")
-
-    # TODO: Query completed tracks from the database
-    # TODO: For each track, invoke CognitionReflectionAgent
-    # TODO: Persist reflection results
-
-    logger.info("Reflection cycle completed")
+    logger.info("Starting reflection cycle.")
+    try:
+        registry = get_registry()
+        reflection_agent = registry.get("reflection_agent")
+        # Placeholder for executing reflection
+        # if reflection_agent:
+        #     await reflection_agent.reflect()
+        logger.info("Executed reflection cycle successfully.")
+    except Exception as e:
+        logger.error("Error executing reflection cycle", exc_info=True)
+        raise

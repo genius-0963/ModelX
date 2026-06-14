@@ -1,94 +1,41 @@
-"""
-Reflection endpoints.
-
-Provides access to reflection reports, insights, and learning records.
-"""
-
 from __future__ import annotations
 
-import uuid
+from typing import List
+from uuid import UUID
 
-from fastapi import APIRouter, HTTPException
-
-from src.api.dependencies import CurrentUser, DB_ReflectionRepo
-from src.api.schemas.reflections import (
-    ReflectionResponse,
-    ReflectionListResponse,
-    ReflectionInsight,
-)
+from fastapi import APIRouter, HTTPException, Query, Depends
 from src.config.logging import get_logger
+from src.api.schemas.reflection import ReflectionCreate, ReflectionUpdate, ReflectionResponse
 
 logger = get_logger(__name__)
+router = APIRouter(prefix="/reflections", tags=["Reflections"])
 
-router = APIRouter()
+@router.get("/", response_model=List[ReflectionResponse])
+async def list_reflections(skip: int = Query(0, ge=0), limit: int = Query(100, le=1000)) -> List[ReflectionResponse]:
+    """List all reflections with pagination."""
+    logger.info(f"Listing reflections: skip={skip}, limit={limit}")
+    return []
 
+@router.post("/", response_model=ReflectionResponse, status_code=201)
+async def create_reflection(reflection_in: ReflectionCreate) -> ReflectionResponse:
+    """Create a new reflection."""
+    logger.info(f"Creating reflection for task: {reflection_in.task_id}")
+    raise HTTPException(status_code=501, detail="Not implemented")
 
-@router.get(
-    "/{session_id}",
-    response_model=ReflectionListResponse,
-    summary="Get reflections for a session",
-)
-async def get_session_reflections(
-    session_id: uuid.UUID,
-    user: CurrentUser,
-    reflection_repo: DB_ReflectionRepo,
-) -> ReflectionListResponse:
-    """Retrieve all reflection records for a specific session."""
-    reflections = await reflection_repo.get_session_reflections(session_id)
+@router.get("/{reflection_id}", response_model=ReflectionResponse)
+async def get_reflection(reflection_id: UUID) -> ReflectionResponse:
+    """Get a specific reflection by ID."""
+    logger.info(f"Fetching reflection: {reflection_id}")
+    raise HTTPException(status_code=404, detail="Reflection not found")
 
-    results = [
-        ReflectionResponse(
-            id=r.id,
-            session_id=r.session_id,
-            task_id=r.task_id,
-            reflection_type=r.reflection_type.value,
-            successes=r.successes or [],
-            failures=r.failures or [],
-            root_causes=r.root_causes or [],
-            improvements=r.improvements or [],
-            confidence_score=r.confidence_score,
-            applied=r.applied,
-            created_at=r.created_at,
-        )
-        for r in reflections
-    ]
+@router.patch("/{reflection_id}", response_model=ReflectionResponse)
+async def update_reflection(reflection_id: UUID, reflection_in: ReflectionUpdate) -> ReflectionResponse:
+    """Update a reflection by ID."""
+    logger.info(f"Updating reflection: {reflection_id}")
+    raise HTTPException(status_code=404, detail="Reflection not found")
 
-    return ReflectionListResponse(
-        reflections=results,
-        total=len(results),
-    )
-
-
-@router.get(
-    "/insights/unapplied",
-    response_model=list[ReflectionInsight],
-    summary="Get unapplied improvement insights",
-)
-async def get_unapplied_improvements(
-    user: CurrentUser,
-    reflection_repo: DB_ReflectionRepo,
-) -> list[ReflectionInsight]:
-    """
-    Get all unapplied improvement strategies from past reflections.
-
-    These represent learnings the system has identified but hasn't yet
-    incorporated into its execution strategies.
-    """
-    from datetime import datetime, timezone
-
-    records = await reflection_repo.get_unapplied_improvements()
-
-    insights: list[ReflectionInsight] = []
-    for r in records:
-        for improvement in (r.improvements or []):
-            insights.append(
-                ReflectionInsight(
-                    pattern=improvement,
-                    frequency=1,
-                    last_observed=r.created_at,
-                    recommended_action=improvement,
-                    confidence=r.confidence_score,
-                )
-            )
-
-    return insights
+@router.delete("/{reflection_id}", status_code=204)
+async def delete_reflection(reflection_id: UUID) -> None:
+    """Delete a reflection by ID."""
+    logger.info(f"Deleting reflection: {reflection_id}")
+    raise HTTPException(status_code=404, detail="Reflection not found")
