@@ -20,3 +20,5 @@ class REPL:
                 self.history.add_command(user_input)
             except (KeyboardInterrupt, EOFError):
                 break
+            except Exception as e:
+                print(f"System Error: {e}")
