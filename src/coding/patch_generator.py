@@ -2,6 +2,8 @@
 
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import HumanMessage, SystemMessage
 from .planner import ExecutionPlan, ExecutionStep, StepType
 from .code_editor import FileChange
 
@@ -38,8 +40,21 @@ class PatchGenerator:
 
     def __init__(self, repository_path: str):
         self.repository_path = repository_path
+        # Initialize LLM using existing ModelX pattern
+        from src.config.settings import get_settings
+        settings = get_settings()
+        llm_kwargs = {
+            "model": settings.anthropic_model,
+            "api_key": settings.anthropic_api_key.get_secret_value(),
+            "temperature": 0.1,
+            "max_tokens": 8192,
+        }
+        # Add custom base URL if using OpenRouter
+        if settings.anthropic_base_url:
+            llm_kwargs["base_url"] = settings.anthropic_base_url
+        self.llm = ChatAnthropic(**llm_kwargs)
 
-    def generate_patch(self, plan: ExecutionPlan, context: Optional[Dict] = None) -> GeneratedPatch:
+    async def generate_patch(self, plan: ExecutionPlan, context: Optional[Dict] = None) -> GeneratedPatch:
         """Generate patches from an execution plan."""
         context = context or {}
         patch = GeneratedPatch()
@@ -53,7 +68,7 @@ class PatchGenerator:
         # Generate patches based on plan steps
         for step in plan.steps:
             if step.step_type == StepType.GENERATE:
-                file_changes = self._generate_from_step(step, context)
+                file_changes = await self._generate_from_step(step, context)
                 patch.file_changes.extend(file_changes)
             elif step.step_type == StepType.APPLY:
                 # APPLY steps typically reference previously generated content
@@ -64,51 +79,102 @@ class PatchGenerator:
 
         return patch
 
-    def _generate_from_step(self, step: ExecutionStep, context: Dict) -> List[FileChange]:
+    async def _generate_from_step(self, step: ExecutionStep, context: Dict) -> List[FileChange]:
         """Generate file changes from a single step."""
         file_changes = []
 
-        # This is a placeholder for actual AI-based code generation
-        # In production, this would integrate with an LLM or code generation model
         if step.parameters.get('focus') == 'test_generation':
+            content = await self._generate_test_with_llm(step.description, context)
             file_changes.append(FileChange(
                 file_path=step.file_path or "tests/test_generated.py",
                 operation='create',
-                content=self._generate_test_stub(step.description)
+                content=content
             ))
         elif step.parameters.get('focus') == 'error_analysis':
             # Analysis step - no file changes
             pass
         else:
-            # Generic code generation
+            # Generic code generation using LLM
             if step.file_path:
+                content = await self._generate_code_with_llm(step.description, context)
                 file_changes.append(FileChange(
                     file_path=step.file_path,
                     operation='patch',
-                    old_content="",
-                    new_content=self._generate_code_stub(step.description)
+                    old_content=context.get('current_code', ''),
+                    new_content=content
                 ))
 
         return file_changes
 
-    def _generate_test_stub(self, description: str) -> str:
-        """Generate a test file stub."""
-        return f'''"""Generated test for: {description}"""
+    async def _generate_test_with_llm(self, description: str, context: Dict) -> str:
+        """Generate test code using LLM."""
+        prompt = f"""Generate a comprehensive test for the following task:
 
-import pytest
+Task: {description}
 
+Context:
+- Repository structure: {context.get('repository_structure', 'Unknown')}
+- Related files: {context.get('related_files', [])}
 
-def test_generated():
-    """Test generated from task: {description}"""
-    # TODO: Implement test logic
-    assert True
-'''
+Requirements:
+- Use pytest framework
+- Include proper assertions
+- Handle edge cases
+- Add docstrings
+- Make tests self-contained
 
-    def _generate_code_stub(self, description: str) -> str:
-        """Generate a code stub."""
-        return f'''# Generated code for: {description}
-# TODO: Implement logic based on requirements
-'''
+Respond with ONLY the Python test code, no explanation or markdown."""
+
+        response = await self.llm.ainvoke([
+            SystemMessage(content="You are an expert test engineer. Respond with ONLY executable Python test code."),
+            HumanMessage(content=prompt),
+        ])
+
+        code = str(response.content)
+        return self._clean_code_response(code)
+
+    async def _generate_code_with_llm(self, description: str, context: Dict) -> str:
+        """Generate code using LLM."""
+        current_code = context.get('current_code', '')
+        prompt = f"""Generate code to accomplish the following task:
+
+Task: {description}
+
+Current code (if applicable):
+{current_code if current_code else '[No existing code - create new implementation]'}
+
+Context:
+- File path: {context.get('file_path', 'Unknown')}
+- Related files: {context.get('related_files', [])}
+- Repository structure: {context.get('repository_structure', 'Unknown')}
+
+Requirements:
+- Write clean, maintainable code
+- Follow existing code style
+- Add docstrings
+- Handle errors appropriately
+- Maintain backward compatibility when modifying existing code
+
+Respond with ONLY the code, no explanation or markdown."""
+
+        response = await self.llm.ainvoke([
+            SystemMessage(content="You are an expert software engineer. Respond with ONLY executable code."),
+            HumanMessage(content=prompt),
+        ])
+
+        code = str(response.content)
+        return self._clean_code_response(code)
+
+    def _clean_code_response(self, code: str) -> str:
+        """Clean LLM response to extract pure code."""
+        # Strip markdown code blocks if present
+        if code.startswith("```python"):
+            code = code[len("```python"):].strip()
+        if code.startswith("```"):
+            code = code[3:].strip()
+        if code.endswith("```"):
+            code = code[:-3].strip()
+        return code
 
     def _calculate_confidence(self, plan: ExecutionPlan, patch: GeneratedPatch) -> float:
         """Calculate confidence score for the generated patch."""
@@ -129,7 +195,7 @@ def test_generated():
         # Cap at 1.0
         return min(confidence, 1.0)
 
-    def generate_bug_fix_patch(self, error_message: str, file_path: str, context: Dict) -> GeneratedPatch:
+    async def generate_bug_fix_patch(self, error_message: str, file_path: str, context: Dict) -> GeneratedPatch:
         """Generate a patch for bug fixing."""
         patch = GeneratedPatch()
         patch.metadata = {
@@ -138,9 +204,9 @@ def test_generated():
             'file_path': file_path
         }
 
-        # Generate fix based on error
-        fix_code = self._generate_fix_for_error(error_message, context)
-        
+        # Generate fix based on error using LLM
+        fix_code = await self._generate_fix_for_error(error_message, context)
+
         patch.file_changes.append(FileChange(
             file_path=file_path,
             operation='patch',
@@ -151,7 +217,7 @@ def test_generated():
         patch.confidence = 0.7
         return patch
 
-    def generate_feature_patch(self, feature_description: str, file_path: str, context: Dict) -> GeneratedPatch:
+    async def generate_feature_patch(self, feature_description: str, file_path: str, context: Dict) -> GeneratedPatch:
         """Generate a patch for feature development."""
         patch = GeneratedPatch()
         patch.metadata = {
@@ -160,9 +226,9 @@ def test_generated():
             'file_path': file_path
         }
 
-        # Generate feature implementation
-        feature_code = self._generate_feature_code(feature_description, context)
-        
+        # Generate feature implementation using LLM
+        feature_code = await self._generate_feature_code(feature_description, context)
+
         patch.file_changes.append(FileChange(
             file_path=file_path,
             operation='patch',
@@ -173,7 +239,7 @@ def test_generated():
         patch.confidence = 0.6
         return patch
 
-    def generate_refactor_patch(self, refactor_description: str, file_path: str, context: Dict) -> GeneratedPatch:
+    async def generate_refactor_patch(self, refactor_description: str, file_path: str, context: Dict) -> GeneratedPatch:
         """Generate a patch for refactoring."""
         patch = GeneratedPatch()
         patch.metadata = {
@@ -182,9 +248,9 @@ def test_generated():
             'file_path': file_path
         }
 
-        # Generate refactored code
-        refactored_code = self._generate_refactored_code(refactor_description, context)
-        
+        # Generate refactored code using LLM
+        refactored_code = await self._generate_refactored_code(refactor_description, context)
+
         patch.file_changes.append(FileChange(
             file_path=file_path,
             operation='patch',
@@ -195,51 +261,95 @@ def test_generated():
         patch.confidence = 0.65
         return patch
 
-    def _generate_fix_for_error(self, error_message: str, context: Dict) -> str:
-        """Generate fix code based on error message."""
-        # Placeholder for actual error analysis and fix generation
-        # In production, this would use pattern matching and code analysis
+    async def _generate_fix_for_error(self, error_message: str, context: Dict) -> str:
+        """Generate fix code based on error message using LLM."""
         current_code = context.get('current_code', '')
-        
-        # Simple heuristic: if it's a NameError, add the missing variable
-        if 'NameError' in error_message:
-            missing_name = error_message.split("'")[1]
-            return f"{missing_name} = None\n{current_code}"
-        
-        # If it's an IndexError, add bounds checking
-        if 'IndexError' in error_message:
-            return f"""# Added bounds check
-if len(data) > 0:
-    {current_code}
-else:
-    raise ValueError("Index out of bounds")
-"""
-        
-        # Default: return original code with comment
-        return f"# Fix for: {error_message}\n{current_code}"
+        prompt = f"""Fix the following error in the code:
 
-    def _generate_feature_code(self, feature_description: str, context: Dict) -> str:
-        """Generate feature implementation code."""
+Error: {error_message}
+
+Current code:
+{current_code if current_code else '[No code provided]'}
+
+Context:
+- File path: {context.get('file_path', 'Unknown')}
+- Related files: {context.get('related_files', [])}
+
+Requirements:
+- Fix the error without breaking existing functionality
+- Add appropriate error handling
+- Maintain code style
+- Add comments explaining the fix
+
+Respond with ONLY the fixed code, no explanation or markdown."""
+
+        response = await self.llm.ainvoke([
+            SystemMessage(content="You are an expert debugger. Respond with ONLY the fixed code."),
+            HumanMessage(content=prompt),
+        ])
+
+        code = str(response.content)
+        return self._clean_code_response(code)
+
+    async def _generate_feature_code(self, feature_description: str, context: Dict) -> str:
+        """Generate feature implementation code using LLM."""
         current_code = context.get('current_code', '')
-        
-        # Placeholder for actual feature generation
-        return f"""# Feature: {feature_description}
+        prompt = f"""Implement the following feature:
+
+Feature: {feature_description}
+
+Current code (if applicable):
+{current_code if current_code else '[No existing code - create new implementation]'}
+
+Context:
+- File path: {context.get('file_path', 'Unknown')}
+- Related files: {context.get('related_files', [])}
+- Repository structure: {context.get('repository_structure', 'Unknown')}
+
+Requirements:
+- Write clean, maintainable code
+- Follow existing patterns in the codebase
+- Add comprehensive docstrings
+- Handle edge cases
+- Maintain backward compatibility
+
+Respond with ONLY the implementation code, no explanation or markdown."""
+
+        response = await self.llm.ainvoke([
+            SystemMessage(content="You are an expert software architect. Respond with ONLY implementation code."),
+            HumanMessage(content=prompt),
+        ])
+
+        code = str(response.content)
+        return self._clean_code_response(code)
+
+    async def _generate_refactored_code(self, refactor_description: str, context: Dict) -> str:
+        """Generate refactored code using LLM."""
+        current_code = context.get('current_code', '')
+        prompt = f"""Refactor the following code:
+
+Refactoring goal: {refactor_description}
+
+Current code:
 {current_code}
 
-# New feature implementation
-def new_feature():
-    '''Implement: {feature_description}'''
-    # TODO: Implement feature logic
-    pass
-"""
+Context:
+- File path: {context.get('file_path', 'Unknown')}
+- Related files: {context.get('related_files', [])}
 
-    def _generate_refactored_code(self, refactor_description: str, context: Dict) -> str:
-        """Generate refactored code."""
-        current_code = context.get('current_code', '')
-        
-        # Placeholder for actual refactoring
-        return f"""# Refactored: {refactor_description}
-# Improved code structure and readability
+Requirements:
+- Improve code structure and readability
+- Reduce complexity
+- Maintain exact same functionality
+- Follow best practices
+- Add comments explaining improvements
 
-{current_code}
-"""
+Respond with ONLY the refactored code, no explanation or markdown."""
+
+        response = await self.llm.ainvoke([
+            SystemMessage(content="You are an expert code refactoring specialist. Respond with ONLY refactored code."),
+            HumanMessage(content=prompt),
+        ])
+
+        code = str(response.content)
+        return self._clean_code_response(code)
