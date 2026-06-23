@@ -1,0 +1,3402 @@
+[
+  {
+    "task_id": "small_repo_campaign_bug_fixing_0",
+    "success": true,
+    "test_pass_rate": 0.9846596040386418,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.0013580322265625e-05,
+    "cost_usd": 0.12075805131059007,
+    "memory_usage_mb": 57.3176492387559,
+    "planning_quality": 0.7716659797621593,
+    "decision_quality": 0.9458137900810025,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_1",
+    "success": true,
+    "test_pass_rate": 0.8577775462821765,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 4.76837158203125e-06,
+    "cost_usd": 0.118447694647284,
+    "memory_usage_mb": 121.15324244617548,
+    "planning_quality": 0.7332016017777937,
+    "decision_quality": 0.8385042827159074,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_2",
+    "success": false,
+    "test_pass_rate": 0.43959436487331466,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.015208774913975154,
+    "memory_usage_mb": 60.00255504337741,
+    "planning_quality": 0.3797308801342305,
+    "decision_quality": 0.4870219936929745,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_3",
+    "success": true,
+    "test_pass_rate": 0.866919450027186,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.13272091105289058,
+    "memory_usage_mb": 93.54043663823609,
+    "planning_quality": 0.7300106926752767,
+    "decision_quality": 0.8032958281831978,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_4",
+    "success": true,
+    "test_pass_rate": 0.8622142532865024,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.06442978897857646,
+    "memory_usage_mb": 121.07093513075188,
+    "planning_quality": 0.7668692269211783,
+    "decision_quality": 0.8087092068409487,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_5",
+    "success": true,
+    "test_pass_rate": 0.9104146165914875,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.10588347110321826,
+    "memory_usage_mb": 192.0409882899023,
+    "planning_quality": 0.7809721977368748,
+    "decision_quality": 0.9020714644864422,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_6",
+    "success": true,
+    "test_pass_rate": 0.9686268505013045,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.06937881877782659,
+    "memory_usage_mb": 191.69035636932784,
+    "planning_quality": 0.8150411563656762,
+    "decision_quality": 0.7523437755043973,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_7",
+    "success": true,
+    "test_pass_rate": 0.9106325723150106,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.10097377849136216,
+    "memory_usage_mb": 171.5046528601968,
+    "planning_quality": 0.8479554346862785,
+    "decision_quality": 0.7364828219545573,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_8",
+    "success": true,
+    "test_pass_rate": 0.9896567161781666,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.15907454409817312,
+    "memory_usage_mb": 173.94351337937758,
+    "planning_quality": 0.9181482843092407,
+    "decision_quality": 0.7487615080535819,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_9",
+    "success": true,
+    "test_pass_rate": 0.8850235784821796,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.05325646117242385,
+    "memory_usage_mb": 93.77124372957442,
+    "planning_quality": 0.7674229847216574,
+    "decision_quality": 0.8401776358388543,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_0",
+    "success": false,
+    "test_pass_rate": 0.07931266091390216,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.03816023328464716,
+    "memory_usage_mb": 66.64534559934971,
+    "planning_quality": 0.5914307422545966,
+    "decision_quality": 0.35640479657916024,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_1",
+    "success": true,
+    "test_pass_rate": 0.9864717919310837,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.12151193776317161,
+    "memory_usage_mb": 169.05307976013535,
+    "planning_quality": 0.8179223459309005,
+    "decision_quality": 0.7474376533796161,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_2",
+    "success": false,
+    "test_pass_rate": 0.19005752826206734,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.09467739235822256,
+    "memory_usage_mb": 39.30820034334725,
+    "planning_quality": 0.4152392295845523,
+    "decision_quality": 0.5190526471633434,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_3",
+    "success": true,
+    "test_pass_rate": 0.8567748535019143,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1312387419002053,
+    "memory_usage_mb": 155.44097836279064,
+    "planning_quality": 0.7432966518192347,
+    "decision_quality": 0.7375399342122644,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_4",
+    "success": false,
+    "test_pass_rate": 0.3229575621496459,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.0507253892248989,
+    "memory_usage_mb": 88.82291839703939,
+    "planning_quality": 0.3871360882337683,
+    "decision_quality": 0.40521075592375205,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_5",
+    "success": false,
+    "test_pass_rate": 0.22589174623933556,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.09502549279523226,
+    "memory_usage_mb": 59.21271943011106,
+    "planning_quality": 0.32039382934869093,
+    "decision_quality": 0.49854024655462326,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_6",
+    "success": true,
+    "test_pass_rate": 0.9033268050276808,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.150167816079231,
+    "memory_usage_mb": 194.08038631382573,
+    "planning_quality": 0.8011774796424702,
+    "decision_quality": 0.8395492567469363,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_7",
+    "success": true,
+    "test_pass_rate": 0.998784222407108,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.08369916437680353,
+    "memory_usage_mb": 175.42432986774855,
+    "planning_quality": 0.728105493396202,
+    "decision_quality": 0.7159981912006244,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_8",
+    "success": true,
+    "test_pass_rate": 0.9130918473493758,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.14630876516311647,
+    "memory_usage_mb": 115.24174980036526,
+    "planning_quality": 0.7483455049982874,
+    "decision_quality": 0.9327299132222384,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_9",
+    "success": false,
+    "test_pass_rate": 0.47276726699496535,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.055474153439556924,
+    "memory_usage_mb": 80.43007763785901,
+    "planning_quality": 0.3842100628145562,
+    "decision_quality": 0.4245391716607778,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_0",
+    "success": true,
+    "test_pass_rate": 0.9814870591338678,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.09811367081645786,
+    "memory_usage_mb": 131.26942198083833,
+    "planning_quality": 0.9216953126179851,
+    "decision_quality": 0.7799546079592136,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_1",
+    "success": true,
+    "test_pass_rate": 0.9581719616084377,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1310651883756052,
+    "memory_usage_mb": 89.89659267711829,
+    "planning_quality": 0.8209300815428237,
+    "decision_quality": 0.8045117036659462,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_2",
+    "success": true,
+    "test_pass_rate": 0.8518942614611933,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07897372180422783,
+    "memory_usage_mb": 60.481768446737625,
+    "planning_quality": 0.8826823831338507,
+    "decision_quality": 0.825494181904117,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_3",
+    "success": true,
+    "test_pass_rate": 0.9545812523023274,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05428634606337859,
+    "memory_usage_mb": 124.73549614088722,
+    "planning_quality": 0.7327091156573403,
+    "decision_quality": 0.9370721444679128,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_4",
+    "success": true,
+    "test_pass_rate": 0.9771510995536352,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.17030793775356168,
+    "memory_usage_mb": 138.61475241888814,
+    "planning_quality": 0.727885230413605,
+    "decision_quality": 0.8357223661473954,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_5",
+    "success": true,
+    "test_pass_rate": 0.8985142055285802,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.0738142965410453,
+    "memory_usage_mb": 165.84880534821363,
+    "planning_quality": 0.7952205517227635,
+    "decision_quality": 0.9413824978350651,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_6",
+    "success": true,
+    "test_pass_rate": 0.9287540979298352,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.10352723948846115,
+    "memory_usage_mb": 138.2469667229072,
+    "planning_quality": 0.8973580617109722,
+    "decision_quality": 0.9229010774235372,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_7",
+    "success": true,
+    "test_pass_rate": 0.8633947004708534,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.10821103398381127,
+    "memory_usage_mb": 60.88673412551765,
+    "planning_quality": 0.9395600620716712,
+    "decision_quality": 0.9180206951208008,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_8",
+    "success": true,
+    "test_pass_rate": 0.9852160282469304,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.18127665642742502,
+    "memory_usage_mb": 164.16637705610003,
+    "planning_quality": 0.8066654105610254,
+    "decision_quality": 0.7727407996629401,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_9",
+    "success": true,
+    "test_pass_rate": 0.9771223247946161,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.12071669778579852,
+    "memory_usage_mb": 174.07114999960586,
+    "planning_quality": 0.820901286409244,
+    "decision_quality": 0.9126346481514676,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_0",
+    "success": true,
+    "test_pass_rate": 0.9858285427145226,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1504765168543255,
+    "memory_usage_mb": 114.92520412787967,
+    "planning_quality": 0.7407070655462632,
+    "decision_quality": 0.8015112410255876,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_1",
+    "success": true,
+    "test_pass_rate": 0.9433100157978054,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.13595262867985136,
+    "memory_usage_mb": 191.688544088173,
+    "planning_quality": 0.9289298166328783,
+    "decision_quality": 0.7296459765807821,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_2",
+    "success": true,
+    "test_pass_rate": 0.866913987108422,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.05015727765123204,
+    "memory_usage_mb": 56.08343932733809,
+    "planning_quality": 0.8579758748684516,
+    "decision_quality": 0.8897003288906162,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_3",
+    "success": true,
+    "test_pass_rate": 0.9330082417684613,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.09002141385974718,
+    "memory_usage_mb": 160.40226886323128,
+    "planning_quality": 0.7595926262202658,
+    "decision_quality": 0.7835941182504531,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_4",
+    "success": false,
+    "test_pass_rate": 0.10635908539733097,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07525677394372278,
+    "memory_usage_mb": 36.83186533295187,
+    "planning_quality": 0.44412903908689183,
+    "decision_quality": 0.3822989910776969,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_5",
+    "success": true,
+    "test_pass_rate": 0.9098301142634393,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.19485833641725114,
+    "memory_usage_mb": 178.66640877589697,
+    "planning_quality": 0.7682365997467105,
+    "decision_quality": 0.7166429979888651,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_6",
+    "success": true,
+    "test_pass_rate": 0.8755620632814998,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.12524666462970235,
+    "memory_usage_mb": 165.9166869797395,
+    "planning_quality": 0.8668144062139146,
+    "decision_quality": 0.850137712238199,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_7",
+    "success": false,
+    "test_pass_rate": 0.46975448505494577,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.04014841243039757,
+    "memory_usage_mb": 57.4427859772136,
+    "planning_quality": 0.5076555532918712,
+    "decision_quality": 0.4795411988287436,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_8",
+    "success": false,
+    "test_pass_rate": 0.48002674733399686,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.014694019729690807,
+    "memory_usage_mb": 38.17208042211302,
+    "planning_quality": 0.518801634754759,
+    "decision_quality": 0.46794585420625234,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_9",
+    "success": true,
+    "test_pass_rate": 0.9156318011749894,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05572101953040181,
+    "memory_usage_mb": 51.854978807722176,
+    "planning_quality": 0.898366119740645,
+    "decision_quality": 0.9064951262626685,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_40",
+    "success": false,
+    "test_pass_rate": 0.15511371319728223,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.03563874882045788,
+    "memory_usage_mb": 96.82419721026004,
+    "planning_quality": 0.3480239156224009,
+    "decision_quality": 0.34974344917669,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_41",
+    "success": true,
+    "test_pass_rate": 0.9652196387745828,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07907665407783745,
+    "memory_usage_mb": 97.33730378511157,
+    "planning_quality": 0.9307854684990375,
+    "decision_quality": 0.7101716060122818,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_42",
+    "success": false,
+    "test_pass_rate": 0.30420200568517647,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.07404880885985102,
+    "memory_usage_mb": 64.91909213724654,
+    "planning_quality": 0.44055865939917893,
+    "decision_quality": 0.510877063056809,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_43",
+    "success": false,
+    "test_pass_rate": 0.027992242735866424,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.08953154511688909,
+    "memory_usage_mb": 95.42807933388954,
+    "planning_quality": 0.547340617445244,
+    "decision_quality": 0.45971796092503237,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_44",
+    "success": false,
+    "test_pass_rate": 0.09782383603505301,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.06787072207352102,
+    "memory_usage_mb": 49.53680177887251,
+    "planning_quality": 0.5889561336565272,
+    "decision_quality": 0.3828588555728242,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_45",
+    "success": false,
+    "test_pass_rate": 0.29970665702230587,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07651140502201403,
+    "memory_usage_mb": 67.7632447625227,
+    "planning_quality": 0.3210736451704547,
+    "decision_quality": 0.5641143981432517,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_46",
+    "success": true,
+    "test_pass_rate": 0.9118963363966606,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.11361534758610972,
+    "memory_usage_mb": 85.48830381450279,
+    "planning_quality": 0.8668195034025248,
+    "decision_quality": 0.7872516913209485,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_47",
+    "success": false,
+    "test_pass_rate": 0.43295580826823543,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.03397590643010374,
+    "memory_usage_mb": 73.78511954503783,
+    "planning_quality": 0.5337066798069767,
+    "decision_quality": 0.47631823706031495,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_48",
+    "success": true,
+    "test_pass_rate": 0.9813361562963971,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1611989053938956,
+    "memory_usage_mb": 126.72410186476907,
+    "planning_quality": 0.7749774035233365,
+    "decision_quality": 0.8975547324545428,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_49",
+    "success": true,
+    "test_pass_rate": 0.907378466526258,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.09862258361778478,
+    "memory_usage_mb": 116.33159193268432,
+    "planning_quality": 0.8466294556333721,
+    "decision_quality": 0.7686604219570942,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_50",
+    "success": true,
+    "test_pass_rate": 0.970633580235625,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.1442507259327171,
+    "memory_usage_mb": 180.02999016655411,
+    "planning_quality": 0.7635106240051437,
+    "decision_quality": 0.7558916696944906,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_51",
+    "success": true,
+    "test_pass_rate": 0.8803126691108115,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.10959388228260658,
+    "memory_usage_mb": 126.50055768541102,
+    "planning_quality": 0.8283471092455126,
+    "decision_quality": 0.8301049637355269,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_52",
+    "success": true,
+    "test_pass_rate": 0.9660394264877463,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.18625724348573897,
+    "memory_usage_mb": 131.96402637189732,
+    "planning_quality": 0.844712510853119,
+    "decision_quality": 0.808510857789255,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_53",
+    "success": true,
+    "test_pass_rate": 0.9323606792560175,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.15970721932502338,
+    "memory_usage_mb": 181.06574355832083,
+    "planning_quality": 0.7524323047474818,
+    "decision_quality": 0.7326230305438837,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_54",
+    "success": true,
+    "test_pass_rate": 0.8899141518533753,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.19480997202947137,
+    "memory_usage_mb": 74.99763338987054,
+    "planning_quality": 0.917268353491535,
+    "decision_quality": 0.7955832239978191,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_55",
+    "success": true,
+    "test_pass_rate": 0.9861218127389809,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.19763483385936353,
+    "memory_usage_mb": 54.590606557383566,
+    "planning_quality": 0.9309765951477463,
+    "decision_quality": 0.7145947951688874,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_56",
+    "success": true,
+    "test_pass_rate": 0.9791918806234976,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05102839040678589,
+    "memory_usage_mb": 187.32273396322825,
+    "planning_quality": 0.794492614449576,
+    "decision_quality": 0.8319059589301641,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_57",
+    "success": true,
+    "test_pass_rate": 0.8897519706132555,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1195819113131316,
+    "memory_usage_mb": 93.81639451143027,
+    "planning_quality": 0.7509726577191123,
+    "decision_quality": 0.8607203528825615,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_58",
+    "success": true,
+    "test_pass_rate": 0.9829176630012164,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05316741900510691,
+    "memory_usage_mb": 75.22812521280277,
+    "planning_quality": 0.8879792324358027,
+    "decision_quality": 0.8911664545586973,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_59",
+    "success": true,
+    "test_pass_rate": 0.9074190781113143,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.07175532296078801,
+    "memory_usage_mb": 70.66963754039944,
+    "planning_quality": 0.8525669882252246,
+    "decision_quality": 0.8767689020463341,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_60",
+    "success": true,
+    "test_pass_rate": 0.9529210877223806,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.17671036800232798,
+    "memory_usage_mb": 180.98415143057832,
+    "planning_quality": 0.866935579374868,
+    "decision_quality": 0.824392062709677,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_61",
+    "success": true,
+    "test_pass_rate": 0.9261681413818539,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1505544160131821,
+    "memory_usage_mb": 103.29539515635918,
+    "planning_quality": 0.8546768703708526,
+    "decision_quality": 0.8202738758573865,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_62",
+    "success": true,
+    "test_pass_rate": 0.9661563164987488,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.16934715786216664,
+    "memory_usage_mb": 124.44585533058998,
+    "planning_quality": 0.812986861397615,
+    "decision_quality": 0.9333538350723531,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_63",
+    "success": true,
+    "test_pass_rate": 0.8997700043083184,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.14125264584546335,
+    "memory_usage_mb": 73.3067400839052,
+    "planning_quality": 0.9013903691220431,
+    "decision_quality": 0.8820643370186134,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_64",
+    "success": true,
+    "test_pass_rate": 0.9067321236299377,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.17691143696662737,
+    "memory_usage_mb": 89.23430016692438,
+    "planning_quality": 0.8514615257759639,
+    "decision_quality": 0.888382456261867,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_65",
+    "success": true,
+    "test_pass_rate": 0.9484735424975426,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.06689277429242799,
+    "memory_usage_mb": 113.4972076483405,
+    "planning_quality": 0.7207814605926401,
+    "decision_quality": 0.8127575812441965,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_66",
+    "success": false,
+    "test_pass_rate": 0.3269797943735091,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.0350290735385724,
+    "memory_usage_mb": 52.63029166553311,
+    "planning_quality": 0.5760826470197216,
+    "decision_quality": 0.3550949605130205,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_67",
+    "success": true,
+    "test_pass_rate": 0.9036298415809952,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.16292367976941075,
+    "memory_usage_mb": 59.929295122361246,
+    "planning_quality": 0.7441849431465752,
+    "decision_quality": 0.8064648365749223,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_68",
+    "success": true,
+    "test_pass_rate": 0.8545010716811583,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.08141415749226452,
+    "memory_usage_mb": 51.71177241171919,
+    "planning_quality": 0.7162414054731646,
+    "decision_quality": 0.7984503087733462,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_69",
+    "success": true,
+    "test_pass_rate": 0.9677445149591036,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.08204624355210535,
+    "memory_usage_mb": 64.56391790156441,
+    "planning_quality": 0.8534838985732884,
+    "decision_quality": 0.8936632290535609,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_70",
+    "success": true,
+    "test_pass_rate": 0.9005565464051054,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.11660841778238347,
+    "memory_usage_mb": 61.476020137045275,
+    "planning_quality": 0.7624502785455036,
+    "decision_quality": 0.8131800889844294,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_71",
+    "success": true,
+    "test_pass_rate": 0.9738302889039349,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.17007577781834615,
+    "memory_usage_mb": 136.69314847585866,
+    "planning_quality": 0.8446711152474615,
+    "decision_quality": 0.8561173410266291,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_72",
+    "success": true,
+    "test_pass_rate": 0.9200349043626125,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.06187370550704978,
+    "memory_usage_mb": 124.37267441934102,
+    "planning_quality": 0.7741807135379145,
+    "decision_quality": 0.7654394147037435,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_73",
+    "success": true,
+    "test_pass_rate": 0.9509697318412936,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.07845728134129634,
+    "memory_usage_mb": 76.20176189147696,
+    "planning_quality": 0.7656952879351232,
+    "decision_quality": 0.8587620585391254,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_74",
+    "success": true,
+    "test_pass_rate": 0.9988270624194073,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1261513889701742,
+    "memory_usage_mb": 140.51432005884686,
+    "planning_quality": 0.9238258561986975,
+    "decision_quality": 0.9372839437032542,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_75",
+    "success": true,
+    "test_pass_rate": 0.9196578251121446,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.14054465579887487,
+    "memory_usage_mb": 137.39574025735487,
+    "planning_quality": 0.7153377003777783,
+    "decision_quality": 0.834452360254446,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_76",
+    "success": true,
+    "test_pass_rate": 0.8662905872918999,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.18621201810449578,
+    "memory_usage_mb": 186.95899264496697,
+    "planning_quality": 0.7913555684447342,
+    "decision_quality": 0.7561241068292546,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_77",
+    "success": true,
+    "test_pass_rate": 0.9704437070708043,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1895930222660851,
+    "memory_usage_mb": 193.74610619929993,
+    "planning_quality": 0.8470786472834274,
+    "decision_quality": 0.7273579501528693,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_78",
+    "success": true,
+    "test_pass_rate": 0.9968954342691059,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.16331925741728348,
+    "memory_usage_mb": 71.77061643506207,
+    "planning_quality": 0.9099898892159362,
+    "decision_quality": 0.7344247210166329,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_79",
+    "success": true,
+    "test_pass_rate": 0.8515841569569867,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.1756463556553896,
+    "memory_usage_mb": 136.834222206655,
+    "planning_quality": 0.9174891964529843,
+    "decision_quality": 0.7544854564311954,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_80",
+    "success": true,
+    "test_pass_rate": 0.8662239036547262,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.17236951153480842,
+    "memory_usage_mb": 70.64728018809453,
+    "planning_quality": 0.8089256835506343,
+    "decision_quality": 0.7952278437080238,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_81",
+    "success": true,
+    "test_pass_rate": 0.899058881025274,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.06895332790731501,
+    "memory_usage_mb": 178.39568421629804,
+    "planning_quality": 0.8792171869755085,
+    "decision_quality": 0.7444307834162363,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_82",
+    "success": true,
+    "test_pass_rate": 0.8801756432867046,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.19499034010478794,
+    "memory_usage_mb": 171.5675398701836,
+    "planning_quality": 0.8867849233477808,
+    "decision_quality": 0.8404825314512644,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_83",
+    "success": true,
+    "test_pass_rate": 0.9564466361499533,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.060544979787868505,
+    "memory_usage_mb": 126.80965953225741,
+    "planning_quality": 0.7375510357062378,
+    "decision_quality": 0.7376634922503067,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_84",
+    "success": true,
+    "test_pass_rate": 0.908576931323309,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.13656003022138347,
+    "memory_usage_mb": 85.77855161942168,
+    "planning_quality": 0.8259468090132772,
+    "decision_quality": 0.7211506690969605,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_85",
+    "success": true,
+    "test_pass_rate": 0.9266086593226974,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.10110882889569238,
+    "memory_usage_mb": 111.21321736887424,
+    "planning_quality": 0.8668448300077556,
+    "decision_quality": 0.8023655072038653,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_86",
+    "success": true,
+    "test_pass_rate": 0.8965004056848696,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.17748958541419957,
+    "memory_usage_mb": 180.57440392887918,
+    "planning_quality": 0.7774196608865863,
+    "decision_quality": 0.8800585550461631,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_87",
+    "success": true,
+    "test_pass_rate": 0.9177322313135509,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.15957932306232386,
+    "memory_usage_mb": 186.59031133341972,
+    "planning_quality": 0.8492822382850668,
+    "decision_quality": 0.7785801752190024,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_88",
+    "success": true,
+    "test_pass_rate": 0.8667596782979056,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.09655543551169266,
+    "memory_usage_mb": 164.71063047054744,
+    "planning_quality": 0.7697705231206546,
+    "decision_quality": 0.7255151279959503,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_89",
+    "success": false,
+    "test_pass_rate": 0.19595239314306728,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.86102294921875e-06,
+    "cost_usd": 0.04386722828141864,
+    "memory_usage_mb": 59.16183386842978,
+    "planning_quality": 0.5109138542695617,
+    "decision_quality": 0.48312182429149714,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_90",
+    "success": true,
+    "test_pass_rate": 0.9863857470866773,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.10013847002346254,
+    "memory_usage_mb": 53.374759466846335,
+    "planning_quality": 0.8022687383548384,
+    "decision_quality": 0.7909138530190345,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_91",
+    "success": true,
+    "test_pass_rate": 0.9841804140237782,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.18121434557534555,
+    "memory_usage_mb": 183.90265726324495,
+    "planning_quality": 0.9370727685641623,
+    "decision_quality": 0.851062445023665,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_92",
+    "success": true,
+    "test_pass_rate": 0.9566488842500493,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.06600070248706935,
+    "memory_usage_mb": 188.73301075733852,
+    "planning_quality": 0.8142223321257032,
+    "decision_quality": 0.8312486284065982,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_93",
+    "success": true,
+    "test_pass_rate": 0.9712584636575299,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.0937247541902118,
+    "memory_usage_mb": 99.66839815494822,
+    "planning_quality": 0.8392330314276413,
+    "decision_quality": 0.7818514050447943,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_94",
+    "success": true,
+    "test_pass_rate": 0.9946846854808953,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.12475535394052029,
+    "memory_usage_mb": 92.33385795932116,
+    "planning_quality": 0.7744138413749208,
+    "decision_quality": 0.7810041877889949,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_95",
+    "success": false,
+    "test_pass_rate": 0.30375512443720587,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.06583158815166537,
+    "memory_usage_mb": 61.178931267136825,
+    "planning_quality": 0.5925705849643171,
+    "decision_quality": 0.49986204931573086,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_96",
+    "success": true,
+    "test_pass_rate": 0.9335926402999476,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.12979202534068546,
+    "memory_usage_mb": 153.8970493671973,
+    "planning_quality": 0.807362712795452,
+    "decision_quality": 0.8069926117205793,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_97",
+    "success": false,
+    "test_pass_rate": 0.2668533800878292,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.06282431588951554,
+    "memory_usage_mb": 90.87811366213276,
+    "planning_quality": 0.3422116418876413,
+    "decision_quality": 0.31497440902428403,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_98",
+    "success": false,
+    "test_pass_rate": 0.048928797599920915,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.07349701842773668,
+    "memory_usage_mb": 34.99308319563181,
+    "planning_quality": 0.44133807767778577,
+    "decision_quality": 0.5188582583443467,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_99",
+    "success": true,
+    "test_pass_rate": 0.9929682038047543,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.10306298190632689,
+    "memory_usage_mb": 189.08931620003705,
+    "planning_quality": 0.9211963816133757,
+    "decision_quality": 0.8730238543359659,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_100",
+    "success": true,
+    "test_pass_rate": 0.9891211899657727,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.09446664075059316,
+    "memory_usage_mb": 90.60718626984087,
+    "planning_quality": 0.7413568591772761,
+    "decision_quality": 0.7885745748086367,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_101",
+    "success": true,
+    "test_pass_rate": 0.9472448196255103,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.08768409983459734,
+    "memory_usage_mb": 104.51914572603553,
+    "planning_quality": 0.827297977895668,
+    "decision_quality": 0.8513526994165209,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_102",
+    "success": true,
+    "test_pass_rate": 0.8718259522454767,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.13177461390737458,
+    "memory_usage_mb": 197.22856536839234,
+    "planning_quality": 0.9479839213622699,
+    "decision_quality": 0.860706469506631,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_103",
+    "success": true,
+    "test_pass_rate": 0.890040794875492,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.07322573360009986,
+    "memory_usage_mb": 189.1719863056056,
+    "planning_quality": 0.8644038532340976,
+    "decision_quality": 0.8708307912025208,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_104",
+    "success": true,
+    "test_pass_rate": 0.8866527033295546,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.10019345772439768,
+    "memory_usage_mb": 174.93549820213588,
+    "planning_quality": 0.7694883801458824,
+    "decision_quality": 0.8159278195069275,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_105",
+    "success": true,
+    "test_pass_rate": 0.9280781488196389,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.10499610202738939,
+    "memory_usage_mb": 113.2883171577933,
+    "planning_quality": 0.7045294549400191,
+    "decision_quality": 0.7231912877166795,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_106",
+    "success": true,
+    "test_pass_rate": 0.9075386737537052,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.11604412087441064,
+    "memory_usage_mb": 141.9577422660462,
+    "planning_quality": 0.8057249027689934,
+    "decision_quality": 0.7062974685554189,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_107",
+    "success": true,
+    "test_pass_rate": 0.9599205381005693,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.16052297129283988,
+    "memory_usage_mb": 77.70161158308406,
+    "planning_quality": 0.7750269935347112,
+    "decision_quality": 0.9161663020880234,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_108",
+    "success": true,
+    "test_pass_rate": 0.9257780920114437,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.0702209864383548,
+    "memory_usage_mb": 102.18656412710425,
+    "planning_quality": 0.7449931711483566,
+    "decision_quality": 0.723149323551813,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_109",
+    "success": false,
+    "test_pass_rate": 0.20947176527818395,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.09202288056219765,
+    "memory_usage_mb": 48.307248330069505,
+    "planning_quality": 0.3519393523526662,
+    "decision_quality": 0.5206933185094816,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_110",
+    "success": false,
+    "test_pass_rate": 0.1170971818261694,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07406442253512367,
+    "memory_usage_mb": 57.08040586428521,
+    "planning_quality": 0.3778678286682202,
+    "decision_quality": 0.5870494813205536,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_111",
+    "success": false,
+    "test_pass_rate": 0.22075918385630944,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.02745489116216209,
+    "memory_usage_mb": 75.9484370469645,
+    "planning_quality": 0.4023475202600136,
+    "decision_quality": 0.46995205079011093,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_112",
+    "success": true,
+    "test_pass_rate": 0.902822678988485,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.09862927720201668,
+    "memory_usage_mb": 56.687384631926285,
+    "planning_quality": 0.8387812480037339,
+    "decision_quality": 0.7066361923726789,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_113",
+    "success": true,
+    "test_pass_rate": 0.8716555843983348,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.10710685437419612,
+    "memory_usage_mb": 192.4218097188199,
+    "planning_quality": 0.8672129352047715,
+    "decision_quality": 0.9159511378107499,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_114",
+    "success": true,
+    "test_pass_rate": 0.9865700848694734,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.17670030158447264,
+    "memory_usage_mb": 102.53955791889825,
+    "planning_quality": 0.8817548921728934,
+    "decision_quality": 0.9379610127475613,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_115",
+    "success": false,
+    "test_pass_rate": 0.49320092830133533,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.01011552233295848,
+    "memory_usage_mb": 86.78995025087879,
+    "planning_quality": 0.35583346337338234,
+    "decision_quality": 0.324178817132971,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_116",
+    "success": false,
+    "test_pass_rate": 0.3184870707196364,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.0710941503728154,
+    "memory_usage_mb": 59.50477434730243,
+    "planning_quality": 0.34679795291337934,
+    "decision_quality": 0.3617670183173427,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_117",
+    "success": true,
+    "test_pass_rate": 0.8886083463140185,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.13928311690216733,
+    "memory_usage_mb": 94.04886468066266,
+    "planning_quality": 0.8495496589288524,
+    "decision_quality": 0.7088012525184105,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_118",
+    "success": true,
+    "test_pass_rate": 0.9833022754724473,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.08449133293190521,
+    "memory_usage_mb": 146.62421396619538,
+    "planning_quality": 0.8923101691407962,
+    "decision_quality": 0.7174563484979135,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_119",
+    "success": false,
+    "test_pass_rate": 0.19001481564197215,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.020277661303412423,
+    "memory_usage_mb": 91.97557717609426,
+    "planning_quality": 0.4212058240119431,
+    "decision_quality": 0.3236079913949629,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_120",
+    "success": true,
+    "test_pass_rate": 0.945905028953084,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.86102294921875e-06,
+    "cost_usd": 0.0668548147036079,
+    "memory_usage_mb": 50.20111023499128,
+    "planning_quality": 0.7109690671924396,
+    "decision_quality": 0.7854969663154733,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_121",
+    "success": true,
+    "test_pass_rate": 0.8998517799006427,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.09462116150866015,
+    "memory_usage_mb": 69.97729110158096,
+    "planning_quality": 0.9327120905909391,
+    "decision_quality": 0.7910690756031988,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_122",
+    "success": true,
+    "test_pass_rate": 0.9321197021020001,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.15498177031294155,
+    "memory_usage_mb": 157.6226486955664,
+    "planning_quality": 0.8970109283607313,
+    "decision_quality": 0.7501661049970845,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_123",
+    "success": true,
+    "test_pass_rate": 0.9564734587124173,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.12982792841766683,
+    "memory_usage_mb": 163.91680875439454,
+    "planning_quality": 0.852012113351058,
+    "decision_quality": 0.9173861853827443,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_124",
+    "success": false,
+    "test_pass_rate": 0.38566914329445884,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.031067534668239243,
+    "memory_usage_mb": 72.50862623961218,
+    "planning_quality": 0.34497523756922494,
+    "decision_quality": 0.3089017927304494,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_125",
+    "success": true,
+    "test_pass_rate": 0.9018992531090562,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07895294602209885,
+    "memory_usage_mb": 85.5216218427226,
+    "planning_quality": 0.9475822970852747,
+    "decision_quality": 0.763982172906784,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_126",
+    "success": true,
+    "test_pass_rate": 0.9632878826189578,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.09643699605282238,
+    "memory_usage_mb": 180.99023996705873,
+    "planning_quality": 0.9076473791102984,
+    "decision_quality": 0.7649473652316549,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_127",
+    "success": true,
+    "test_pass_rate": 0.9368460216886995,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.14076113454253786,
+    "memory_usage_mb": 131.01322949551027,
+    "planning_quality": 0.8771171931554445,
+    "decision_quality": 0.8007964898739244,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_128",
+    "success": true,
+    "test_pass_rate": 0.9232184294218879,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.09275006134825953,
+    "memory_usage_mb": 159.71734340958096,
+    "planning_quality": 0.7043183128998913,
+    "decision_quality": 0.9353036537554237,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_129",
+    "success": true,
+    "test_pass_rate": 0.9641286227028392,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.12773558282024344,
+    "memory_usage_mb": 194.9609705320888,
+    "planning_quality": 0.9115222395579644,
+    "decision_quality": 0.7934216257177464,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_130",
+    "success": true,
+    "test_pass_rate": 0.8566629960837161,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.11949926156751269,
+    "memory_usage_mb": 85.30870039409118,
+    "planning_quality": 0.822424183099633,
+    "decision_quality": 0.8555740428439202,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_131",
+    "success": false,
+    "test_pass_rate": 0.296429640290944,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.04777703428543013,
+    "memory_usage_mb": 58.20646236819891,
+    "planning_quality": 0.5816093761790344,
+    "decision_quality": 0.39597894972642944,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_132",
+    "success": true,
+    "test_pass_rate": 0.9412556567216285,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1239395601597604,
+    "memory_usage_mb": 102.35877568838853,
+    "planning_quality": 0.8257521663755241,
+    "decision_quality": 0.8343998688004932,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_133",
+    "success": false,
+    "test_pass_rate": 0.15189620234737766,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.86102294921875e-06,
+    "cost_usd": 0.09519218580494751,
+    "memory_usage_mb": 89.58226603285888,
+    "planning_quality": 0.5411603498063136,
+    "decision_quality": 0.4119164883354578,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_134",
+    "success": true,
+    "test_pass_rate": 0.9460838604842386,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.1684190097640908,
+    "memory_usage_mb": 139.38202730526132,
+    "planning_quality": 0.8549871936750865,
+    "decision_quality": 0.941020198995028,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_135",
+    "success": true,
+    "test_pass_rate": 0.8830285509852546,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.09404604528575031,
+    "memory_usage_mb": 190.15171057018506,
+    "planning_quality": 0.8153672767328188,
+    "decision_quality": 0.9421167254427334,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_136",
+    "success": true,
+    "test_pass_rate": 0.983759508461481,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1791933163031464,
+    "memory_usage_mb": 151.42519001309483,
+    "planning_quality": 0.7744753806131355,
+    "decision_quality": 0.7024816525717934,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_137",
+    "success": true,
+    "test_pass_rate": 0.990908699033286,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.09752384538259001,
+    "memory_usage_mb": 149.89673538644413,
+    "planning_quality": 0.8964889917791274,
+    "decision_quality": 0.8227725107356669,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_138",
+    "success": true,
+    "test_pass_rate": 0.914267184650786,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.19516776086085164,
+    "memory_usage_mb": 144.65357512351818,
+    "planning_quality": 0.8823580483632423,
+    "decision_quality": 0.7134467693294434,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_139",
+    "success": true,
+    "test_pass_rate": 0.88415569722122,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.081882233113524,
+    "memory_usage_mb": 78.74260971991971,
+    "planning_quality": 0.7724763940031154,
+    "decision_quality": 0.825491604479264,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_140",
+    "success": true,
+    "test_pass_rate": 0.8833315014986395,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.11727652065495375,
+    "memory_usage_mb": 165.76224217080704,
+    "planning_quality": 0.7548470653307354,
+    "decision_quality": 0.7205325680046782,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_141",
+    "success": true,
+    "test_pass_rate": 0.865204020638787,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.07067346125536443,
+    "memory_usage_mb": 108.54129133547934,
+    "planning_quality": 0.7321575817832029,
+    "decision_quality": 0.848324814643894,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_142",
+    "success": true,
+    "test_pass_rate": 0.981779897512401,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05621938368920908,
+    "memory_usage_mb": 152.88139089305727,
+    "planning_quality": 0.879915212950777,
+    "decision_quality": 0.8989162850798733,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_143",
+    "success": true,
+    "test_pass_rate": 0.9716556282485641,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.09729535130451852,
+    "memory_usage_mb": 171.60954634184185,
+    "planning_quality": 0.8194501024314482,
+    "decision_quality": 0.8852016873569054,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_144",
+    "success": true,
+    "test_pass_rate": 0.8831702892147946,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1595830786274145,
+    "memory_usage_mb": 199.663791082072,
+    "planning_quality": 0.7939758968546654,
+    "decision_quality": 0.7065375514167958,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_145",
+    "success": true,
+    "test_pass_rate": 0.9956497975267617,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.05604877144463516,
+    "memory_usage_mb": 50.100586913684495,
+    "planning_quality": 0.7354516114714474,
+    "decision_quality": 0.8711537016683668,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_146",
+    "success": true,
+    "test_pass_rate": 0.9499639672150948,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05899321860963949,
+    "memory_usage_mb": 55.02825562976404,
+    "planning_quality": 0.8309014432459703,
+    "decision_quality": 0.821987834951104,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_147",
+    "success": true,
+    "test_pass_rate": 0.9949153962588023,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.09189208701840615,
+    "memory_usage_mb": 147.00358421327616,
+    "planning_quality": 0.7004813610815416,
+    "decision_quality": 0.8526246938094413,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_148",
+    "success": true,
+    "test_pass_rate": 0.9331236520770679,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.11119742292752058,
+    "memory_usage_mb": 158.2302333063925,
+    "planning_quality": 0.7198757540484703,
+    "decision_quality": 0.7674227288870635,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_149",
+    "success": true,
+    "test_pass_rate": 0.9791280240674793,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.18812514555952947,
+    "memory_usage_mb": 142.7096083442123,
+    "planning_quality": 0.908899209423573,
+    "decision_quality": 0.8913290609013101,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_150",
+    "success": true,
+    "test_pass_rate": 0.908273203290779,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.1720520178196018,
+    "memory_usage_mb": 76.26612761860888,
+    "planning_quality": 0.7040132425731582,
+    "decision_quality": 0.7383175278894323,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_151",
+    "success": true,
+    "test_pass_rate": 0.8566622916558926,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07295942353040935,
+    "memory_usage_mb": 171.73152388173293,
+    "planning_quality": 0.9257750598389591,
+    "decision_quality": 0.8339180098198438,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_152",
+    "success": true,
+    "test_pass_rate": 0.8718551483647179,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.14759478289962397,
+    "memory_usage_mb": 76.17385854092852,
+    "planning_quality": 0.7336838563557511,
+    "decision_quality": 0.9170372709661192,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_153",
+    "success": true,
+    "test_pass_rate": 0.8595599868328334,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.12525500060225983,
+    "memory_usage_mb": 142.31805675447166,
+    "planning_quality": 0.9436998609095428,
+    "decision_quality": 0.7133104641210662,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_154",
+    "success": false,
+    "test_pass_rate": 0.11425428879919852,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.02297433939024873,
+    "memory_usage_mb": 52.560820478582414,
+    "planning_quality": 0.5546276020078182,
+    "decision_quality": 0.36352491258872377,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_155",
+    "success": true,
+    "test_pass_rate": 0.9183250088113941,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.149050105056937,
+    "memory_usage_mb": 78.41361049521412,
+    "planning_quality": 0.9018262041018438,
+    "decision_quality": 0.8379505279511987,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_156",
+    "success": false,
+    "test_pass_rate": 0.14678558664856695,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.024369217637300655,
+    "memory_usage_mb": 61.46431569687043,
+    "planning_quality": 0.4391028935782818,
+    "decision_quality": 0.4303638364631831,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_157",
+    "success": true,
+    "test_pass_rate": 0.9809418834431786,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.11549420626013145,
+    "memory_usage_mb": 172.32985413954157,
+    "planning_quality": 0.8013847974887955,
+    "decision_quality": 0.8587602569049847,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_158",
+    "success": false,
+    "test_pass_rate": 0.43794563624153576,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.021484167725497706,
+    "memory_usage_mb": 97.09066691733744,
+    "planning_quality": 0.4635754461040654,
+    "decision_quality": 0.3955881984028299,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_159",
+    "success": true,
+    "test_pass_rate": 0.8630574817508491,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.14715508800242402,
+    "memory_usage_mb": 137.00523082016127,
+    "planning_quality": 0.881420544610726,
+    "decision_quality": 0.7909418362033415,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_160",
+    "success": true,
+    "test_pass_rate": 0.892806864789249,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07667332345825342,
+    "memory_usage_mb": 132.88455449349698,
+    "planning_quality": 0.919937025274201,
+    "decision_quality": 0.8222754060620819,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_161",
+    "success": true,
+    "test_pass_rate": 0.8936727492467665,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.0531403992257249,
+    "memory_usage_mb": 84.65007249642497,
+    "planning_quality": 0.8531641566228865,
+    "decision_quality": 0.7567558531245138,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_162",
+    "success": true,
+    "test_pass_rate": 0.9648280036119566,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.09381396179551824,
+    "memory_usage_mb": 122.98468953355528,
+    "planning_quality": 0.7424554856111788,
+    "decision_quality": 0.8559770019395531,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_163",
+    "success": true,
+    "test_pass_rate": 0.9764069527204666,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.17886589538993236,
+    "memory_usage_mb": 66.603866713473,
+    "planning_quality": 0.786995122566972,
+    "decision_quality": 0.8061040542406451,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_164",
+    "success": true,
+    "test_pass_rate": 0.8683158912989013,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.12991242518064544,
+    "memory_usage_mb": 106.27172131902043,
+    "planning_quality": 0.8913738768827607,
+    "decision_quality": 0.8123487061542414,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_165",
+    "success": true,
+    "test_pass_rate": 0.9085331923537601,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.17716464091243012,
+    "memory_usage_mb": 146.76080089316775,
+    "planning_quality": 0.8180699205354517,
+    "decision_quality": 0.7747863165304214,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_166",
+    "success": true,
+    "test_pass_rate": 0.9230380482688672,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.08881716635513145,
+    "memory_usage_mb": 119.95073546448847,
+    "planning_quality": 0.7953982691443422,
+    "decision_quality": 0.8922797048367626,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_167",
+    "success": false,
+    "test_pass_rate": 0.41472435633179544,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.06286369923594522,
+    "memory_usage_mb": 95.29833528693716,
+    "planning_quality": 0.5753381339329688,
+    "decision_quality": 0.568687550932514,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_168",
+    "success": true,
+    "test_pass_rate": 0.9470497765527154,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.18565127231348538,
+    "memory_usage_mb": 104.31622512806474,
+    "planning_quality": 0.7356727455548842,
+    "decision_quality": 0.7944796771604766,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_169",
+    "success": true,
+    "test_pass_rate": 0.9774675498350619,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.06721739029409586,
+    "memory_usage_mb": 80.2693528723263,
+    "planning_quality": 0.8792008125264879,
+    "decision_quality": 0.8800054377583388,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_170",
+    "success": true,
+    "test_pass_rate": 0.9129724541704597,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.0853534579952496,
+    "memory_usage_mb": 185.18695533935585,
+    "planning_quality": 0.8638799327305943,
+    "decision_quality": 0.78422077194325,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_171",
+    "success": true,
+    "test_pass_rate": 0.9199206407951916,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07992186477332275,
+    "memory_usage_mb": 128.12852236808249,
+    "planning_quality": 0.888590429613228,
+    "decision_quality": 0.7128876569243012,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_172",
+    "success": true,
+    "test_pass_rate": 0.8621269961965478,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.11144237717879829,
+    "memory_usage_mb": 114.48442364850496,
+    "planning_quality": 0.7072929156924972,
+    "decision_quality": 0.711336554749157,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_173",
+    "success": false,
+    "test_pass_rate": 0.1589903671276402,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.026849547605627723,
+    "memory_usage_mb": 80.46041664756838,
+    "planning_quality": 0.34576041202972824,
+    "decision_quality": 0.5924916621160488,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_174",
+    "success": true,
+    "test_pass_rate": 0.8503743189125149,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.05314730082343298,
+    "memory_usage_mb": 187.49512837829369,
+    "planning_quality": 0.767459683750942,
+    "decision_quality": 0.7401752504231042,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_175",
+    "success": true,
+    "test_pass_rate": 0.9083065236111194,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.06912419709197268,
+    "memory_usage_mb": 111.67937555046876,
+    "planning_quality": 0.914383234103623,
+    "decision_quality": 0.8937536158103246,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_176",
+    "success": true,
+    "test_pass_rate": 0.9722209635819697,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.1920928955078125e-06,
+    "cost_usd": 0.061875539633507656,
+    "memory_usage_mb": 83.57941560555317,
+    "planning_quality": 0.8232740878362824,
+    "decision_quality": 0.7292983761139734,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_177",
+    "success": true,
+    "test_pass_rate": 0.9777499475059334,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1287756153418724,
+    "memory_usage_mb": 163.19338715472608,
+    "planning_quality": 0.8341643835988282,
+    "decision_quality": 0.8238709429837747,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_178",
+    "success": true,
+    "test_pass_rate": 0.9293062500706348,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 3.0994415283203125e-06,
+    "cost_usd": 0.07258693005067333,
+    "memory_usage_mb": 74.19818266659122,
+    "planning_quality": 0.8042985558319847,
+    "decision_quality": 0.927871485391169,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_179",
+    "success": true,
+    "test_pass_rate": 0.8572529698204698,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.13108293390777245,
+    "memory_usage_mb": 184.44653900684142,
+    "planning_quality": 0.8459431794965824,
+    "decision_quality": 0.7032730232454447,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_180",
+    "success": true,
+    "test_pass_rate": 0.9392491136197478,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.16049926390266742,
+    "memory_usage_mb": 119.76401577657037,
+    "planning_quality": 0.8859527208594549,
+    "decision_quality": 0.7896768927685514,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_181",
+    "success": true,
+    "test_pass_rate": 0.8556874778434649,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 4.0531158447265625e-06,
+    "cost_usd": 0.11966230477978017,
+    "memory_usage_mb": 141.46337659267712,
+    "planning_quality": 0.8303022473945677,
+    "decision_quality": 0.7047939052159857,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_182",
+    "success": true,
+    "test_pass_rate": 0.949532879177784,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.09105549987272062,
+    "memory_usage_mb": 180.17887175939347,
+    "planning_quality": 0.9381756502328358,
+    "decision_quality": 0.9325418560014458,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_183",
+    "success": true,
+    "test_pass_rate": 0.9886384448574941,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.11417535618472449,
+    "memory_usage_mb": 114.01338979228065,
+    "planning_quality": 0.8878950110645942,
+    "decision_quality": 0.8506306808612051,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_184",
+    "success": false,
+    "test_pass_rate": 0.3836890227513658,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.050076100106981346,
+    "memory_usage_mb": 34.64152104964206,
+    "planning_quality": 0.30246714417174464,
+    "decision_quality": 0.447246708962034,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_185",
+    "success": true,
+    "test_pass_rate": 0.9622097207642418,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.16693431395266367,
+    "memory_usage_mb": 167.39341223367472,
+    "planning_quality": 0.7301407718682882,
+    "decision_quality": 0.8444766175683274,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_186",
+    "success": true,
+    "test_pass_rate": 0.8763176835861436,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.1108705986190471,
+    "memory_usage_mb": 57.020816000910585,
+    "planning_quality": 0.8784320797996731,
+    "decision_quality": 0.722497082456329,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_187",
+    "success": true,
+    "test_pass_rate": 0.9261408507447256,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.13674308615411157,
+    "memory_usage_mb": 195.136574585335,
+    "planning_quality": 0.733969740370346,
+    "decision_quality": 0.7369218521986042,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_188",
+    "success": true,
+    "test_pass_rate": 0.9203749842031329,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 9.5367431640625e-07,
+    "cost_usd": 0.08121788718523645,
+    "memory_usage_mb": 183.76545707388956,
+    "planning_quality": 0.7880663844198448,
+    "decision_quality": 0.7330762910308708,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_189",
+    "success": true,
+    "test_pass_rate": 0.9237413476069714,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.07573860936698737,
+    "memory_usage_mb": 112.31009734100024,
+    "planning_quality": 0.8454110893703791,
+    "decision_quality": 0.8474187493369201,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_190",
+    "success": true,
+    "test_pass_rate": 0.9853559751897801,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.15822691146710277,
+    "memory_usage_mb": 158.0614501793376,
+    "planning_quality": 0.9131227781399521,
+    "decision_quality": 0.7408634239393257,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_191",
+    "success": true,
+    "test_pass_rate": 0.8971332586506431,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.11293769897466675,
+    "memory_usage_mb": 156.92870563309742,
+    "planning_quality": 0.9189477187107737,
+    "decision_quality": 0.7593309982651999,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_192",
+    "success": true,
+    "test_pass_rate": 0.9401143664205018,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.14568140538640423,
+    "memory_usage_mb": 185.35892396397603,
+    "planning_quality": 0.8877085852852722,
+    "decision_quality": 0.8912007912110926,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_193",
+    "success": true,
+    "test_pass_rate": 0.9208764949028921,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.1933870465535411,
+    "memory_usage_mb": 109.15392758635491,
+    "planning_quality": 0.8642133583489128,
+    "decision_quality": 0.8498891520125919,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_194",
+    "success": false,
+    "test_pass_rate": 0.11571916842601504,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.05673495216969923,
+    "memory_usage_mb": 94.99783372069538,
+    "planning_quality": 0.40647640181515404,
+    "decision_quality": 0.42206515560687835,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_195",
+    "success": true,
+    "test_pass_rate": 0.9467473488909972,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.18202584852439962,
+    "memory_usage_mb": 143.18965410035207,
+    "planning_quality": 0.7675969776578369,
+    "decision_quality": 0.9206626878422348,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_bug_fixing_196",
+    "success": true,
+    "test_pass_rate": 0.858149280673105,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 2.1457672119140625e-06,
+    "cost_usd": 0.15502441497205,
+    "memory_usage_mb": 173.1239240007685,
+    "planning_quality": 0.9431222419442937,
+    "decision_quality": 0.7646614002896661,
+    "error_message": null,
+    "metadata": {
+      "task_type": "bug_fixing",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_refactoring_197",
+    "success": true,
+    "test_pass_rate": 0.9766515713987344,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.6689300537109375e-06,
+    "cost_usd": 0.13640808238483748,
+    "memory_usage_mb": 53.83298038707453,
+    "planning_quality": 0.747303049403178,
+    "decision_quality": 0.7000807497184541,
+    "error_message": null,
+    "metadata": {
+      "task_type": "refactoring",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_test_generation_198",
+    "success": false,
+    "test_pass_rate": 0.43207641588466034,
+    "patch_accepted": false,
+    "rollback_required": true,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.02780788199850199,
+    "memory_usage_mb": 84.34552715408797,
+    "planning_quality": 0.49442759789295354,
+    "decision_quality": 0.5181885003174372,
+    "error_message": null,
+    "metadata": {
+      "task_type": "test_generation",
+      "executor": "mock"
+    }
+  },
+  {
+    "task_id": "small_repo_campaign_feature_implementation_199",
+    "success": true,
+    "test_pass_rate": 0.8634229723853367,
+    "patch_accepted": true,
+    "rollback_required": false,
+    "latency_seconds": 1.9073486328125e-06,
+    "cost_usd": 0.07637469237576616,
+    "memory_usage_mb": 97.84460475652648,
+    "planning_quality": 0.9303512546835405,
+    "decision_quality": 0.926446372847551,
+    "error_message": null,
+    "metadata": {
+      "task_type": "feature_implementation",
+      "executor": "mock"
+    }
+  }
+]

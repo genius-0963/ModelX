@@ -1,0 +1,38 @@
+{
+  "total_tasks": 20,
+  "successful_tasks": 0,
+  "failed_tasks": 20,
+  "success_rate": 0.0,
+  "avg_test_pass_rate": 0.0,
+  "patch_acceptance_rate": 0.5,
+  "rollback_rate": 1.0,
+  "avg_latency_seconds": 4.402172124385833,
+  "total_cost_usd": 10.575,
+  "avg_cost_usd": 0.5287499999999999,
+  "avg_memory_usage_mb": 101.5671875,
+  "avg_planning_quality": 0.75,
+  "avg_decision_quality": 0.5653469395737515,
+  "by_task_type": {
+    "bug_fixing": {
+      "total": 5,
+      "success_rate": 0.0,
+      "avg_latency": 4.005726861953735
+    },
+    "refactoring": {
+      "total": 5,
+      "success_rate": 0.0,
+      "avg_latency": 4.4127871036529545
+    },
+    "test_generation": {
+      "total": 5,
+      "success_rate": 0.0,
+      "avg_latency": 4.4955309391021725
+    },
+    "feature_implementation": {
+      "total": 5,
+      "success_rate": 0.0,
+      "avg_latency": 4.694643592834472
+    }
+  },
+  "by_difficulty": {}
+}
