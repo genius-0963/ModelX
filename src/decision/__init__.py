@@ -40,6 +40,7 @@ from src.decision.pareto_optimizer import ParetoOptimizer
 from src.decision.tradeoff_engine import TradeoffEngine
 from src.decision.executive_agent import ExecutiveAgent
 from src.decision.executive_council import ExecutiveCouncil
+from src.decision.decision_marketplace import DecisionMarketplace
 
 __all__ = [
     "DecisionEngine",
@@ -64,4 +65,5 @@ __all__ = [
     "TradeoffEngine",
     "ExecutiveAgent",
     "ExecutiveCouncil",
+    "DecisionMarketplace",
 ]
