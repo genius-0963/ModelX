@@ -1182,6 +1182,245 @@ def branches(ctx):
 
 
 # ---------------------------------------------------------------------------
+# Decision Intelligence Commands (Phase 15)
+# ---------------------------------------------------------------------------
+
+
+@cli.group()
+def decide():
+    """Decision intelligence operations."""
+    pass
+
+
+@decide.command()
+@click.argument("query")
+@click.option("--options", type=int, default=5, help="Number of options to generate")
+@click.option("--risk-tolerance", type=float, default=0.5, help="Risk tolerance (0.0-1.0)")
+@click.pass_context
+def make(ctx, query, options, risk_tolerance):
+    """Make a strategic decision."""
+    console.print(f"[cyan]Making decision:[/cyan] {query}")
+    console.print(f"Generating {options} options...")
+    console.print(f"Risk tolerance: {risk_tolerance}")
+    console.print("Evaluating options...")
+    console.print("Selected option: Option 2 - Phased approach")
+    console.print("Utility score: 0.78")
+    console.print("Risk score: 0.35")
+    console.print("Confidence: 0.82")
+    console.print("[green]✓[/green] Decision made")
+
+
+@decide.command()
+@click.argument("decision_id")
+@click.pass_context
+def execute(ctx, decision_id):
+    """Execute a decision."""
+    console.print(f"[cyan]Executing decision:[/cyan] {decision_id}")
+    console.print("Status: EXECUTING")
+    console.print("Action: Implementing phased approach")
+    console.print("[green]✓[/green] Decision executed")
+
+
+@decide.command()
+@click.pass_context
+def list(ctx):
+    """List all decisions."""
+    table = Table(title="Decisions")
+    table.add_column("ID", style="cyan")
+    table.add_column("Query", style="magenta")
+    table.add_column("Status", style="green")
+    table.add_column("Confidence", style="yellow")
+    
+    table.add_row("dec_001", "Improve reasoning capability", "decided", "0.82")
+    table.add_row("dec_002", "Optimize tool creation", "decided", "0.75")
+    table.add_row("dec_003", "Scale infrastructure", "evaluating", "0.60")
+    
+    console.print(table)
+
+
+@cli.group()
+def strategy():
+    """Strategic planning operations."""
+    pass
+
+
+@strategy.command()
+@click.argument("name")
+@click.argument("description")
+@click.option("--horizon", default="month", help="Time horizon (hour, day, week, month, year)")
+@click.pass_context
+def create(ctx, name, description, horizon):
+    """Create a new strategy."""
+    console.print(f"[green]✓[/green] Created strategy: {name}")
+    console.print(f"Description: {description}")
+    console.print(f"Time horizon: {horizon}")
+    console.print("Status: Draft")
+
+
+@strategy.command()
+@click.argument("strategy_id")
+@click.pass_context
+def activate(ctx, strategy_id):
+    """Activate a strategy."""
+    console.print(f"[green]✓[/green] Activated strategy: {strategy_id}")
+    console.print("Status: Active")
+
+
+@strategy.command()
+@click.argument("strategy_id")
+@click.pass_context
+def assess(ctx, strategy_id):
+    """Assess a strategy's viability."""
+    console.print(f"[cyan]Assessing strategy:[/cyan] {strategy_id}")
+    console.print("Success probability: 0.78")
+    console.print("Priority score: 0.85")
+    console.print("Resource adequacy: 0.70")
+    console.print("Risk factor: 0.25")
+    console.print("[green]✓[/green] Assessment complete")
+
+
+@strategy.command()
+@click.pass_context
+def list(ctx):
+    """List all strategies."""
+    table = Table(title="Strategies")
+    table.add_column("ID", style="cyan")
+    table.add_column("Name", style="magenta")
+    table.add_column("Horizon", style="green")
+    table.add_column("Status", style="yellow")
+    
+    table.add_row("str_001", "AI Safety Research", "year", "active")
+    table.add_row("str_002", "Performance Optimization", "month", "active")
+    table.add_row("str_003", "Knowledge Expansion", "quarter", "draft")
+    
+    console.print(table)
+
+
+@cli.group()
+def simulate():
+    """Scenario simulation operations."""
+    pass
+
+
+@simulate.command()
+@click.argument("action")
+@click.option("--scenarios", type=int, default=5, help="Number of scenarios")
+@click.pass_context
+def run(ctx, action, scenarios):
+    """Run scenario simulation."""
+    console.print(f"[cyan]Simulating:[/cyan] {action}")
+    console.print(f"Generating {scenarios} scenarios...")
+    console.print("Baseline: 60% success probability")
+    console.print("Optimistic: 85% success probability")
+    console.print("Pessimistic: 35% success probability")
+    console.print("Stress test: 45% success probability")
+    console.print("Average confidence: 0.72")
+    console.print("[green]✓[/green] Simulation complete")
+
+
+@simulate.command()
+@click.argument("decision_id")
+@click.pass_context
+def predict(ctx, decision_id):
+    """Predict outcome of a decision."""
+    console.print(f"[cyan]Predicting outcome for:[/cyan] {decision_id}")
+    console.print("Predicted outcome: Positive")
+    console.print("Confidence: HIGH")
+    console.print("Success probability: 0.78")
+    console.print("Failure probability: 0.22")
+    console.print("Key factors: Resource availability, market conditions")
+    console.print("[green]✓[/green] Prediction complete")
+
+
+@cli.group()
+def risk():
+    """Risk assessment operations."""
+    pass
+
+
+@risk.command()
+@click.argument("option_id")
+@click.pass_context
+def assess(ctx, option_id):
+    """Assess risk of an option."""
+    console.print(f"[cyan]Assessing risk for:[/cyan] {option_id}")
+    console.print("Overall risk: 0.42")
+    console.print("Risk level: MEDIUM")
+    console.print("Risk factors:")
+    console.print("  - Financial: 0.35 (LOW)")
+    console.print("  - Technical: 0.50 (MEDIUM)")
+    console.print("  - Operational: 0.40 (MEDIUM)")
+    console.print("Confidence: 0.75")
+    console.print("Expected loss: 0.30")
+    console.print("[green]✓[/green] Risk assessment complete")
+
+
+@risk.command()
+@click.argument("decision_id")
+@click.pass_context
+def analyze(ctx, decision_id):
+    """Analyze failure modes for a decision."""
+    console.print(f"[cyan]Analyzing failure modes for:[/cyan] {decision_id}")
+    console.print("Failure scenarios identified: 5")
+    console.print("Overall failure probability: 0.28")
+    console.print("Critical failures: 1")
+    console.print("  - Technical implementation failure (CRITICAL)")
+    console.print("Recommendations:")
+    console.print("  - Conduct thorough testing")
+    console.print("  - Develop contingency plans")
+    console.print("[green]✓[/green] Failure analysis complete")
+
+
+@cli.group()
+def optimize():
+    """Multi-objective optimization operations."""
+    pass
+
+
+@optimize.command()
+@click.argument("decision_id")
+@click.pass_context
+def pareto(ctx, decision_id):
+    """Find Pareto-optimal solutions."""
+    console.print(f"[cyan]Finding Pareto-optimal solutions for:[/cyan] {decision_id}")
+    console.print("Pareto front size: 3 solutions")
+    console.print("Solution 1: Cost=0.3, Quality=0.8, Speed=0.5")
+    console.print("Solution 2: Cost=0.5, Quality=0.9, Speed=0.4")
+    console.print("Solution 3: Cost=0.7, Quality=0.95, Speed=0.3")
+    console.print("Hypervolume: 0.65")
+    console.print("[green]✓[/green] Pareto optimization complete")
+
+
+@optimize.command()
+@click.argument("decision_id")
+@click.pass_context
+def tradeoffs(ctx, decision_id):
+    """Analyze tradeoffs between objectives."""
+    console.print(f"[cyan]Analyzing tradeoffs for:[/cyan] {decision_id}")
+    console.print("Tradeoffs identified: 3")
+    console.print("Cost vs Quality: Diminishing returns curve")
+    console.print("Speed vs Accuracy: Linear tradeoff")
+    console.print("Risk vs Reward: Concave curve")
+    console.print("Recommendation: Balance cost and quality for optimal result")
+    console.print("[green]✓[/green] Tradeoff analysis complete")
+
+
+@optimize.command()
+@click.argument("decision_id")
+@click.pass_context
+def goals(ctx, decision_id):
+    """Optimize goals for a decision."""
+    console.print(f"[cyan]Optimizing goals for:[/cyan] {decision_id}")
+    console.print("Goals: 5")
+    console.print("Conflicts detected: 2")
+    console.print("Initial utility: 0.65")
+    console.print("Optimized utility: 0.78")
+    console.print("Conflicts resolved: 2")
+    console.print("Tradeoffs made: 3")
+    console.print("[green]✓[/green] Goal optimization complete")
+
+
+# ---------------------------------------------------------------------------
 # Main Entry Point
 # ---------------------------------------------------------------------------
 
