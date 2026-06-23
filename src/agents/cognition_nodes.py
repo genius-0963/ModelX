@@ -173,3 +173,139 @@ async def self_improvement_node(state: AgentStateDict) -> dict[str, Any]:
         recommendations.append("Low autonomy score detected.")
         
     return {"optimization_recommendations": recommendations}
+
+
+# ---------------------------------------------------------------------------
+# Phase 13: Cognitive Operating System Nodes
+# ---------------------------------------------------------------------------
+
+
+async def attention_allocation_node(state: AgentStateDict) -> dict[str, Any]:
+    """Allocate cognitive attention to salient tasks and information."""
+    logger.info("Executing attention_allocation_node")
+    registry = await get_registry()
+    attention_manager = registry.get("attention_manager")
+    
+    tasks = state.get("pending_tasks", [])
+    attention_allocations = []
+    
+    # Simulate attention allocation based on priority and salience
+    for task in tasks[:5]:  # Limit to top 5 tasks
+        priority = task.get("priority", 0.5)
+        salience = task.get("salience", 0.5)
+        attention_score = (priority + salience) / 2
+        
+        if attention_score > 0.6:
+            attention_allocations.append({
+                "task_id": task.get("task_id"),
+                "attention_level": "high" if attention_score > 0.8 else "medium",
+                "allocated_amount": attention_score,
+                "processing_mode": "focused",
+            })
+    
+    return {"attention_allocations": attention_allocations}
+
+
+async def memory_consolidation_node(state: AgentStateDict) -> dict[str, Any]:
+    """Consolidate short-term memories into long-term storage."""
+    logger.info("Executing memory_consolidation_node")
+    registry = await get_registry()
+    memory_fabric = registry.get("memory_fabric")
+    
+    recent_memories = state.get("recent_memories", [])
+    consolidated_count = 0
+    
+    # Simulate memory consolidation
+    for memory in recent_memories:
+        importance = memory.get("importance", 0.5)
+        if importance > 0.7:
+            consolidated_count += 1
+    
+    return {
+        "consolidated_memories": consolidated_count,
+        "memory_links_created": consolidated_count * 2,
+    }
+
+
+async def deliberation_node(state: AgentStateDict) -> dict[str, Any]:
+    """Perform System 2 deliberative reasoning on complex problems."""
+    logger.info("Executing deliberation_node")
+    registry = await get_registry()
+    deliberation_engine = registry.get("deliberation_engine")
+    
+    complex_queries = state.get("complex_queries", [])
+    deliberation_results = []
+    
+    for query in complex_queries:
+        # Simulate deliberation process
+        deliberation_results.append({
+            "query": query,
+            "reasoning_mode": "system_2",
+            "confidence": 0.75,
+            "reasoning_steps": 4,
+            "conclusion": f"Deliberated on: {query[:50]}...",
+        })
+    
+    return {"deliberation_results": deliberation_results}
+
+
+async def society_planning_node(state: AgentStateDict) -> dict[str, Any]:
+    """Plan multi-agent collaboration for complex tasks."""
+    logger.info("Executing society_planning_node")
+    registry = await get_registry()
+    society_runtime = registry.get("society_runtime")
+    
+    collaboration_tasks = state.get("collaboration_tasks", [])
+    society_plans = []
+    
+    for task in collaboration_tasks:
+        # Simulate society planning
+        society_plans.append({
+            "task_id": task.get("task_id"),
+            "required_agents": task.get("required_capabilities", []),
+            "collaboration_type": "cooperative",
+            "estimated_duration": 300,
+        })
+    
+    return {"society_plans": society_plans}
+
+
+async def identity_update_node(state: AgentStateDict) -> dict[str, Any]:
+    """Update long-term identity based on experiences and learning."""
+    logger.info("Executing identity_update_node")
+    registry = await get_registry()
+    identity_engine = registry.get("identity_engine")
+    
+    experiences = state.get("experiences", [])
+    identity_updates = []
+    
+    # Simulate identity updates based on experiences
+    if len(experiences) > 5:
+        identity_updates.append({
+            "update_type": "skill_improvement",
+            "skill": "reasoning",
+            "delta": 0.05,
+        })
+    
+    return {"identity_updates": identity_updates}
+
+
+async def program_execution_node(state: AgentStateDict) -> dict[str, Any]:
+    """Execute long-running research programs."""
+    logger.info("Executing program_execution_node")
+    registry = await get_registry()
+    program_scheduler = registry.get("program_scheduler")
+    
+    active_programs = state.get("active_programs", [])
+    execution_results = []
+    
+    for program in active_programs:
+        # Simulate program execution
+        execution_results.append({
+            "program_id": program.get("program_id"),
+            "status": "in_progress",
+            "progress_increment": 0.1,
+            "insights_generated": 1,
+        })
+    
+    return {"program_execution_results": execution_results}
