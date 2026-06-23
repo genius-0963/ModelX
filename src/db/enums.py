@@ -171,3 +171,101 @@ class CognitiveMetricType(str, enum.Enum):
     STRATEGY_EFFECTIVENESS = "strategy_effectiveness"
     SKILL_UTILIZATION = "skill_utilization"
 
+
+# ---------------------------------------------------------------------------
+# Phase 13: Cognitive Operating System
+# ---------------------------------------------------------------------------
+
+
+class CognitiveState(str, enum.Enum):
+    """States of the cognitive kernel."""
+
+    IDLE = "idle"
+    ACTIVE = "active"
+    FOCUSED = "focused"
+    OVERLOADED = "overloaded"
+    CONSOLIDATING = "consolidating"
+
+
+class AttentionLevel(str, enum.Enum):
+    """Levels of cognitive attention."""
+
+    NONE = "none"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    FOCUSED = "focused"
+
+
+class ReasoningMode(str, enum.Enum):
+    """Modes of reasoning."""
+
+    SYSTEM_1 = "system_1"
+    SYSTEM_2 = "system_2"
+    COUNTERFACTUAL = "counterfactual"
+    DEBATE = "debate"
+    PLANNING = "planning"
+
+
+class SocietyStatus(str, enum.Enum):
+    """Status of agent society."""
+
+    FORMING = "forming"
+    ACTIVE = "active"
+    DISSOLVING = "dissolving"
+    DISSOLVED = "dissolved"
+
+
+class AgentStatus(str, enum.Enum):
+    """Status of an agent."""
+
+    ACTIVE = "active"
+    IDLE = "idle"
+    BUSY = "busy"
+    OFFLINE = "offline"
+    DECOMMISSIONED = "decommissioned"
+
+
+class MissionStatus(str, enum.Enum):
+    """Status of a mission."""
+
+    DRAFT = "draft"
+    ACTIVE = "active"
+    PAUSED = "paused"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    ARCHIVED = "archived"
+
+
+class GoalStatus(str, enum.Enum):
+    """Status of a goal within a mission."""
+
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+
+
+class ProgramStatus(str, enum.Enum):
+    """Status of a research program."""
+
+    DRAFT = "draft"
+    ACTIVE = "active"
+    PAUSED = "paused"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    ARCHIVED = "archived"
+
+
+class TaskMarketStatus(str, enum.Enum):
+    """Status of a task in the marketplace."""
+
+    OPEN = "open"
+    BIDDING = "bidding"
+    ASSIGNED = "assigned"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+    FAILED = "failed"
+
