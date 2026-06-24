@@ -58,6 +58,8 @@ class RealTaskExecutor:
         logger.info(f"Executing task: {context.task_description}")
         
         start_time = time.time()
+        self.execution_trace = []
+        self.decisions = []
         
         try:
             # Apply ablation configuration if provided
@@ -139,6 +141,7 @@ class RealTaskExecutor:
                     'task_type': context.task_type,
                     'repository_metadata': metadata.to_dict(),
                     'test_result': test_result.to_dict(),
+                    'execution_result': execution_result,
                     'execution_trace': self.execution_trace,
                 }
             }
