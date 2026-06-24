@@ -36,11 +36,10 @@ target_metadata = Base.metadata
 def _get_url() -> str:
     """Resolve the database URL from application settings.
 
-    For Alembic migrations we need the async URL (asyncpg driver)
-    when running in async mode.
+    For Alembic migrations we use the sync URL (psycopg2 driver).
     """
     settings = get_settings()
-    return settings.database_url
+    return settings.database_url_sync
 
 
 def run_migrations_offline() -> None:
@@ -76,30 +75,26 @@ def do_run_migrations(connection: Connection) -> None:
         context.run_migrations()
 
 
-async def run_async_migrations() -> None:
-    """Run migrations in 'online' mode using an async engine.
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode using a sync engine.
 
-    Creates an async engine from the configuration, acquires a sync
-    connection via ``run_sync``, and delegates to ``do_run_migrations``.
+    Creates a sync engine from the configuration and delegates to
+    ``do_run_migrations``.
     """
     configuration = config.get_section(config.config_ini_section, {})
     configuration["sqlalchemy.url"] = _get_url()
 
-    connectable = async_engine_from_config(
-        configuration,
-        prefix="sqlalchemy.",
+    from sqlalchemy import create_engine
+
+    connectable = create_engine(
+        configuration["sqlalchemy.url"],
         poolclass=pool.NullPool,
     )
 
-    async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations)
+    with connectable.connect() as connection:
+        do_run_migrations(connection)
 
-    await connectable.dispose()
-
-
-def run_migrations_online() -> None:
-    """Entry point for online migrations — bridges async to sync."""
-    asyncio.run(run_async_migrations())
+    connectable.dispose()
 
 
 if context.is_offline_mode():
