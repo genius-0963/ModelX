@@ -1,6 +1,6 @@
 """ModelX CLI - Command Line Interface for ModelX AGI Platform."""
 
-from __future__ annotations
+from __future__ import annotations
 
 import click
 from rich.console import Console
