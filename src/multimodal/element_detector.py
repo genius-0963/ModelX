@@ -3,7 +3,7 @@
 Specialized detection of UI elements for web interaction.
 """
 
-from __future__ annotations
+from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
