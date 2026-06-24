@@ -269,3 +269,19 @@ class TaskMarketStatus(str, enum.Enum):
     CANCELLED = "cancelled"
     FAILED = "failed"
 
+
+# ---------------------------------------------------------------------------
+# Phase 17: Runtime Completion & Production Readiness
+# ---------------------------------------------------------------------------
+
+
+class ObjectiveStatus(str, enum.Enum):
+    """Lifecycle status of an autonomous objective."""
+
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    BLOCKED = "blocked"
+    FAILED = "failed"
+    PAUSED = "paused"
+    CANCELLED = "cancelled"
+
