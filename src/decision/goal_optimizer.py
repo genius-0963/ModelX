@@ -253,7 +253,7 @@ class GoalOptimizer:
         }
         
         priority_score = priority_scores.get(goal.priority, 0.5)
- effort_score = 1.0 / (1.0 + goal.estimated_effort / 10.0)
+        effort_score = 1.0 / (1.0 + goal.estimated_effort / 10.0)
         
         # Check if goal fits within resources
         resource_fit = 1.0
