@@ -7,11 +7,12 @@ Uses various strategies to create diverse, actionable options.
 from __future__ import annotations
 
 import uuid
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Any, Dict, List
 
 from src.config.logging import get_logger
-from src.decision.decision_engine import DecisionContext, DecisionOption
+
+if TYPE_CHECKING:
+    from src.decision.decision_engine import DecisionContext, DecisionOption
 
 logger = get_logger(__name__)
 
@@ -20,6 +21,9 @@ class OptionGenerator:
     """Generates decision options for strategic choices."""
     
     def __init__(self):
+        from src.decision.decision_engine import DecisionOption
+
+        self.decision_option_cls = DecisionOption
         self.generation_strategies = {
             "conservative": self._generate_conervative_options,
             "aggressive": self._generate_aggressive_options,
@@ -61,7 +65,7 @@ class OptionGenerator:
         options = []
         
         # Option 1: Do nothing / maintain status quo
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Maintain current approach",
             action={"type": "maintain", "changes": []},
             benefits=["Low risk", "No disruption", "Preserves stability"],
@@ -70,7 +74,7 @@ class OptionGenerator:
         ))
         
         # Option 2: Incremental improvement
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Make small incremental improvements",
             action={"type": "incremental", "scope": "small"},
             benefits=["Low risk", "Easy to reverse", "Quick wins"],
@@ -79,7 +83,7 @@ class OptionGenerator:
         ))
         
         # Option 3: Gather more information
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Conduct research before deciding",
             action={"type": "research", "duration": "1 week"},
             benefits=["Better informed decision", "Reduces uncertainty"],
@@ -99,7 +103,7 @@ class OptionGenerator:
         options = []
         
         # Option 1: Full commitment
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Commit fully to the change",
             action={"type": "full_commitment", "scope": "complete"},
             benefits=["Maximum impact", "Clear direction", "Fast execution"],
@@ -108,7 +112,7 @@ class OptionGenerator:
         ))
         
         # Option 2: Bold innovation
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Try innovative approach",
             action={"type": "innovate", "novelty": "high"},
             benefits=["Potential breakthrough", "Competitive advantage"],
@@ -117,7 +121,7 @@ class OptionGenerator:
         ))
         
         # Option 3: Rapid iteration
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Move fast with rapid iterations",
             action={"type": "rapid", "iterations": "many"},
             benefits=["Fast learning", "Quick feedback", "Adaptability"],
@@ -137,7 +141,7 @@ class OptionGenerator:
         options = []
         
         # Option 1: Phased approach
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Implement in phases",
             action={"type": "phased", "phases": 3},
             benefits=["Risk mitigation", "Learning at each phase", "Flexible"],
@@ -146,7 +150,7 @@ class OptionGenerator:
         ))
         
         # Option 2: Pilot program
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Run a pilot program first",
             action={"type": "pilot", "scope": "limited"},
             benefits=["Test before full rollout", "Low risk", "Learn from pilot"],
@@ -155,7 +159,7 @@ class OptionGenerator:
         ))
         
         # Option 3: Hybrid approach
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Combine multiple approaches",
             action={"type": "hybrid", "components": ["A", "B"]},
             benefits=["Best of both worlds", "Redundancy", "Flexibility"],
@@ -164,16 +168,16 @@ class OptionGenerator:
         ))
         
         # Option 4: Consult experts
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Consult with domain experts",
             action={"type": "consult", "experts": "domain"},
             benefits=["Expert guidance", "Reduced blind spots", "Validation"],
-            drawbacks["Time delay", "Expert availability", "Cost"],
+            drawbacks=["Time delay", "Expert availability", "Cost"],
             confidence=0.78,
         ))
         
         # Option 5: Data-driven decision
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Base decision on data analysis",
             action={"type": "data_driven", "analysis": "comprehensive"},
             benefits=["Objective basis", "Quantifiable", "Defensible"],
@@ -193,7 +197,7 @@ class OptionGenerator:
         options = []
         
         # Option 1: Reframe the problem
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Reframe the problem and find new solution",
             action={"type": "reframe", "approach": "novel"},
             benefits=["Creative solution", "Breakthrough potential"],
@@ -202,20 +206,20 @@ class OptionGenerator:
         ))
         
         # Option 2: Combine unrelated domains
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Apply approach from different domain",
             action={"type": "cross_domain", "source": "other"},
             benefits=["Novel perspective", "Innovation potential"],
-            drawbacks["Context mismatch", "Adaptation needed"],
+            drawbacks=["Context mismatch", "Adaptation needed"],
             confidence=0.58,
         ))
         
         # Option 3: Reverse assumptions
-        options.append(DecisionOption(
+        options.append(self.decision_option_cls(
             description="Challenge and reverse key assumptions",
             action={"type": "reverse", "assumptions": "key"},
             benefits=["New insights", "Paradigm shift possible"],
-            drawbacks["Risk of being wrong", "May be impractical"],
+            drawbacks=["Risk of being wrong", "May be impractical"],
             confidence=0.55,
         ))
         
@@ -228,7 +232,7 @@ class OptionGenerator:
         index: int,
     ) -> DecisionOption:
         """Generate a generic fallback option."""
-        return DecisionOption(
+        return self.decision_option_cls(
             description=f"Option {index + 1}: Standard approach",
             action={"type": "standard", "index": index},
             benefits=["Proven approach", "Predictable outcome"],
@@ -245,7 +249,7 @@ class OptionGenerator:
         confidence: float = 0.7,
     ) -> DecisionOption:
         """Generate a custom option with specified parameters."""
-        return DecisionOption(
+        return self.decision_option_cls(
             description=description,
             action=action,
             benefits=benefits,
