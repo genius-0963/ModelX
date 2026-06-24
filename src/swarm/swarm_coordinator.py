@@ -3,7 +3,7 @@
 Central coordinator for managing the entire swarm of agents.
 """
 
-from __future__ annotations
+from __future__ import annotations
 
 import asyncio
 from datetime import datetime, timezone
