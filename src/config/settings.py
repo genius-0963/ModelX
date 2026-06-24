@@ -10,7 +10,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, SecretStr, computed_field
+from pydantic import Field, SecretStr, computed_field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     )
     llm_max_tokens: int = Field(
         default=8192,
-        ge=256,
+        ge=1,
         le=200000,
         description="Maximum tokens for LLM responses",
     )
@@ -57,6 +57,10 @@ class Settings(BaseSettings):
     openai_api_key: SecretStr = Field(
         ..., description="OpenAI API key for embeddings"
     )
+    openai_base_url: str | None = Field(
+        default=None,
+        description="Custom base URL for OpenAI API (e.g., Pekpik)",
+    )
     embedding_model: str = Field(
         default="text-embedding-3-large",
         description="OpenAI embedding model name",
@@ -64,6 +68,74 @@ class Settings(BaseSettings):
     embedding_dimensions: int = Field(
         default=3072,
         description="Embedding vector dimensions",
+    )
+
+    # -------------------------------------------------------------------------
+    # Alternative LLM Providers (Pekpik API)
+    # -------------------------------------------------------------------------
+    deepseek_api_key: str | None = Field(
+        default=None,
+        description="DeepSeek API key",
+    )
+    deepseek_base_url: str = Field(
+        default="https://aiapiv2.pekpik.com/v1",
+        description="DeepSeek base URL",
+    )
+    deepseek_model: str = Field(
+        default="deepseek-chat",
+        description="DeepSeek model name",
+    )
+
+    gemini_api_key: str | None = Field(
+        default=None,
+        description="Gemini API key",
+    )
+    gemini_base_url: str = Field(
+        default="https://aiapiv2.pekpik.com/v1",
+        description="Gemini base URL",
+    )
+    gemini_model: str = Field(
+        default="gemini-2.5-flash",
+        description="Gemini model name",
+    )
+
+    kimi_api_key: str | None = Field(
+        default=None,
+        description="Kimi API key",
+    )
+    kimi_base_url: str = Field(
+        default="https://aiapiv2.pekpik.com/v1",
+        description="Kimi base URL",
+    )
+    kimi_model: str = Field(
+        default="kimi-k2.5",
+        description="Kimi model name",
+    )
+
+    qwen_api_key: str | None = Field(
+        default=None,
+        description="Qwen API key",
+    )
+    qwen_base_url: str = Field(
+        default="https://aiapiv2.pekpik.com/v1",
+        description="Qwen base URL",
+    )
+    qwen_model: str = Field(
+        default="qwen/qwen3.6-27b",
+        description="Qwen model name",
+    )
+
+    nvidia_api_key: str | None = Field(
+        default=None,
+        description="NVIDIA API key",
+    )
+    nvidia_base_url: str = Field(
+        default="https://aiapiv2.pekpik.com/v1",
+        description="NVIDIA base URL",
+    )
+    nvidia_model: str = Field(
+        default="nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+        description="NVIDIA model name",
     )
 
     # -------------------------------------------------------------------------
@@ -221,6 +293,22 @@ class Settings(BaseSettings):
         default=["http://localhost:3000", "http://localhost:8000"],
         description="Allowed CORS origins",
     )
+
+    @field_validator("anthropic_base_url")
+    @classmethod
+    def normalize_anthropic_base_url(cls, value: str | None) -> str | None:
+        """Normalize Anthropic-compatible provider URLs."""
+        if value is None:
+            return None
+
+        normalized = value.strip().rstrip("/")
+        if not normalized:
+            return None
+
+        if normalized == "https://openrouter.ai/api/v1":
+            return "https://openrouter.ai/api"
+
+        return normalized
 
 
 @lru_cache(maxsize=1)
