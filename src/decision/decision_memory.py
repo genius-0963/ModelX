@@ -8,11 +8,13 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from dataclasses import dataclass, field
 
 from src.config.logging import get_logger
-from src.decision.decision_engine import Decision
+
+if TYPE_CHECKING:
+    from src.decision.decision_engine import Decision
 
 logger = get_logger(__name__)
 
