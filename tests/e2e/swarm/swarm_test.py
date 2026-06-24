@@ -1,6 +1,6 @@
 """E2E Tests for Swarm Orchestration (Phase 8)."""
 
-from __future__ annotations
+from __future__ import annotations
 
 import pytest
 import asyncio
