@@ -69,6 +69,9 @@ priority_enum = postgresql.ENUM(
 
 def upgrade() -> None:
     """Create all tables and indexes for the platform."""
+    # Create UUID extension for uuid_generate_v7()
+    op.execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
+    
     # Create enum types first
     op.execute("CREATE TYPE session_status AS ENUM ('pending', 'active', 'completed', 'failed', 'cancelled')")
     op.execute("CREATE TYPE task_status AS ENUM ('pending', 'in_progress', 'completed', 'failed', 'blocked', 'cancelled')")
