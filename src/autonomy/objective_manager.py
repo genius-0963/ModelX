@@ -6,12 +6,16 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 from uuid import uuid4
+import random
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.enums import ObjectiveStatus
 from src.db.models import Objective as ObjectiveModel
+from src.config.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -236,3 +240,101 @@ class ObjectiveManager:
                 destination.append(moved)
                 return moved
         return None
+
+    async def generate_next_objective(
+        self,
+        session: AsyncSession | None = None,
+        context: dict[str, Any] | None = None,
+    ) -> Objective | None:
+        """Generate the next objective autonomously based on completed objectives and context.
+        
+        This is a minimal implementation that generates follow-up objectives based on:
+        - Completed objectives in the same domain
+        - System context (available resources, time constraints, etc.)
+        - Priority heuristics
+        
+        For production, this should be replaced with LLM-based objective generation.
+        """
+        context = context or {}
+        
+        # If we have no completed objectives, cannot generate autonomous follow-up
+        if not self.completed_objectives:
+            logger.info("No completed objectives to base autonomous generation on")
+            return None
+        
+        # Get the most recently completed objective
+        last_completed = max(self.completed_objectives, key=lambda obj: obj.updated_at)
+        
+        # Generate follow-up objective based on patterns
+        follow_up_patterns = [
+            f"Refine and optimize: {last_completed.description}",
+            f"Validate and test: {last_completed.description}",
+            f"Document and share: {last_completed.description}",
+            f"Scale and deploy: {last_completed.description}",
+            f"Monitor and maintain: {last_completed.description}",
+        ]
+        
+        # Select pattern based on context or random
+        pattern_index = context.get("follow_up_pattern", random.randint(0, len(follow_up_patterns) - 1))
+        pattern_index = min(pattern_index, len(follow_up_patterns) - 1)
+        
+        new_description = follow_up_patterns[pattern_index]
+        
+        # Adjust priority based on context
+        base_priority = last_completed.priority
+        context_priority = context.get("priority_adjustment", 0.0)
+        new_priority = max(0.1, min(1.0, base_priority + context_priority))
+        
+        # Create metadata tracking the source
+        new_metadata = {
+            "autonomous": True,
+            "source_objective_id": last_completed.objective_id,
+            "generation_method": "pattern_based",
+            "generated_at": datetime.utcnow().isoformat(),
+        }
+        
+        new_objective = Objective(
+            description=new_description,
+            priority=new_priority,
+            metadata=new_metadata,
+        )
+        
+        logger.info(f"Generated autonomous objective: {new_description} (priority={new_priority})")
+        
+        # Add to active objectives and persist if session available
+        new_objective.status = "active"
+        new_objective.updated_at = datetime.utcnow()
+        self.active_objectives.append(new_objective)
+        
+        if session:
+            await self.save_objective(new_objective, session)
+        
+        return new_objective
+
+    async def should_generate_autonomous_objective(self, context: dict[str, Any] | None = None) -> bool:
+        """Determine whether to generate an autonomous objective.
+        
+        Returns True if:
+        - There are completed objectives to build on
+        - There are no active objectives (idle state)
+        - Context indicates autonomous generation is appropriate
+        """
+        context = context or {}
+        
+        # Don't generate if we have active objectives
+        if self.active_objectives:
+            return False
+        
+        # Don't generate if we have no completed objectives
+        if not self.completed_objectives:
+            return False
+        
+        # Check context override
+        if context.get("force_autonomous_generation") is True:
+            return True
+        
+        if context.get("disable_autonomous_generation") is True:
+            return False
+        
+        # Default: generate when idle with history
+        return True
