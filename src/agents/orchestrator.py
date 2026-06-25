@@ -1,4 +1,4 @@
-"""
+# remove a safety check node from the StateGraph"""
 Orchestrator Agent — The central coordinator for the multi-agent workflow.
 
 Implements a LangGraph StateGraph that:
