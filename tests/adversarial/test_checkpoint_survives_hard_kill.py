@@ -1,20 +1,130 @@
-"""
-Independent test — not derived from test_phase_14_17_integration.py.
-Tests that ExecutionLoop checkpointing persists state across async ticks.
+"""Adversarial checkpoint tests, including a real SIGKILL and restart."""
 
-Note: execution_loop_harness does not exist as a runnable entry point.
-This is itself a finding - the claimed "integrated with RuntimeRecovery" 
-functionality lacks the CLI harness needed for real crash-and-resume testing.
-
-This test exercises the core checkpoint/restore logic in-process as a proxy.
-"""
-import pytest
 import asyncio
+import json
+import os
+import signal
+import subprocess
+import sys
+import time
+from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock
+
+import pytest
+
 from src.runtime.execution_loop import ExecutionLoop
 from src.autonomy.objective_manager import ObjectiveManager
 from src.autonomy.checkpoint_manager import CheckpointManager, RuntimeRecovery
 from src.autonomy.progress_tracker import ProgressTracker
+
+
+def _latest_checkpoint(state_file: Path, objective_id: str):
+    document = json.loads(state_file.read_text(encoding="utf-8"))
+    return document["objectives"][objective_id][-1]
+
+
+def _wait_for_checkpoint(
+    state_file: Path,
+    objective_id: str,
+    minimum_step: int,
+    timeout: float = 15.0,
+):
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            checkpoint = _latest_checkpoint(state_file, objective_id)
+        except (FileNotFoundError, json.JSONDecodeError, KeyError, IndexError):
+            time.sleep(0.05)
+            continue
+        if checkpoint["progress_snapshot"]["step"] >= minimum_step:
+            return checkpoint
+        time.sleep(0.05)
+    raise AssertionError(
+        f"Timed out waiting for objective {objective_id} to reach step {minimum_step}"
+    )
+
+
+def test_checkpoint_survives_sigkill(tmp_path):
+    """A second process must resume from the last checkpoint after SIGKILL."""
+    repository_root = Path(__file__).resolve().parents[2]
+    state_file = tmp_path / "checkpoints.json"
+    pid_file = tmp_path / "harness.pid"
+    objective_id = "obj_sigkill_adversarial"
+    environment = os.environ.copy()
+    environment["PYTHONPATH"] = os.pathsep.join(
+        filter(None, [str(repository_root), environment.get("PYTHONPATH")])
+    )
+
+    run_command = [
+        sys.executable,
+        "-m",
+        "src.cli.execution_loop_harness",
+        "run",
+        "Verify process checkpoint recovery",
+        "--objective-id",
+        objective_id,
+        "--total-steps",
+        "40",
+        "--step-delay",
+        "0.05",
+        "--state-file",
+        str(state_file),
+        "--pid-file",
+        str(pid_file),
+    ]
+    process = subprocess.Popen(
+        run_command,
+        cwd=repository_root,
+        env=environment,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    try:
+        checkpoint_before_kill = _wait_for_checkpoint(state_file, objective_id, 2)
+        assert checkpoint_before_kill["state_snapshot"]["status"] == "running"
+        assert checkpoint_before_kill["progress_snapshot"]["step"] < 40
+
+        os.kill(process.pid, signal.SIGKILL)
+        assert process.wait(timeout=5) == -signal.SIGKILL
+
+        durable_step = _latest_checkpoint(
+            state_file,
+            objective_id,
+        )["progress_snapshot"]["step"]
+
+        restore_command = [
+            sys.executable,
+            "-m",
+            "src.cli.execution_loop_harness",
+            "restore",
+            objective_id,
+            "--step-delay",
+            "0.005",
+            "--state-file",
+            str(state_file),
+            "--pid-file",
+            str(pid_file),
+        ]
+        restored = subprocess.run(
+            restore_command,
+            cwd=repository_root,
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        assert restored.returncode == 0, restored.stderr or restored.stdout
+
+        final_checkpoint = _latest_checkpoint(state_file, objective_id)
+        assert final_checkpoint["state_snapshot"]["status"] == "completed"
+        assert final_checkpoint["progress_snapshot"]["step"] == 40
+        assert final_checkpoint["metadata"]["sequence"] > durable_step
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=5)
 
 @pytest.mark.asyncio
 async def test_checkpoint_on_progress_saves_state():
