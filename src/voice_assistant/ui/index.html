@@ -701,33 +701,233 @@
             }
         }
 
-        // Audio Recording
+        <script>
+        // State
+        let ws = null;
+        let audioContext = null;
+        let processor = null;
+        let source = null;
+        let stream = null;
+        let isRecording = false;
+        let animationId = null;
+        let waveformBars = [];
+
+        // AudioWorkletProcessor for raw PCM capture
+        const pcmProcessorCode = `
+            class PCMProcessor extends AudioWorkletProcessor {
+                constructor() {
+                    super();
+                    this.bufferSize = 4096;
+                    this.buffer = new Float32Array(this.bufferSize);
+                    this.bufferIndex = 0;
+                }
+
+                process(inputs, outputs, parameters) {
+                    const input = inputs[0];
+                    if (input.length > 0) {
+                        const channelData = input[0];
+                        for (let i = 0; i < channelData.length; i++) {
+                            this.buffer[this.bufferIndex++] = channelData[i];
+                            if (this.bufferIndex >= this.bufferSize) {
+                                // Convert Float32 to Int16
+                                const int16Buffer = new Int16Array(this.bufferSize);
+                                for (let j = 0; j < this.bufferSize; j++) {
+                                    const s = Math.max(-1, Math.min(1, this.buffer[j]));
+                                    int16Buffer[j] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+                                }
+                                this.port.postMessage(int16Buffer.buffer, [int16Buffer.buffer]);
+                                this.bufferIndex = 0;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+            registerProcessor('pcm-processor', PCMProcessor);
+        `;
+
+        // DOM Elements
+        const orb = document.getElementById('orb');
+        const orbState = document.getElementById('orbState');
+        const micBtn = document.getElementById('micBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const sendBtn = document.getElementById('sendBtn');
+        const textInput = document.getElementById('textInput');
+        const conversation = document.getElementById('conversation');
+        const waveform = document.getElementById('waveform');
+        const statusListening = document.getElementById('statusListening');
+        const statusText = document.getElementById('statusText');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const modalClose = document.getElementById('modalClose');
+
+        // Initialize waveform bars
+        for (let i = 0; i < 32; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'waveform-bar';
+            bar.style.height = '4px';
+            waveform.appendChild(bar);
+            waveformBars.push(bar);
+        }
+
+        // Connect WebSocket
+        function connectWS() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                updateStatus('connected', true);
+            };
+
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleMessage(msg);
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket disconnected, reconnecting...');
+                updateStatus('connected', false);
+                setTimeout(connectWS, 3000);
+            };
+
+            ws.onerror = (err) => {
+                console.error('WebSocket error:', err);
+            };
+        }
+
+        function handleMessage(msg) {
+            switch (msg.type) {
+                case 'init':
+                    updateState(msg.state);
+                    break;
+                case 'state':
+                    updateState(msg.state);
+                    break;
+                case 'transcript':
+                    addMessage('user', msg.text);
+                    break;
+                case 'response':
+                    addMessage('assistant', msg.text);
+                    break;
+                case 'audio':
+                    playAudio(msg.audio);
+                    break;
+                case 'shutdown':
+                    updateState('offline');
+                    break;
+            }
+        }
+
+        function updateState(state) {
+            orb.className = 'orb ' + state;
+            const states = {
+                'idle': 'Ready',
+                'listening': 'Listening...',
+                'processing': 'Thinking...',
+                'speaking': 'Speaking...',
+                'offline': 'Offline'
+            };
+            orbState.textContent = states[state] || state;
+
+            // Update status bar
+            statusListening.className = 'status-dot ' + (state === 'listening' ? 'active' : '');
+            statusText.textContent = states[state] || state;
+
+            // Mic button state
+            micBtn.classList.toggle('listening', state === 'listening');
+            stopBtn.disabled = state !== 'listening' && state !== 'processing';
+        }
+
+        function updateStatus(key, active) {
+            const dot = document.getElementById('status' + key.charAt(0).toUpperCase() + key.slice(1));
+            if (dot) dot.classList.toggle('active', active);
+        }
+
+        function addMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = 'message ' + role;
+            div.innerHTML = `
+                <div class="message-label">${role === 'user' ? 'You' : 'Assistant'}</div>
+                <div class="message-content">${escapeHtml(text)}</div>
+            `;
+            conversation.appendChild(div);
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function playAudio(base64Audio) {
+            try {
+                const audio = new Audio('data:audio/wav;base64,' + base64Audio);
+                await audio.play();
+            } catch (e) {
+                console.error('Audio playback failed:', e);
+            }
+        }
+
+        // Audio Recording with AudioWorklet for raw PCM
         async function startRecording() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioContext = new AudioContext({ sampleRate: 16000 });
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 256;
-                const source = audioContext.createMediaStreamSource(stream);
-                source.connect(analyser);
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-                mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: 'audio/webm;codecs=opus'
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: { 
+                        sampleRate: 16000, 
+                        channelCount: 1,
+                        echoCancellation: true,
+                        noiseSuppression: true 
+                    } 
                 });
-
-                mediaRecorder.ondataavailable = (e) => {
-                    if (e.data.size > 0 && ws && ws.readyState === WebSocket.OPEN) {
-                        // Send audio chunk
-                        e.data.arrayBuffer().then(buffer => {
-                            ws.send(buffer);
-                        });
+                
+                audioContext = new AudioContext({ sampleRate: 16000 });
+                
+                // Load AudioWorkletProcessor for raw PCM capture
+                const blob = new Blob([pcmProcessorCode], { type: 'application/javascript' });
+                const processorUrl = URL.createObjectURL(blob);
+                await audioContext.audioWorklet.addModule(processorUrl);
+                
+                processor = new AudioWorkletNode(audioContext, 'pcm-processor');
+                
+                // Analyser for waveform visualization
+                const analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                
+                source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+                source.connect(processor);
+                processor.connect(audioContext.destination);
+                
+                // Receive raw PCM data from processor
+                processor.port.onmessage = (e) => {
+                    if (ws && ws.readyState === WebSocket.OPEN && isRecording) {
+                        ws.send(e.data); // Send raw Int16Array buffer
                     }
                 };
-
-                mediaRecorder.start(100); // Send every 100ms
-                isRecording = true;
+                
+                // Animate waveform
+                function animateWaveform() {
+                    if (!analyser || !dataArray) return;
+                    analyser.getByteFrequencyData(dataArray);
+                    
+                    const bufferLength = dataArray.length;
+                    const step = Math.floor(bufferLength / waveformBars.length);
+                    
+                    waveformBars.forEach((bar, i) => {
+                        const value = dataArray[i * step] || 0;
+                        const height = Math.max(4, (value / 255) * 40);
+                        bar.style.height = height + 'px';
+                    });
+                    
+                    animationId = requestAnimationFrame(animateWaveform);
+                }
+                
                 animateWaveform();
+                isRecording = true;
+                
             } catch (e) {
                 console.error('Microphone access denied:', e);
                 alert('Microphone access required for voice input');
@@ -735,33 +935,25 @@
         }
 
         function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-                mediaRecorder.stream.getTracks().forEach(t => t.stop());
+            if (processor) {
+                processor.disconnect();
+                processor = null;
+            }
+            if (source) {
+                source.disconnect();
+                source = null;
+            }
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
             }
             if (audioContext) {
                 audioContext.close();
+                audioContext = null;
             }
             isRecording = false;
             cancelAnimationFrame(animationId);
             waveformBars.forEach(bar => bar.style.height = '4px');
-        }
-
-        function animateWaveform() {
-            if (!analyser || !dataArray) return;
-
-            analyser.getByteFrequencyData(dataArray);
-
-            const bufferLength = dataArray.length;
-            const step = Math.floor(bufferLength / waveformBars.length);
-
-            waveformBars.forEach((bar, i) => {
-                const value = dataArray[i * step] || 0;
-                const height = Math.max(4, (value / 255) * 40);
-                bar.style.height = height + 'px';
-            });
-
-            animationId = requestAnimationFrame(animateWaveform);
         }
 
         // Mic Button
