@@ -94,19 +94,8 @@ def setup_venv():
 def install_python_deps():
     log("Installing Python packages...")
     pip = VENV_DIR / "bin" / "pip"
-    pkgs = [
-        "fastapi==0.109.0", "uvicorn[standard]==0.27.0", "websockets==12.0",
-        "pyaudio==0.2.14", "sounddevice==0.4.6", "numpy==1.26.0",
-        "openai-whisper==20231117",
-        "torch==2.2.0", "--index-url", "https://download.pytorch.org/whl/cpu",
-        "langchain==0.1.0", "langchain-core==0.1.0",
-        "langchain-anthropic==0.1.0", "langchain-openai==0.1.0",
-        "neo4j==5.18.0", "redis==5.0.0", "qdrant-client==1.8.0",
-        "psycopg2-binary==2.9.9", "sqlalchemy==2.0.25",
-        "pydantic==2.5.0", "pydantic-settings==2.1.0",
-        "edge-tts==6.1.0",
-    ]
-    run_cmd([str(pip), "install", "-q"] + pkgs)
+    # Install from pyproject.toml to avoid version conflicts
+    run_cmd([str(pip), "install", "-q", "-e", "."], cwd=ROOT)
 
 def install_piper():
     log("Installing Piper TTS...")
