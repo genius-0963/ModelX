@@ -24,3 +24,9 @@ class UserRepository(BaseRepository[User]):
         self.session.add(user)
         await self.session.flush()
         return user
+
+    async def get_by_api_key(self, api_key_hash: str) -> Optional[User]:
+        """Get a user by their API key hash."""
+        stmt = select(User).where(User.api_key_hash == api_key_hash)
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none()
