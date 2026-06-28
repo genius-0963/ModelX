@@ -3,6 +3,8 @@ Test PatchGenerator with a single simple task.
 Task: Add a docstring to a function.
 """
 import asyncio
+import os
+from pathlib import Path
 from src.coding.patch_generator import PatchGenerator
 from src.coding.planner import ExecutionPlan, ExecutionStep, StepType, TaskType
 
@@ -15,7 +17,8 @@ async def test_patch_generator_single():
     
     try:
         # Initialize PatchGenerator with repository path
-        generator = PatchGenerator(repository_path="/Users/subh/Documents/ModelX")
+        repository_path = os.environ.get("MODELX_REPO_PATH", str(Path(__file__).parent.parent.parent))
+        generator = PatchGenerator(repository_path=repository_path)
         print("✅ PatchGenerator initialized")
         print()
         
