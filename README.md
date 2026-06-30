@@ -1,185 +1,252 @@
-<div align="center">
+# ModelX Voice Assistant
 
-# 🧠 ModelX
+A standalone, downloadable voice agent that runs in your terminal with pre-built voices. Just add your LLM API key and start talking.
 
-**Phase 1 AGI-Inspired Autonomous Agent Platform**
+## Features
 
-[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com)
-[![Docker](https://img.shields.io/badge/Docker-Supported-2496ED.svg)](https://www.docker.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+- 🎤 **Real-time voice interaction** - Speak naturally, get spoken responses
+- 🧠 **Multiple LLM providers** - Anthropic, OpenAI, OpenRouter, Ollama (local)
+- 🔊 **Pre-built natural voices** - No separate downloads needed (Piper TTS)
+- 💻 **Beautiful terminal interface** - Rich UI with voice activity visualization
+- 🔄 **Conversation memory** - Remembers context across turns
+- 📦 **One-line installation** - `pip install modelx-voice`
+- 🔒 **Secure API key storage** - System keyring integration
+- 🌐 **Cross-platform** - macOS, Linux, Windows
 
-*An enterprise-grade operating system for cognitive agents featuring advanced memory, meta-learning, swarm intelligence, and execution sandboxing.*
+## Quick Start
 
-[Documentation](docs/) | [API Reference](docs/api/) | [Roadmap](docs/analysis/16_improvement_roadmap.md)
-
-</div>
-
----
-
-## 🌟 Introduction
-
-**ModelX** is an ambitious autonomous agent platform designed to push the boundaries of agentic AI. It provides a robust, highly modular operating system for orchestrating cognitive agents capable of planning, reflection, multi-tier memory management, tool execution, and self-improvement. 
-
-Unlike standard LLM wrappers, ModelX implements a biological-inspired cognitive architecture driven by LangGraph, backed by polyglot persistence (PostgreSQL, Qdrant, Neo4j, Redis), and secured by isolated execution sandboxes.
-
-## 🏗 Architecture Overview
-
-ModelX employs a microservices-inspired internal architecture, decoupling cognitive reasoning from execution and persistence.
-
-```mermaid
-graph TD
-    Client[Client Apps / CLI / Frontend] -->|REST / HTTP| API[FastAPI Server]
-    
-    subgraph Core Platform
-        API --> Registry[Service Registry]
-        Registry --> Cog[Cognitive Engines]
-        Registry --> Mem[Memory System]
-        Registry --> Exec[Execution Runtime]
-    end
-    
-    subgraph Persistence Layer
-        Mem --> PG[(PostgreSQL)]
-        Mem --> QD[(Qdrant Vector DB)]
-        Mem --> N4J[(Neo4j Graph DB)]
-        Exec --> Redis[(Redis Cache)]
-    end
-    
-    subgraph AI Layer
-        Cog --> LLM[LLM Providers]
-        Cog --> LangGraph[LangGraph Workflows]
-    end
-    
-    subgraph Execution
-        Exec --> Sandbox[Isolated Code Sandbox]
-    end
-```
-
-## ✨ Feature Highlights & AI Capability Matrix
-
-| Capability | Status | Description |
-|------------|--------|-------------|
-| **Multi-Tier Memory** | 🟢 Active | Working, Short-Term, Long-Term, Semantic (Vector), and Episodic (Graph) memory. |
-| **Cognitive Reflection** | 🟢 Active | Dedicated engines for Failure Analysis, Meta-Learning, and Self-Improvement. |
-| **Sandboxed Execution** | 🟢 Active | Agents execute generated Python code securely in isolated Docker containers. |
-| **Swarm Intelligence** | 🟡 Partial | Foundation for multi-agent coordination (`agent_society`) is implemented. |
-| **Multimodal Vision** | 🟢 Active | Support for image processing and OCR via OpenAI/Anthropic/OpenCV integrations. |
-| **MCP Integration** | 🔴 Planned | Model Context Protocol support is currently on the roadmap. |
-
-## 🛠 Technology Stack
-
-- **Frameworks:** FastAPI, LangChain, LangGraph
-- **State & Checkpoints:** PostgreSQL (via `asyncpg`, SQLAlchemy, Alembic)
-- **Vector Search & RAG:** Qdrant
-- **Graph & Knowledge:** Neo4j
-- **Caching & Rate Limiting:** Redis
-- **Background Jobs:** APScheduler
-- **Observability:** Prometheus, Grafana, Structlog
-
-## 🚀 Quick Start (Under 5 Minutes)
-
-### 1. Prerequisites
-- Python 3.12+
-- Docker & Docker Compose
-- `uv` or `pip`
-
-### 2. Installation & Configuration
-
-Clone the repository and set up the environment:
 ```bash
-git clone https://github.com/your-org/ModelX.git
-cd ModelX
+# Install
+pip install modelx-voice
 
-# Copy environment template
-cp .env.example .env
+# Run setup wizard
+modelx-voice --setup
+
+# Start talking!
+modelx-voice
 ```
 
-Edit `.env` to add your preferred LLM API keys:
-```ini
-ANTHROPIC_API_KEY=sk-ant-...
-OPENAI_API_KEY=sk-proj-...
-```
+## Installation
 
-### 3. Launch Services
+### Via pip (recommended)
 
-Start the core infrastructure (PostgreSQL, Qdrant, Neo4j, Redis, Prometheus, Grafana) and the API server:
 ```bash
-docker compose up -d
+pip install modelx-voice
 ```
 
-Check the health of the system:
+### From source
+
 ```bash
-curl http://localhost:8000/health
+git clone https://github.com/modelx/modelx-voice
+cd modelx-voice
+./install.sh
 ```
 
-Access the API documentation at: [http://localhost:8000/docs](http://localhost:8000/docs)
+### System Requirements
 
-## 📖 Usage Examples
+- **Python**: 3.10+
+- **RAM**: 4GB minimum (8GB recommended)
+- **Storage**: 500MB for voice models
+- **Microphone**: Required for voice input
+- **Speakers**: Required for voice output
 
-### Python CLI
-ModelX comes with a built-in CLI powered by Click:
+### System Dependencies
+
+**macOS:**
 ```bash
-uv run modelx agent start --goal "Research the latest advancements in quantum computing and write a report."
+brew install portaudio ffmpeg
 ```
 
-### REST API
-Trigger a background task via the API:
+**Linux (Ubuntu/Debian):**
 ```bash
-curl -X POST "http://localhost:8000/api/v1/tasks" \
-     -H "Authorization: Bearer <TOKEN>" \
-     -H "Content-Type: application/json" \
-     -d '{"description": "Analyze AAPL stock performance over the last 30 days."}'
+sudo apt-get install portaudio19-dev ffmpeg
 ```
 
-## 🧩 Extension Guides
-
-### Adding a New Tool
-1. Subclass the `BaseTool` in `src/tools/base.py`.
-2. Implement the `_run` method.
-3. Register it with the central tool registry.
-
-### LLM Providers
-ModelX supports diverse providers out-of-the-box via LangChain integrations. Configure via `.env`:
-- OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Kimi, Local Models (Ollama)
-
-### RAG & Memory
-- Drop PDFs into the `/workspace` volume to trigger automatic ingestion (`src/rag/ingestion.py`).
-- Memory consolidation runs automatically via the background `worker` service.
-
-## 🔬 Testing & Monitoring
-- **Tests:** Run `pytest tests/` to execute the comprehensive test suite (unit, integration, e2e, adversarial).
-- **Monitoring:** Navigate to `http://localhost:3001` (Grafana) to view Prometheus metrics.
-
-## 📂 Repository Structure
-
-```text
-ModelX/
-├── src/                # Core platform logic
-│   ├── api/            # FastAPI routes & middleware
-│   ├── cognition/      # Meta-learning, reflection, & reasoning
-│   ├── memory/         # Multi-tier memory fabric
-│   ├── rag/            # Retrieval Augmented Generation
-│   ├── tools/          # Agent actions & integrations
-│   └── runtime/        # LangGraph execution loops
-├── docs/               # Architecture reports & documentation
-├── tests/              # Test suites
-├── docker/             # Container configurations
-└── alembic/            # Database migrations
+**Linux (Fedora):**
+```bash
+sudo dnf install portaudio-devel ffmpeg
 ```
 
-## 🤝 Contributing
-We welcome contributions! Please review our [Code Quality Assessment](docs/analysis/13_code_quality.md) and [Improvement Roadmap](docs/analysis/16_improvement_roadmap.md) before opening a PR.
-1. Fork the repo.
-2. Create a feature branch (`git checkout -b feature/amazing-feature`).
-3. Ensure type checks and tests pass (`mypy --strict src` and `pytest`).
-4. Submit a Pull Request.
+**Windows:**
+```bash
+# Install via pip - dependencies included
+pip install modelx-voice
+```
 
-## ⚠️ Known Limitations
-- **MCP:** Standardized Model Context Protocol servers are not yet supported.
-- **Context Bloat:** Long-running agents may exhaust token limits if memory pruning heuristics are bypassed.
+## Configuration
 
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+Run the setup wizard:
 
-## 🙏 Acknowledgements
-Inspired by LangGraph, AutoGen, and the broader open-source AI community.
+```bash
+modelx-voice --setup
+```
+
+The wizard will guide you through:
+1. **LLM Provider** - Choose Anthropic, OpenAI, OpenRouter, or Ollama
+2. **API Key** - Stored securely in system keyring
+3. **Voice Profile** - Professional, Casual, or Clear
+4. **Audio Devices** - Select input/output devices
+5. **Behavior** - Wake word, auto-listen, sensitivity
+
+Configuration is saved to `~/.modelx-voice/config.json`.
+
+## Usage
+
+### Basic Commands
+
+```bash
+modelx-voice                    # Start voice assistant
+modelx-voice --setup            # Run setup wizard
+modelx-voice --configure        # Reconfigure settings
+modelx-voice --test-audio       # Test audio devices
+modelx-voice --test-api         # Test API connection
+modelx-voice --voice casual     # Use casual voice
+modelx-voice --provider openai  # Use OpenAI provider
+```
+
+### Voice Commands
+
+While running, say these commands:
+- **"Stop"** / **"Quit"** / **"Exit"** - Stop listening and exit
+- **"Pause"** / **"Wait"** - Pause the response
+- **"Clear"** / **"Reset"** - Clear conversation history
+- **"Save"** - Save conversation to file
+- **"Help"** - Show available commands
+- **"Switch voice professional"** - Change voice profile
+- **"Status"** - Show system status
+- **"Repeat"** - Repeat last response
+
+### Push-to-Talk Mode
+
+By default, the assistant uses voice activity detection. For push-to-talk:
+
+```bash
+modelx-voice --configure
+# Set wake word to empty when prompted
+```
+
+Then press `Enter` to start recording, wait for silence to stop.
+
+## Supported LLM Providers
+
+| Provider | Models | Notes |
+|----------|--------|-------|
+| **Anthropic** | Claude Sonnet 4, Opus, Haiku | Recommended |
+| **OpenAI** | GPT-4o, GPT-4, GPT-3.5 | |
+| **OpenRouter** | 100+ models | Multi-provider access |
+| **Ollama** | Llama 3.2, Mistral, etc. | Local, no API key needed |
+
+## Voice Profiles
+
+| Profile | Voice | Best For |
+|---------|-------|----------|
+| **Professional** | Male (Lessac) | Business, presentations |
+| **Casual** | Female (Amy) | Friendly conversation |
+| **Clear** | Female (LibriTTS) | Maximum clarity |
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    ModelX Voice Agent                        │
+├─────────────────────────────────────────────────────────────┤
+│  Audio Input → VAD → Whisper STT → LLM → Piper TTS → Audio  │
+│       ↑                                                    ↓  │
+│       └─────────── Conversation Memory ────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- **STT**: faster-whisper (local, no API needed)
+- **TTS**: Piper TTS with ONNX models (local, fast)
+- **VAD**: WebRTC VAD for accurate speech detection
+- **Audio**: sounddevice for cross-platform I/O
+- **UI**: Rich for beautiful terminal rendering
+
+## Privacy
+
+- **All audio processing is local** - No audio sent to cloud
+- **Only text goes to LLM** - Your voice never leaves your machine
+- **API keys in system keyring** - Never stored in plain text
+- **Optional offline mode** - Use with Ollama for complete privacy
+
+## Troubleshooting
+
+### No microphone detected
+```bash
+# Check audio devices
+modelx-voice --test-audio
+
+# Install system dependencies
+# macOS: brew install portaudio
+# Linux: sudo apt-get install portaudio19-dev
+```
+
+### Voice models not loading
+```bash
+# Re-download voice models
+python -c "from modelx_voice.voices.downloader import download_all_voices; import asyncio; asyncio.run(download_all_voices())"
+
+# Check voice directory
+ls ~/.modelx-voice/voices/
+```
+
+### API key errors
+```bash
+# Reconfigure API key
+modelx-voice --configure
+
+# Test API connection
+modelx-voice --test-api
+```
+
+### Permission denied (Linux)
+```bash
+# Add user to audio group
+sudo usermod -a -G audio $USER
+# Log out and back in
+```
+
+## Development
+
+### Project Structure
+```
+modelx_voice/
+├── audio/          # Audio capture, playback, VAD
+├── stt/            # Speech-to-text (Whisper)
+├── tts/            # Text-to-speech (Piper)
+├── brain/          # LLM integration, memory
+├── config/         # Configuration, setup wizard
+├── ui/             # Terminal UI, commands
+├── voices/         # Pre-built voice models
+├── pipeline.py     # Main audio pipeline
+└── main.py         # Entry point
+```
+
+### Running Tests
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+### Code Style
+```bash
+black modelx_voice/
+```
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/modelx/modelx-voice/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/modelx/modelx-voice/discussions)
+- **Discord**: [ModelX Community](https://discord.gg/modelx)
+
+## Acknowledgments
+
+- [faster-whisper](https://github.com/guillaumekln/faster-whisper) for STT
+- [Piper TTS](https://github.com/rhasspy/piper) for TTS
+- [WebRTC VAD](https://webrtc.org/) for voice activity detection
+- [Rich](https://github.com/Textualize/rich) for terminal UI
+- [sounddevice](https://python-sounddevice.readthedocs.io/) for audio I/O
