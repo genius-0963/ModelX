@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional, Dict, List
 import numpy as np
 import piper
+import piper.config
 import logging
 
 logger = logging.getLogger(__name__)
@@ -25,13 +26,13 @@ class PiperSynthesizer:
         voices_dir: Optional[Path] = None,
         length_scale: float = 1.0,
         noise_scale: float = 0.667,
-        noise_w: float = 0.8,
+        noise_w_scale: float = 0.8,
     ):
         self.voice_name = voice
         self.voices_dir = voices_dir or Path(__file__).parent.parent / "voices"
         self.length_scale = length_scale
         self.noise_scale = noise_scale
-        self.noise_w = noise_w
+        self.noise_w_scale = noise_w_scale
         self._voice: Optional[piper.PiperVoice] = None
         self._sample_rate = 22050
 
@@ -60,16 +61,17 @@ class PiperSynthesizer:
     def synthesize(self, text: str) -> np.ndarray:
         self._load_voice()
         
-        audio_chunks = []
-        for audio_chunk in self._voice.synthesize_stream_raw(
-            text,
+        synthesis_config = piper.config.SynthesisConfig(
             length_scale=self.length_scale,
             noise_scale=self.noise_scale,
-            noise_w=self.noise_w,
-        ):
-            audio_chunks.append(audio_chunk)
+            noise_w_scale=self.noise_w_scale,
+        )
         
-        audio = np.concatenate(audio_chunks).astype(np.float32) / 32768.0
+        audio_chunks = []
+        for audio_chunk in self._voice.synthesize(text, syn_config=synthesis_config):
+            audio_chunks.append(audio_chunk.audio_float_array)
+        
+        audio = np.concatenate(audio_chunks).astype(np.float32)
         return audio
 
     async def synthesize_async(self, text: str) -> np.ndarray:
@@ -78,13 +80,15 @@ class PiperSynthesizer:
 
     def synthesize_stream(self, text: str):
         self._load_voice()
-        for audio_chunk in self._voice.synthesize_stream_raw(
-            text,
+        
+        synthesis_config = piper.config.SynthesisConfig(
             length_scale=self.length_scale,
             noise_scale=self.noise_scale,
-            noise_w=self.noise_w,
-        ):
-            yield np.array(audio_chunk, dtype=np.float32) / 32768.0
+            noise_w_scale=self.noise_w_scale,
+        )
+        
+        for audio_chunk in self._voice.synthesize(text, syn_config=synthesis_config):
+            yield audio_chunk.audio_float_array
 
     @property
     def sample_rate(self) -> int:
