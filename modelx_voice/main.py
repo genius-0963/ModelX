@@ -123,14 +123,14 @@ async def test_audio_devices():
 
 
 async def test_api_connection(config):
-    from .brain import get_provider
+    from .brain import get_provider, Message
     
     print(f"Testing {config.api.provider} API connection...")
     
     try:
         provider = get_provider(config.api.provider, config.api.api_key, config.api.base_url)
         response = await provider.chat_completion(
-            messages=[{"role": "user", "content": "Hello"}],
+            messages=[Message(role="user", content="Hello")],
             model=config.api.model or "claude-sonnet-4-20250514",
             max_tokens=10,
         )
