@@ -30,20 +30,20 @@
 
 ```bash
 # 1. Install
-pip install modelx-voice
+pip install modelx
 
 # 2. Configure (interactive wizard)
-modelx-voice --setup
+modelx --setup
 
 # 3. Talk!
-modelx-voice
+modelx
 ```
 
 <details>
 <summary><b>📹 Demo</b> (click to expand)</summary>
 
 ```bash
-$ modelx-voice
+$ modelx
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  🎤 ModelX Voice Assistant                    [🟢 Listening]       ║
@@ -136,7 +136,7 @@ sudo pacman -S --noconfirm portaudio ffmpeg opus
 ```powershell
 # Using winget
 winget install Python.Python.3.11
-pip install modelx-voice
+pip install modelx
 # All audio deps bundled via wheels
 ```
 </details>
@@ -145,13 +145,13 @@ pip install modelx-voice
 
 **PyPI (recommended)**
 ```bash
-pip install modelx-voice
+pip install modelx
 ```
 
 **From Source**
 ```bash
-git clone https://github.com/modelx/modelx-voice
-cd modelx-voice
+git clone https://github.com/modelx/modelx
+cd modelx
 ./install.sh        # Installs deps + downloads voices
 # OR
 pip install -e .
@@ -171,7 +171,7 @@ docker run -it --device=/dev/snd \
 ### Interactive Setup Wizard
 
 ```bash
-modelx-voice --setup
+modelx --setup
 ```
 
 The wizard configures:
@@ -213,9 +213,16 @@ The wizard configures:
 ### CLI Reference
 
 ```bash
-modelx-voice [OPTIONS]
+modelx [COMMAND] [OPTIONS]
 
-Options:
+Commands:
+  modelx                    Start voice assistant (default)
+  modelx voice              Start voice assistant (explicit)
+  modelx doctor             Run system diagnostics
+  modelx self-test          Run internal self-tests
+  modelx --version          Show version
+
+Voice Options:
   --setup              Run first-time setup wizard
   --configure          Modify existing configuration
   --test-audio         List and test audio devices
@@ -232,21 +239,31 @@ Options:
 ### Examples
 
 ```bash
-# Default (uses saved config)
-modelx-voice
+# Default (uses saved config) - starts voice assistant
+modelx
+modelx voice
 
 # Quick provider switch
-modelx-voice --provider openai --model gpt-4o
+modelx --provider openai --model gpt-4o
 
 # Specific voice for this session
-modelx-voice --voice casual
+modelx --voice casual
 
 # Push-to-talk mode (no VAD)
-modelx-voice --push-to-talk
+modelx --push-to-talk
 
 # Test without speaking
-modelx-voice --test-api
-modelx-voice --test-audio
+modelx --test-api
+modelx --test-audio
+
+# System diagnostics
+modelx doctor
+
+# Run self-tests
+modelx self-test
+
+# Show version
+modelx --version
 ```
 
 ---
@@ -493,10 +510,10 @@ memory2 = ConversationMemory(persistence_file=Path("my_chat.json"))
 
 ```bash
 # List devices
-modelx-voice --test-audio
+modelx --test-audio
 
 # Use specific devices
-modelx-voice --configure
+modelx --configure
 # Select device indices when prompted
 ```
 
@@ -504,11 +521,11 @@ modelx-voice --configure
 
 ```bash
 # With Ollama (fully local)
-OLLAMA_HOST=http://gpu-server:11434 modelx-voice --provider ollama
+OLLAMA_HOST=http://gpu-server:11434 modelx --provider ollama
 
 # SSH with audio forwarding
 ssh -R 4713:localhost:4713 user@server  # PulseAudio tunnel
-modelx-voice
+modelx
 ```
 
 ---
@@ -568,10 +585,10 @@ modelx-voice
 
 ```bash
 # Full system check
-modelx-voice --test-audio && modelx-voice --test-api && modelx-voice --download-voices
+modelx --test-audio && modelx --test-api && modelx --download-voices
 
 # Verbose debug
-modelx-voice --debug 2>&1 | head -50
+modelx --debug 2>&1 | head -50
 ```
 
 ### Common Issues
@@ -580,8 +597,8 @@ modelx-voice --debug 2>&1 | head -50
 |---------|-------|-----|
 | `ModuleNotFoundError: sounddevice` | Missing system deps | Install portaudio (see [Installation](#installation)) |
 | `No input device found` | Permissions / no mic | `sudo usermod -a -G audio $USER` (Linux), check System Preferences → Security (macOS) |
-| `Voice model not found` | Incomplete download | `modelx-voice --download-voices` |
-| `API key invalid` | Keyring sync issue | `modelx-voice --configure` and re-enter |
+| `Voice model not found` | Incomplete download | `modelx --download-voices` |
+| `API key invalid` | Keyring sync issue | `modelx --configure` and re-enter |
 | `Ollama connection refused` | Service not running | `ollama serve` or check `OLLAMA_HOST` |
 | `High CPU / slow` | Wrong Whisper model | Use `base` not `small`/`medium` in code |
 | `Audio crackling` | Sample rate mismatch | Ensure 16kHz input, 22.05kHz output |
@@ -590,24 +607,24 @@ modelx-voice --debug 2>&1 | head -50
 
 ```bash
 # Debug logs
-MODELX_DEBUG=1 modelx-voice 2>&1 | tee modelx.log
+MODELX_DEBUG=1 modelx 2>&1 | tee modelx.log
 
 # Keyring issues (macOS)
-security dump-keychain | grep modelx-voice
+security dump-keychain | grep modelx
 
 # Keyring issues (Linux)
-secret-tool search service modelx-voice
+secret-tool search service modelx
 ```
 
 ### Reinstall Clean
 
 ```bash
 # Remove config + voices
-rm -rf ~/.modelx-voice
+rm -rf ~/.modelx
 
 # Reinstall package
-pip uninstall modelx-voice && pip install modelx-voice
-modelx-voice --setup
+pip uninstall modelx-voice && pip install modelx
+modelx --setup
 ```
 
 ---
@@ -645,8 +662,8 @@ modelx_voice/
 ### Setup Dev Environment
 
 ```bash
-git clone https://github.com/modelx/modelx-voice
-cd modelx-voice
+git clone https://github.com/modelx/modelx
+cd modelx
 
 # Create venv
 python -m venv .venv
