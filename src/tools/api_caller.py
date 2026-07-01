@@ -271,10 +271,15 @@ class APICallerTool(AgentTool):
             try:
                 resolved = socket.getaddrinfo(hostname, None, socket.AF_UNSPEC, socket.SOCK_STREAM)
                 ips = {ipaddress.ip_address(r[4][0]) for r in resolved}
-            except socket.gaierror:
-                # Can't resolve — allow it (the HTTP client will fail
-                # with a clear error).
-                return
+            except socket.gaierror as e:
+                # Can't resolve — BLOCK the request to prevent DNS rebinding attacks.
+                # An attacker could register a domain that initially resolves to a public IP
+                # but later resolves to a private IP.
+                logger.warning("api_caller.dns_resolution_failed", hostname=hostname, error=str(e))
+                raise ToolExecutionError(
+                    tool_name="api_caller",
+                    message=f"Blocked: {hostname!r} could not be resolved. DNS resolution required for security.",
+                )
 
             for ip in ips:
                 for network in _PRIVATE_NETWORKS:
