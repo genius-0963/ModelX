@@ -65,6 +65,19 @@ class CognitiveEventType(Enum):
     SYSTEM_SHUTDOWN = "system.shutdown"
     ERROR_OCCURRED = "error.occurred"
     METRICS_UPDATED = "metrics.updated"
+    
+    # Validation events
+    VALIDATION_STARTED = "validation.started"
+    VALIDATION_COMPLETED = "validation.completed"
+    VALIDATION_FAILED = "validation.failed"
+    ABLATION_STARTED = "ablation.started"
+    ABLATION_COMPLETED = "ablation.completed"
+    BENCHMARK_STARTED = "benchmark.started"
+    BENCHMARK_COMPLETED = "benchmark.completed"
+    COST_ANALYSIS_STARTED = "cost_analysis.started"
+    COST_ANALYSIS_COMPLETED = "cost_analysis.completed"
+    LONG_HORIZON_STARTED = "long_horizon.started"
+    LONG_HORIZON_COMPLETED = "long_horizon.completed"
 
 
 @dataclass
