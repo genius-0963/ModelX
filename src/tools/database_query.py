@@ -4,12 +4,15 @@ Read-only database query tool for the Autonomous Agent Platform.
 Executes SQL ``SELECT`` statements against a PostgreSQL database.
 DDL and DML statements are blocked for safety.  Queries are subject
 to a configurable timeout.
+
+Uses a connection pool for efficient connection reuse.
 """
 
 from __future__ import annotations
 
+import asyncio
 import re
-from typing import Any
+from typing import Any, Optional
 
 import asyncpg
 from pydantic import BaseModel, Field
@@ -19,6 +22,10 @@ from src.config.settings import get_settings
 from src.tools.base import AgentTool, ToolExecutionError
 
 logger = get_logger(__name__)
+
+# Module-level connection pool (shared across all tool instances)
+_connection_pool: Optional[asyncpg.Pool] = None
+_pool_lock = asyncio.Lock()
 
 # ---------------------------------------------------------------------------
 # SQL security
@@ -120,6 +127,39 @@ class DatabaseQueryTool(AgentTool):
     # Statement timeout in milliseconds
     _statement_timeout_ms: int = 30_000
 
+    @classmethod
+    async def _get_pool(cls) -> asyncpg.Pool:
+        """Get or create the shared connection pool."""
+        global _connection_pool
+        if _connection_pool is None:
+            async with _pool_lock:
+                if _connection_pool is None:
+                    settings = get_settings()
+                    dsn = (
+                        f"postgresql://{settings.postgres_user}"
+                        f":{settings.postgres_password.get_secret_value()}"
+                        f"@{settings.postgres_host}:{settings.postgres_port}"
+                        f"/{settings.postgres_db}"
+                    )
+                    _connection_pool = await asyncpg.create_pool(
+                        dsn=dsn,
+                        min_size=2,
+                        max_size=10,
+                        timeout=10,
+                        statement_cache_size=0,
+                    )
+                    logger.info("Database connection pool created")
+        return _connection_pool
+
+    @classmethod
+    async def close_pool(cls) -> None:
+        """Close the connection pool (for shutdown)."""
+        global _connection_pool
+        if _connection_pool is not None:
+            await _connection_pool.close()
+            _connection_pool = None
+            logger.info("Database connection pool closed")
+
     # ------------------------------------------------------------------
     # Core execution
     # ------------------------------------------------------------------
@@ -143,59 +183,46 @@ class DatabaseQueryTool(AgentTool):
         # --- Security validation ---
         self._validate_query(query)
 
-        # --- Build connection ---
-        settings = get_settings()
-        dsn = (
-            f"postgresql://{settings.postgres_user}"
-            f":{settings.postgres_password.get_secret_value()}"
-            f"@{settings.postgres_host}:{settings.postgres_port}"
-            f"/{settings.postgres_db}"
-        )
-
         log.debug("database_query.execute.start")
 
-        conn: asyncpg.Connection = await asyncpg.connect(
-            dsn=dsn,
-            timeout=10,
-            statement_cache_size=0,  # disable cache for ad-hoc queries
-        )
-
-        try:
-            # Set a statement-level timeout
-            await conn.execute(
-                f"SET statement_timeout = {self._statement_timeout_ms}"
-            )
-
-            # Apply LIMIT safety net if not already present
-            effective_query = self._apply_limit(query)
-
-            # Execute with optional positional params
-            if params:
-                # asyncpg uses $1, $2, ... for positional params.
-                # We convert named params to positional.
-                effective_query, positional = self._named_to_positional(
-                    effective_query, params
+        # --- Get connection from pool ---
+        pool = await self._get_pool()
+        
+        async with pool.acquire() as conn:
+            try:
+                # Set a statement-level timeout
+                await conn.execute(
+                    f"SET statement_timeout = {self._statement_timeout_ms}"
                 )
-                rows = await conn.fetch(effective_query, *positional)
-            else:
-                rows = await conn.fetch(effective_query)
 
-            # Format results
-            if rows:
-                columns = list(rows[0].keys())
-                result_rows = [dict(r) for r in rows]
-            else:
-                columns = []
-                result_rows = []
+                # Apply LIMIT safety net if not already present
+                effective_query = self._apply_limit(query)
 
-        except asyncpg.PostgresError as exc:
-            raise ToolExecutionError(
-                tool_name=self.name,
-                message=f"Database error: {exc}",
-                cause=exc,
-            ) from exc
-        finally:
-            await conn.close()
+                # Execute with optional positional params
+                if params:
+                    # asyncpg uses $1, $2, ... for positional params.
+                    # We convert named params to positional.
+                    effective_query, positional = self._named_to_positional(
+                        effective_query, params
+                    )
+                    rows = await conn.fetch(effective_query, *positional)
+                else:
+                    rows = await conn.fetch(effective_query)
+
+                # Format results
+                if rows:
+                    columns = list(rows[0].keys())
+                    result_rows = [dict(r) for r in rows]
+                else:
+                    columns = []
+                    result_rows = []
+
+            except asyncpg.PostgresError as exc:
+                raise ToolExecutionError(
+                    tool_name=self.name,
+                    message=f"Database error: {exc}",
+                    cause=exc,
+                ) from exc
 
         result: dict[str, Any] = {
             "query": query,
