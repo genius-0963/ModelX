@@ -1,4 +1,4 @@
-# remove a safety check node from the StateGraph"""
+"""
 Orchestrator Agent — The central coordinator for the multi-agent workflow.
 
 Implements a LangGraph StateGraph that:
@@ -1056,6 +1056,13 @@ class OrchestratorAgent:
         """Update research portfolios."""
         logger.info("Updating research portfolios")
         return {"portfolio_summary": {}}
+
+    async def _knowledge_graph_update(self, state: AgentStateDict) -> dict[str, Any]:
+        """Update the knowledge graph with new findings."""
+        logger.info("Updating knowledge graph")
+        # This would integrate with a knowledge graph backend (Neo4j)
+        # For now, we just track that the update was triggered
+        return {"knowledge_graph_updated": True}
 
     async def _generate_report(self, state: AgentStateDict) -> dict[str, Any]:
         """Generate a summary report of the goal execution."""
