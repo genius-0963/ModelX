@@ -91,11 +91,9 @@ async def belief_update(state: Dict[str, Any]) -> Dict[str, Any]:
     updater = BeliefUpdate()
     beliefs = state.get("beliefs", [])
     results = state.get("experiment_results", [])
-    updated_beliefs = []
     for res in results:
         beliefs = await updater.update_beliefs(beliefs, res)
-        updated_beliefs.extend(beliefs)
-    return {"beliefs": updated_beliefs}
+    return {"beliefs": beliefs}
 
 async def prediction_generation(state: Dict[str, Any]) -> Dict[str, Any]:
     """Generate predictions based on current beliefs."""
